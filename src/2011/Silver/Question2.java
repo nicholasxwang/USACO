@@ -66,14 +66,16 @@ class Question2{
                     }
                 }
                 if (valid){
-                    ans.add(j-i);
+                    ans.add(cows[j][0]-cows[i][0]);
+//                    System.out.println("("+i+", "+j+")");
+                    System.out.println("("+cows[i][0]+", "+cows[j][0]+")");
                 }
 
             }
 
         }
         System.out.println(min(ans));
-
+        System.out.println(ans);
 
 
 
