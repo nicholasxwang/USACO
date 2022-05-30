@@ -25,6 +25,16 @@ class Question2{
         // returning the set
         return Set;
     }
+    public static boolean checkvalid(HashSet<Integer> subset, HashSet<Integer> things){
+        boolean valid = true;
+        for (int k : things){
+            if (!subset.contains(k)){
+                valid = false;
+                break;
+            }
+        }
+        return valid;
+    }
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
@@ -45,25 +55,22 @@ class Question2{
         }
         // 2 Points
         ArrayList<Integer> ans = new ArrayList<>();
-        for (int i = 0; i<N; i++){
-            for (int j = i; j<N; j++) {
+        int i = 0;
+        int j = 0;
+        while (i < N && j < N){
                 int[] subset = Arrays.copyOfRange(cow_1d, i, j+1);
                 HashSet<Integer> subset_set = convert(subset);
-                boolean valid = true;
-                for (int k : things){
-                    if (!subset_set.contains(k)){
-                        valid = false;
-                        break;
-                    }
-                }
-                if (valid){
-                    ans.add(cows[j][0]-cows[i][0]);
+                boolean valid = checkvalid(subset_set, things);
+                if (valid) {
+                    ans.add(cows[j][0] - cows[i][0]);
+                    i+=1;
 
+                }else{
+                    j+=1;
                 }
 
             }
 
-        }
         System.out.println(min(ans));
 
 
