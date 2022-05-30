@@ -6,7 +6,7 @@ class Question1{
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String firstLine = br.readLine();
-        String[] firstLine_Splitted = firstLine.split(" ", 2)
+        String[] firstLine_Splitted = firstLine.split(" ", 2);
         int N = Integer.parseInt(firstLine_Splitted[0]);
         int M = Integer.parseInt(firstLine_Splitted[1]);
         int[][] grid = new int[N][M];
@@ -20,7 +20,7 @@ class Question1{
         }
         //Flood Fill
 
-        for i i
+//        for i i
 
 
 
