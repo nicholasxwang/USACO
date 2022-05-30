@@ -29,8 +29,6 @@ class Question2{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
         int[][] cows = new int[N][2];
-        int smallest_start = -1;
-        int largest_end = -1;
         for (int i = 0; i<N; i++){
             String[] temporary_unparsed = br.readLine().split(" ",2);
             cows[i][0] = Integer.parseInt(temporary_unparsed[0]);
@@ -43,51 +41,44 @@ class Question2{
                 things.put(cows[i][1], new ArrayList<Integer>());
             }
             things.get(cows[i][1]).add(cows[i][0]);
-            if (smallest_start == -1){
-                smallest_start = cows[i][0];
-            }else if (smallest_start > cows[i][0]){
-                smallest_start = cows[i][0];
-            }
-            if (largest_end == -1) {
-                largest_end = cows[i][0];
-            }else if (largest_end < cows[i][0]){
-                largest_end = cows[i][0];
-            }
         }
-        System.out.println(things);
+        //System.out.println(things);
         int[] cow_1d = new int[N];
         for (int i = 0; i<N; i++){
             cow_1d[i] = cows[i][1];
         }
         // 2 Points
         ArrayList<Integer> ans = new ArrayList<>();
-        for (int i = smallest_start; i<largest_end; i++){
-            for (int j = i; j<largest_end; j++) {
-                if (j-i < things.keySet().size()){
-                    continue;
+        for (int i = 0; i<N; i++){
+            for (int j = i; j<N; j++) {
+                if (cows[i][0] == 22 && cows[j][0] == 26){
+                    //System.out.println("We're Here");
                 }
-                int[] subset = Arrays.copyOfRange(cow_1d, i, j);
-                //convert subset into a HashSet
-//                HashSet<Integer> subset_set = new HashSet<Integer>(Arrays.asList(subset));
+//                if ((j-i) > / <= / < things.keySet().size()){
+//                    System.out.println("FALSE-1 ("+cows[i][0]+", "+cows[j][0]+") \n j-i = "+(j-i)+" the size is "+things.keySet().size());
+//                    continue;
+//                }
+                int[] subset = Arrays.copyOfRange(cow_1d, i, j+1);
                 HashSet<Integer> subset_set = convert(subset);
                 boolean valid = true;
                 for (int k : things.keySet()){
                     if (!subset_set.contains(k)){
+                        //System.out.println("FALSE-2 ("+cows[i][0]+", "+cows[j][0]+") | Can't find "+k+" in "+subset_set);
                         valid = false;
                         break;
                     }
                 }
                 if (valid){
                     ans.add(cows[j][0]-cows[i][0]);
-//                    System.out.println("("+i+", "+j+")");
-                    System.out.println("("+cows[i][0]+", "+cows[j][0]+")");
+                    //System.out.println("("+cows[i][0]+", "+cows[j][0]+")");
+
                 }
 
             }
 
         }
         System.out.println(min(ans));
-        System.out.println(ans);
+
 
 
 
