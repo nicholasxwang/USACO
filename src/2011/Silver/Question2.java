@@ -13,6 +13,18 @@ class Question2{
         }
         return smallest;
     }
+    static  HashSet<Integer> convert(int[] array)
+    {
+        // Hash Set Initialisation
+        HashSet<Integer> Set = new HashSet<>();
+
+        // Iteration using enhanced for loop
+        for (int element : array) {
+            Set.add(element);
+        }
+        // returning the set
+        return Set;
+    }
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
@@ -42,12 +54,13 @@ class Question2{
                 if (j-i < things.keySet().size()){
                     continue;
                 }
-                int[] subset__ = Arrays.copyOfRange(cow_1d, i, j);
-                ArrayList<Integer> subset_ = Arrays.asList(subset__);
-                Set<Integer> subset = new HashSet<>();
+                int[] subset = Arrays.copyOfRange(cow_1d, i, j);
+                //convert subset into a HashSet
+//                HashSet<Integer> subset_set = new HashSet<Integer>(Arrays.asList(subset));
+                HashSet<Integer> subset_set = convert(subset);
                 boolean valid = true;
                 for (int k : things.keySet()){
-                    if (!subset.contains(k)){
+                    if (!subset_set.contains(k)){
                         valid = false;
                         break;
                     }
