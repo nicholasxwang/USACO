@@ -29,6 +29,8 @@ class Question2{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
         int[][] cows = new int[N][2];
+        int smallest_start = -1;
+        int largest_end = -1;
         for (int i = 0; i<N; i++){
             String[] temporary_unparsed = br.readLine().split(" ",2);
             cows[i][0] = Integer.parseInt(temporary_unparsed[0]);
@@ -41,6 +43,16 @@ class Question2{
                 things.put(cows[i][1], new ArrayList<Integer>());
             }
             things.get(cows[i][1]).add(cows[i][0]);
+            if (smallest_start == -1){
+                smallest_start = cows[i][0];
+            }else if (smallest_start > cows[i][0]){
+                smallest_start = cows[i][0];
+            }
+            if (largest_end == -1) {
+                largest_end = cows[i][0];
+            }else if (largest_end < cows[i][0]){
+                largest_end = cows[i][0];
+            }
         }
         System.out.println(things);
         int[] cow_1d = new int[N];
@@ -49,8 +61,8 @@ class Question2{
         }
         // 2 Points
         ArrayList<Integer> ans = new ArrayList<>();
-        for (int i = 0; i<N; i++){
-            for (int j = i; j<N; j++) {
+        for (int i = smallest_start; i<largest_end; i++){
+            for (int j = i; j<largest_end; j++) {
                 if (j-i < things.keySet().size()){
                     continue;
                 }
