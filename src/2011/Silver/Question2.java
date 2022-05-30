@@ -1,20 +1,17 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
+import java.util.*;
 
 class Question2{
-    public static int max(ArrayList<Integer> numbers){
-        int largest = -1;
+    public static int min(ArrayList<Integer> numbers){
+        int smallest = numbers.get(0);
         for (int number:numbers){
-            if (number > largest){
-                largest = number;
+            if (number < smallest){
+                smallest = number;
             }
         }
-        return largest;
+        return smallest;
     }
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -34,6 +31,35 @@ class Question2{
             things.get(cows[i][1]).add(cows[i][0]);
         }
         System.out.println(things);
+        int[] cow_1d = new int[N];
+        for (int i = 0; i<N; i++){
+            cow_1d[i] = cows[i][1];
+        }
+        // 2 Points
+        ArrayList<Integer> ans = new ArrayList<>();
+        for (int i = 0; i<N; i++){
+            for (int j = i; j<N; j++) {
+                if (j-i < things.keySet().size()){
+                    continue;
+                }
+                int[] subset__ = Arrays.copyOfRange(cow_1d, i, j);
+                ArrayList<Integer> subset_ = Arrays.asList(subset__);
+                Set<Integer> subset = new HashSet<>();
+                boolean valid = true;
+                for (int k : things.keySet()){
+                    if (!subset.contains(k)){
+                        valid = false;
+                        break;
+                    }
+                }
+                if (valid){
+                    ans.add(j-i);
+                }
+
+            }
+
+        }
+        System.out.println(min(ans));
 
 
 
