@@ -2,8 +2,20 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 class Question3{
+    public static Hashtable<Integer, ArrayList<ArrayList<Integer>>> setHash(Hashtable<Integer, ArrayList<ArrayList<Integer>>> table, int index, ArrayList<Integer> list){
+        if (table.containsKey(index)){
+            table.get(index).add(list);
+        }
+        else{
+            ArrayList<ArrayList<Integer>> newList = new ArrayList<>();
+            newList.add(list);
+            table.put(index, newList);
+        }
+        return table;
+    }
     public static boolean prime(int N){
         for (int i = 2; i <=   N / 2; ++i) {
             // condition for nonprime number
@@ -13,9 +25,20 @@ class Question3{
         }
         return true;
     }
-    public static void find_sum_of_squares(int number, int count){
-        if (count == 1 || prime(number)){
-            return;
+    public static Hashtable<Integer, ArrayList<ArrayList<Integer>>> find_sum_of_squares(int number, int count, Hashtable<Integer, ArrayList<ArrayList<Integer>>> table){
+        if (number == 1){
+            ArrayList<Integer> list = new ArrayList<>();
+            list.add(1);
+            setHash(table, count, list);
+            return table;
+        }
+        if (prime(number)){
+            ArrayList<Integer> list = new ArrayList<>();
+            for (int i = 1; i<= count; i++){
+                list.add(1);
+            }
+            setHash(table, count, list);
+            return table;
         }
         System.out.println(count);
         ArrayList<Integer> dimensions = find_dimensions(number);
@@ -29,8 +52,13 @@ class Question3{
             int smaller = dimension;
             int larger = number/dimension;
             larger = larger-smaller;
-            find_sum_of_squares(smaller*larger, count-1);
+            find_sum_of_squares(smaller*larger, count-1, table);
+            ArrayList<Integer> list = new ArrayList<>();
+            list.add(smaller);
+            list.addAll(table.get(smaller*larger).get(0));
+            setHash(table, count, list);
         }
+        return table;
 
     }
     public static ArrayList<Integer> find_dimensions(int N){
@@ -53,6 +81,8 @@ class Question3{
             old[i] = Integer.parseInt(temporary);
         }
         int number = 6;
-        find_sum_of_squares(number, 3);
+        Hashtable<Integer, ArrayList<ArrayList<Integer>>> table = new Hashtable<>();
+        find_sum_of_squares(number, 3, table);
+        System.out.println(table);
     }
 }
