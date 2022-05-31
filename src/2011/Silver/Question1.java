@@ -2,6 +2,22 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+class Floodfill {
+    private static int[][] grid;
+    private static int rowNum;
+    private static int colNum;
+    public static void floodfill() {
+        rowNum = Integer.parseInt(dims.nextToken());
+        colNum = Integer.parseInt(dims.nextToken());
+        grid = new int[rowNum][colNum];
+        for (int r = 0; r < rowNum; r++) {
+            grid[r] = Arrays.stream(read.readLine().split(" "))
+                    .mapToInt(Integer::parseInt)
+                    .toArray();
+        }
+    }
+}
+
 class Question1{
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -26,3 +42,6 @@ class Question1{
 
     }
 }
+
+
+
