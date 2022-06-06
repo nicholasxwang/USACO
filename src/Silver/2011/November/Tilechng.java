@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-class Question3{
+class Tilechng {
     public static Hashtable<Integer, ArrayList<ArrayList<Integer>>> setHash(Hashtable<Integer, ArrayList<ArrayList<Integer>>> table, int index, ArrayList<Integer> list){
         if (table.containsKey(index)){
             table.get(index).add(list);

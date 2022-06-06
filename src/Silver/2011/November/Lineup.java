@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-class Question2{
+class Lineup {
     public static int min(ArrayList<Integer> numbers){
         int smallest = numbers.get(0);
         for (int number:numbers){
