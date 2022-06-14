@@ -25,47 +25,45 @@ public class MilkMeasurement {
         ArrayList<Integer> k = new ArrayList<Integer>(h.keySet());
         Collections.sort(k);
         Hashtable<Integer, Integer> c = new Hashtable<>();
-
+        for (i = 0; i<N; i++){
+            c.put(i, G);
+        }
         ArrayList<Integer> previous = new ArrayList<>();
         int ans = 0;
-        int biggest = 0;
         for (i = 0; i<k.size(); i++){
             int cur = k.get(i);
             int cow = h.get(cur).get(0);
             int change = h.get(cur).get(1);
-            try{
-                c.put(cow, c.get(cow) + change);
-            }catch (Exception e){
-                c.put(cow, G + change);
-            }
-
+            c.put(cow, c.get(cow) + change);
             int w = -1;
             ArrayList<Integer> honorable = new ArrayList<>();
-            for (int j : c.keySet()) {
-                if (c.get(j) > w) {
-                    honorable.clear();
-                    w = c.get(j);
-                    honorable.add(j);
-                } else if (c.get(j) == w) {
-                    honorable.add(j);
+                for (int j : c.keySet()) {
+                    if (c.get(j) > w) {
+                        honorable.clear();
+                        w = c.get(j);
+                        honorable.add(j);
+                    } else if (c.get(j) == w) {
+                        honorable.add(j);
+                    }
                 }
+
+                //sort to improve search accuracy
+                Collections.sort(honorable);
+                if (i > 0 && !honorable.equals(previous)) {
+                    ans++;
+                }
+                previous.clear();
+                previous.addAll(honorable);
             }
-//            int current = c.get(cow);
-//            if (current >  biggest){
-//                biggest = current;
-//                ans+=1;
+
+
+//        int ans = 0;
+//        for (i = 0; i<honorables.size(); i++){
+//            if (i!= 0 && !honorables.get(i).equals(honorables.get(i-1))){
+//                ans++;
 //            }
-
-            //sort to improve search accuracy
-            Collections.sort(honorable);
-            if (i > 0 && !honorable.equals(previous)) {
-                ans++;
-            }
-            previous.clear();
-            previous.addAll(honorable);
-
-
-        }
+//        }
+        //System.out.println(ans+1);
         PrintWriter printWriter = new PrintWriter ("measurement.out");
         printWriter.println(ans+1);
 
