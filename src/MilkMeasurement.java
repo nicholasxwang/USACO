@@ -34,7 +34,11 @@ public class MilkMeasurement {
             int cur = k.get(i);
             int cow = h.get(cur).get(0);
             int change = h.get(cur).get(1);
-            c.put(cow, c.get(cow) + change);
+            try{
+                c.put(cow, c.get(cow) + change);
+            }catch (Exception e){
+                c.put(cow,G + change);
+            }
             int w = -1;
             ArrayList<Integer> honorable = new ArrayList<>();
                 for (int j : c.keySet()) {
