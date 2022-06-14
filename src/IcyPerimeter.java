@@ -1,3 +1,6 @@
+import java.io.*;
+import java.io.FileReader;
+
 class Floodfill {
     private static int[][] grid;  // the grid itself
     private static int rowNum;
@@ -42,7 +45,18 @@ class Floodfill {
     }
 }
 public class IcyPerimeter {
-    public static void main(String main[]){
+    public static void main(String[] main) throws IOException{
+        BufferedReader b = new BufferedReader(new FileReader("./perimeter.in"));
+        int N = Integer.parseInt(b.readLine());
+        int[][] a = new int[N][N];
+//        ##....
+//        ....#.
+//        .#..#.
+//        .#####
+//        ...###
+//        ....##
+        for (int i = 0; i<N;i++){
 
+        }
     }
 }
