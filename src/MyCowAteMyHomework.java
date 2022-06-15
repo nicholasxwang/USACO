@@ -55,6 +55,9 @@ public class MyCowAteMyHomework {
         PrintWriter printWriter = new PrintWriter ("homework.out");
         N = ans.size();
         for (i = 0; i<N; i++){
+            if (ans.get(N-i-1)==0){
+                continue;
+            }
             printWriter.println(ans.get(N-i-1));
         }
         printWriter.close ();

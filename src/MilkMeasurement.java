@@ -25,11 +25,14 @@ public class MilkMeasurement {
         ArrayList<Integer> k = new ArrayList<Integer>(h.keySet());
         Collections.sort(k);
         Hashtable<Integer, Integer> c = new Hashtable<>();
-        for (i = 0; i<N; i++){
-            c.put(i, G);
-        }
         ArrayList<Integer> previous = new ArrayList<>();
         int ans = 0;
+        // Senarios -
+        // cow falls out of leaderboard
+        // cow enters leaderboard
+        // new cow joins leaderboard
+        // one cow leaves leaderboard
+
         for (i = 0; i<k.size(); i++){
             int cur = k.get(i);
             int cow = h.get(cur).get(0);
@@ -41,6 +44,10 @@ public class MilkMeasurement {
             }
             int w = -1;
             ArrayList<Integer> honorable = new ArrayList<>();
+            System.out.println(previous);
+            System.out.println(change);
+            System.out.println(i == 0 || previous.contains(cow) && change > 0);
+            if (i == 0 || previous.contains(cow) && change > 0)
                 for (int j : c.keySet()) {
                     if (c.get(j) > w) {
                         honorable.clear();
@@ -61,13 +68,6 @@ public class MilkMeasurement {
             }
 
 
-//        int ans = 0;
-//        for (i = 0; i<honorables.size(); i++){
-//            if (i!= 0 && !honorables.get(i).equals(honorables.get(i-1))){
-//                ans++;
-//            }
-//        }
-        //System.out.println(ans+1);
         PrintWriter printWriter = new PrintWriter ("measurement.out");
         printWriter.println(ans+1);
 
