@@ -22,20 +22,32 @@ public class HoofPaperScissors2  {
 
         }
     }
-    public static int operate(String original, String app_1, String app_2, int changeIndex){
+    public static int operate(String original, String app_1, String app_2, int changeIndex, int[] previous){
         int wins = 0;
+        wins += previous[0];
         String debug = "";
         debug += ("["+original+"]  ["+app_1+"]  ["+app_2+"]  ["+changeIndex+"]  ");
         char[] original_ = original.toCharArray();
         String current_ = app_1;
-        for (int i = 0; i<original_.length; i++){
+        boolean updated_previous = false;
+        for (int i = changeIndex; i<original_.length; i++){
             if (i == changeIndex){
                 current_ = app_2;
             }
             if (checky(current_, String.valueOf(original_[i]))){
+                if (!updated_previous){
+                    updated_previous = true;
+                    previous[0] = previous[0]+1;
+
+                }
+
                 wins+=1;
                 debug+="W";
-            }else{
+            } else{
+                if (!updated_previous){
+                    updated_previous = true;
+
+                }
                 debug+="L";
             }
 
@@ -56,8 +68,9 @@ public class HoofPaperScissors2  {
             String[] options = {"H", "P", "S"};
             for (int i = 0; i<3; i++) {
                 for (int j = 0; j<3; j++) {
+                    int[] prev = {0};
                     for (int k = 0; k<stuff.length(); k++){
-                        int temp = operate(stuff, options[i], options[j], k);
+                        int temp = operate(stuff, options[i], options[j], k, prev);
                         System.out.println(temp);
                         if (temp > biggest){
                             biggest = temp;
@@ -66,7 +79,7 @@ public class HoofPaperScissors2  {
                 }
             }
         PrintWriter printWriter = new PrintWriter ("hps.out");
-        printWriter.println(biggest);
+        printWriter.println(biggest+1);
         printWriter.close ();
 
 
