@@ -24,6 +24,8 @@ public class HoofPaperScissors2  {
     }
     public static int operate(String original, String app_1, String app_2, int changeIndex){
         int wins = 0;
+        String debug = "";
+        debug += ("["+original+"]  ["+app_1+"]  ["+app_2+"]  ["+changeIndex+"]  ");
         char[] original_ = original.toCharArray();
         String current_ = app_1;
         for (int i = 0; i<original_.length; i++){
@@ -32,9 +34,13 @@ public class HoofPaperScissors2  {
             }
             if (checky(current_, String.valueOf(original_[i]))){
                 wins+=1;
+                debug+="W";
+            }else{
+                debug+="L";
             }
 
         }
+        System.out.println(debug);
         return wins;
     }
 
@@ -45,14 +51,24 @@ public class HoofPaperScissors2  {
             for (int i = 0; i<N; i++) {
                 stuff += (b.readLine());
             }
+
+            int biggest = 0;
             String[] options = {"H", "P", "S"};
             for (int i = 0; i<3; i++) {
                 for (int j = 0; j<3; j++) {
                     for (int k = 0; k<stuff.length(); k++){
-                        System.out.println(operate(stuff, options[i], options[j], k));
+                        int temp = operate(stuff, options[i], options[j], k);
+                        System.out.println(temp);
+                        if (temp > biggest){
+                            biggest = temp;
+                        }
                     }
                 }
             }
+        PrintWriter printWriter = new PrintWriter ("hps.out");
+        printWriter.println(biggest);
+        printWriter.close ();
+
 
     }
 
