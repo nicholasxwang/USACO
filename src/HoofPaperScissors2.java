@@ -3,12 +3,15 @@ import java.util.Objects;
 
 public class HoofPaperScissors2  {
     public static boolean checky(String o, String t) {
+        if (Objects.equals(o, t)){
+            return false;
+        }
         if (Objects.equals(o, "H")) {
             if (Objects.equals(t, "P")) {
                 return false;
             }
             return Objects.equals(t, "S");
-        } else if (Objects.equals(o, "P")) {
+        } else if (Objects.equals(t, "P")) {
             if (Objects.equals(t, "S")) {
                 return false;
             }
@@ -79,8 +82,10 @@ public class HoofPaperScissors2  {
                 }
             }
         PrintWriter printWriter = new PrintWriter ("hps.out");
-        printWriter.println(biggest+1);
+        printWriter.println(biggest);
         printWriter.close ();
+
+        //maybe something didnt get counted...no
 
 
     }
