@@ -3,10 +3,10 @@ import java.util.*;
 public class dagraph {
     public static int recursive( int current_pointx, int current_pointy, int end_x, int end_y, char[][] grid, int answer, ArrayList<ArrayList<Integer> > visited, boolean going_down, boolean going_up){
         //Check Visited
-        if (going_down && grid[current_pointx][current_pointy] != '#'){
+        if (going_down && grid[current_pointx][current_pointy-1] != '#'){
             return recursive(current_pointx, current_pointy-1, end_x, end_y, grid, answer, visited, going_down, going_up);
         }
-        if (going_up && grid[current_pointx][current_pointy] != '#'){
+        if (going_up && grid[current_pointx][current_pointy+1] != '#'){
 
             return recursive(current_pointx, current_pointy-1, end_x, end_y, grid, answer, visited, going_down, going_up);
         }
@@ -20,10 +20,6 @@ public class dagraph {
         add_to_visited.add(current_pointx);
         add_to_visited.add(current_pointy);
         visited.add(add_to_visited);
-        System.out.println("I'm at ("+current_pointx+", "+current_pointy+"). ");
-        if (grid[current_pointx][current_pointy] == '#'){
-            return 9999;
-        }
         boolean edge = false;
         if (current_pointx == grid.length-1){
             edge = true;
@@ -37,7 +33,14 @@ public class dagraph {
         if (current_pointy == 0){
             edge = true;
         }
-        if (grid[current_pointx][current_pointy] == '.' && edge){
+        if (edge){
+            return 9999;
+        }
+        if (grid[current_pointx][current_pointy] == '.'){
+            return 9999;
+        }
+        System.out.println("I'm at ("+current_pointx+", "+current_pointy+"). ");
+        if (grid[current_pointx][current_pointy] == '#'){
             return 9999;
         }
 
