@@ -2,6 +2,28 @@ import java.util.*;
 import java.io.*;
 
 public class LargeBrownCow {
+
+    public static ArrayList<String> tag(int index, ArrayList<ArrayList<String>> a){
+        ArrayList<Integer> nums = new ArrayList<>();
+        int temp = 1;
+        for (int i = 0; i<a.size(); i++){
+            temp = a.get(i).size()*temp;
+        }
+        temp = 0;
+        ArrayList<Integer> ans = new ArrayList<>();
+        for (int i = 0; i<nums.size(); i++){
+            int number = nums.get(nums.size() - i);
+            ans.add(index - (index % number)/ number);
+            index = index % number;
+        }
+        ArrayList<String> returned = new ArrayList<>();
+        for (int i = 0; i<ans.size(); i++){
+            returned.add(a.get(i).get(ans.get(i)));
+        }
+        return returned;
+
+
+    }
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 //3 7
@@ -11,40 +33,33 @@ public class LargeBrownCow {
         String[] s = br.readLine().split(" ");
         int N = Integer.parseInt(s[0]);
         int K = Integer.parseInt(s[1]);
-        ArrayList<HashSet<String>> words = new ArrayList<>();
-        ArrayList<String> illegal = new ArrayList<>();
+        ArrayList<ArrayList<String>> words = new ArrayList<>();
         for (int i = 0; i<N; i++){
-            String s_ = br.readLine();
-            s = s_.split(" ");
-            illegal.add((s_+" "));
-            HashSet<String> new_ = new HashSet<>();
-            for (int j = 3; j<s.length-1; j++){
-                new_.add(s[j]);
+            s = br.readLine().split(" ");
+            for (int j = 4; j<s.length-1; j++){
+                if (i == 0){
+                    ArrayList<String> new_ = new ArrayList<>();
+                    new_.add(s[j]);
+                    words.add(new_);
+                    //System.out.println(new_);
+                }else{
+                    words.get(j-4).add(s[j]);
+                    //System.out.println(words.get(j-4));
+                }
+
             }
-            words.add(new_);
-            // remove first 4 words, last word
         }
-        ArrayList<String> adjective = new ArrayList<>();
         for (int i = 0; i<words.size(); i++){
-            if (adjective.size() == K+1){
-                System.out.println(adjective.get(K));
-            }
-            String string = "";
-            for (String word: words.get(i)){
-                string += word;
-                string += " ";
-            }
-            boolean is_illegal = false;
-            for (int j = 0; j<illegal.size(); j++){
-                if (illegal.contains(string)){
-                    is_illegal = true;
-                    break;
+            ArrayList<String> processed = new ArrayList<>();
+            for (int j = 0; j<words.get(i).size(); j++){
+                if (!processed.contains(words.get(i).get(j))){
+                    processed.add(words.get(i).get(j));
                 }
             }
-            if (!is_illegal){
-                adjective.add(string);
-            }
+            Collections.sort(processed);
+            words.set(i, processed);
         }
 
+        System.out.println(words);
     }
 }
