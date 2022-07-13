@@ -42,8 +42,25 @@ public class FairPhotography {
         ArrayList<Integer> final_ = new ArrayList<>();
 
 
-        boolean still_bigger
+        boolean still_bigger = false;
+        ArrayList<Integer> vars = new ArrayList<>();
+        int current = -99999999;
         for (int i = 0; i<N; i++){
+            System.out.println("Currently: "+a[i]+"("+prefix[i]+")  "+vars);
+            if ( (prefix[i]) > current){
+                if (!still_bigger){
+                    still_bigger = true;
+                    vars.add(0);
+
+                }else{
+
+                    vars.set(vars.size()-1, (a[i] - a[i-1]));
+
+                }
+            }else{
+                still_bigger = false;
+            }
+            current= prefix[i];
 
         }
 
@@ -51,7 +68,7 @@ public class FairPhotography {
 
 
 
-
+        System.out.println(vars);
         //Return BEST
         PrintWriter pw = new PrintWriter("fairphoto.out");
 
