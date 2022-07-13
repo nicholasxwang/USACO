@@ -50,11 +50,15 @@ public class FairPhotography {
             if ( (prefix[i]) > current){
                 if (!still_bigger){
                     still_bigger = true;
-                    vars.add(0);
+                    if (i==0){
+                        vars.add(0);
+                    }else {
+                        vars.add(a[i] - a[i - 1]);
+                    }
 
                 }else{
 
-                    vars.set(vars.size()-1, (a[i] - a[i-1]));
+                    vars.set(vars.size()-1, vars.get(vars.size()-1)+(a[i] - a[i-1]));
 
                 }
             }else{
