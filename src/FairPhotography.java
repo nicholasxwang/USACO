@@ -51,7 +51,7 @@ public class FairPhotography {
                 if (!still_bigger){
                     still_bigger = true;
                     if (i==0){
-                        vars.add(0);
+                        vars.add(a[i]);
                     }else {
                         vars.add(a[i] - a[i - 1]);
                     }
@@ -59,10 +59,12 @@ public class FairPhotography {
                 }else{
 
                     vars.set(vars.size()-1, vars.get(vars.size()-1)+(a[i] - a[i-1]));
+                    vars.add(a[i] - a[i - 1]);
 
                 }
             }else{
                 still_bigger = false;
+                vars.add(a[i] - a[i - 1]);
             }
             current= prefix[i];
 
