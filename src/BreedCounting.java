@@ -1,4 +1,3 @@
-import java.util.*;
 import java.io.*;
 class CowCount{
     int one;
@@ -42,15 +41,15 @@ public class BreedCounting {
                     cow_count[i] = temp_cow;
                 }
             }else{
-                if (cows[0] == 1) {
+                if (cows[i] == 1) {
                     temp_cow = cow_count[i - 1].add(1, 0, 0);
                     cow_count[i] = temp_cow;
                 }
-                if (cows[0] == 2){
+                if (cows[i] == 2){
                     temp_cow = cow_count[i-1].add(0, 1, 0);
                     cow_count[i] = temp_cow;
                 }
-                if (cows[0] == 3) {
+                if (cows[i] == 3) {
                     temp_cow = cow_count[i - 1].add(0, 0, 1);
                     cow_count[i] = temp_cow;
                 }
@@ -61,14 +60,20 @@ public class BreedCounting {
             int ones = 0;
             int twos = 0;
             int threes = 0;
-            CowCount cow_one = cow_count[Integer.parseInt(t[0])-1];
-            CowCount cow_two = cow_count[Integer.parseInt(t[0])-1];
+            CowCount cow_one;
+            try{
+                cow_one = cow_count[Integer.parseInt(t[0])-2];}
+            catch(Exception e){
+                cow_one = new CowCount(0, 0, 0);
+            }
+            CowCount cow_two = cow_count[Integer.parseInt(t[1])-1];
             ones = cow_two.one - cow_one.one;
             twos = cow_two.two - cow_one.two;
             threes = cow_two.three - cow_one.three;
             pw.println(ones+" "+twos+" "+threes);
 
         }
+        pw.close();
 
     }
 }
