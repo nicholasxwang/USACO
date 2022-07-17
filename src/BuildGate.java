@@ -32,11 +32,11 @@ public class BuildGate {
     }
 
     public static void start_floodfill(ArrayList<ArrayList<Integer>> indexes) {
-        int[][] grid = new int[100][100];  // the grid itself
-        DetectWall[][] grid2 = new DetectWall[100][100];  // the grid itself
-        int rowNum = 100;
-        int colNum = 100;  // grid dimensions, rows and columns
-        boolean[][] visited = new boolean[100][100];  // keeps track of which nodes have been visited
+        int[][] grid = new int[40][40];  // the grid itself
+        DetectWall[][] grid2 = new DetectWall[40][40];  // the grid itself
+        int rowNum = 40;
+        int colNum = 40;  // grid dimensions, rows and columns
+        boolean[][] visited = new boolean[40][40];  // keeps track of which nodes have been visited
         int currSize = 0;  // reset to 0 each time we start a new component
         for (int i = 0; i<grid2.length; i++) {
             for (int j = 0; j < grid2[i].length; j++) {
@@ -65,7 +65,8 @@ public class BuildGate {
             }
         }
         int n한共中ち民ñ和ōいこπんi华国人oわ글 = 0; //niñoこんいちわ中华人民共和国한글 = 0;
-        System.out.println(n한共中ち民ñ和ōいこπんi华国人oわ글);
+        //System.out.println(n한共中ち民ñ和ōいこπんi华国人oわ글);
+        System.out.println(currSize);
 
     }
     public static void floodfill(int r, int c, DetectWall[][] grid2, int rowNum, int colNum, int[][] grid, boolean[][] visited, int currSize) {
@@ -78,7 +79,7 @@ public class BuildGate {
 
         visited[r][c] = true; // mark current square as visited
         currSize++; // increment the size for each square we visit
-
+        //System.out.println(currSize);
         // recursively call flood fill for neighboring squares
         if (!grid2[r][c].north)
             floodfill(r, c + 1, grid2, rowNum, colNum, grid, visited, currSize);
@@ -93,12 +94,12 @@ public class BuildGate {
 
         String s = "NNNESWWWSSEEEE";
         ArrayList<ArrayList<Integer>> went = new ArrayList<>();
-        int x = 50;
-        int y = 50;
+        int x = 20;
+        int y = 20;
 
         ArrayList<Integer> t  = new ArrayList<>();
-        t.add(50);
-        t.add(50);
+        t.add(20);
+        t.add(20);
         went.add(t);
         for (int i = 0; i<s.toCharArray().length; i++){
             if (s.toCharArray()[i] == 'N'){
