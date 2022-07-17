@@ -47,12 +47,10 @@ class Graph{
 
     }
     public int dfs(Node n){
-        int ans = 0;
+        int ans = 1;
         for (int i = 0; i<n.neighbours.size(); i++){
             int dfs = dfs(n.neighbours.get(i));
-            if (ans<dfs) {
-                ans = dfs;
-            }
+            ans += dfs;
         }
         return ans;
     }
