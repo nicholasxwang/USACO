@@ -36,26 +36,29 @@ class Graph{
         }
         this.nodes.add(n);
     }
-    public void start_dfs(){
-        boolean[] visited = new boolean[nodes.size()];
+    public int start_dfs(){
+        int ans = 0;
         for (int i = 0; i<nodes.size(); i++){
-            if (visited[i])
-                continue;
-
-            dfs(nodes.get(i), visited);
+            int dfs = dfs(nodes.get(i));
+            if (dfs> ans)
+                ans = dfs(nodes.get(i));
         }
+        return ans;
 
     }
-    public void dfs(Node n, boolean[] visited){
-        visited[n.id] = true;
+    public int dfs(Node n){
+        int ans = 0;
         for (int i = 0; i<n.neighbours.size(); i++){
-            dfs(n.neighbours.get(i));
+            int dfs = dfs(n.neighbours.get(i));
+            if (ans<dfs) {
+                ans = dfs;
+            }
         }
-        return;
+        return ans;
     }
 
     }
-}
+
 
 
 public class Moocast_Silver {
@@ -70,6 +73,7 @@ public class Moocast_Silver {
 
         }
         PrintWriter pw = new PrintWriter("moocast.out");
+        pw.println(g.start_dfs());
         pw.close();
     }
 }
