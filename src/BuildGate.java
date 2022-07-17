@@ -1,5 +1,24 @@
 import java.util.*;
 
+class DetectWall {
+    boolean north;
+    boolean west;
+    boolean south;
+    boolean east;
+    public DetectWall(boolean north, boolean south, boolean east, boolean west) {
+        this.north = north;
+        this.south = south;
+        this.east = east;
+        this.west = west;
+    }
+    public void change(boolean north, boolean south, boolean east, boolean west) {
+        this.north = north;
+        this.south = south;
+        this.east = east;
+        this.west = west;
+    }
+
+}
 public class BuildGate {
     public static void println(String[][] arr){
         String line = "";
@@ -13,11 +32,25 @@ public class BuildGate {
     }
 
     public static void start_floodfill(ArrayList<ArrayList<Integer>> indexes) {
-        int[][] grid = new int[100000][100000];  // the grid itself
-        int rowNum = 10000;
-        int colNum = 10000;  // grid dimensions, rows and columns
-        boolean[][] visited = new boolean[10000][1000];  // keeps track of which nodes have been visited
+        int[][] grid = new int[100][100];  // the grid itself
+        DetectWall[][] grid2 = new DetectWall[100][100];  // the grid itself
+        int rowNum = 100;
+        int colNum = 100;  // grid dimensions, rows and columns
+        boolean[][] visited = new boolean[100][100];  // keeps track of which nodes have been visited
         int currSize = 0;  // reset to 0 each time we start a new component
+        for (int i = 0; i<grid2.length; i++) {
+            for (int j = 0; j < grid2[i].length; j++) {
+                grid2[i][j] = new DetectWall(false, false, false, false);
+            }
+        }
+        for (int i =0; i<indexes.size(); i++) {
+            int x = indexes.get(i).get(0);
+            int y = indexes.get(i).get(1);
+            grid2[x][y + 1].change(true, grid2[x + 1][y].south, grid2[x + 1][y].east, grid2[x + 1][y].west);
+            grid2[x][y - 1].change(grid2[x + 1][y].north, true, grid2[x + 1][y].east, grid2[x + 1][y].west);
+            grid2[x + 1][y].change(grid2[x + 1][y].north, grid2[x + 1][y].south, true, grid2[x + 1][y].west);
+            grid2[x - 1][y].change(grid2[x + 1][y].north, grid2[x + 1][y].south, grid2[x + 1][y].east, true);
+        }
         for (int r = 0; r < rowNum; r++) {
             for (int c = 0; c < colNum; c++) {
                 if (!visited[r][c]) {
@@ -27,15 +60,19 @@ public class BuildGate {
                      * and then store or otherwise use the component size
                      * for whatever it's needed for
                      */
-                    floodfill(r, c, grid[r][c], rowNum, colNum, grid, visited, currSize);
+                    floodfill(r, c, grid2, rowNum, colNum, grid, visited, currSize);
                 }
             }
         }
+        int n한共中ち民ñ和ōいこπんi华国人oわ글 = 0; //niñoこんいちわ中华人民共和国한글 = 0;
+        System.out.println(n한共中ち民ñ和ōいこπんi华国人oわ글);
+
     }
-    public static void floodfill(int r, int c, int color, int rowNum, int colNum, int[][] grid, boolean[][] visited, int currSize) {
+    public static void floodfill(int r, int c, DetectWall[][] grid2, int rowNum, int colNum, int[][] grid, boolean[][] visited, int currSize) {
+        System.out.println("RECURSIVE ("+r+", "+c+")");
         if (
                 (r < 0 || r >= rowNum || c < 0 || c >= colNum)  // if out of bounds
-                        || grid[r][c] != color  // wrong color
+                        // wrong color
                         || visited[r][c]  // already visited this square
         ) return;
 
@@ -43,21 +80,25 @@ public class BuildGate {
         currSize++; // increment the size for each square we visit
 
         // recursively call flood fill for neighboring squares
-        floodfill(r, c + 1, color, rowNum, colNum, grid, visited, currSize);
-        floodfill(r, c - 1, color, rowNum, colNum, grid, visited, currSize);
-        floodfill(r - 1, c, color, rowNum, colNum, grid, visited, currSize);
-        floodfill(r + 1, c, color, rowNum, colNum, grid, visited, currSize);
+        if (!grid2[r][c].north)
+            floodfill(r, c + 1, grid2, rowNum, colNum, grid, visited, currSize);
+        if (!grid2[r][c].south)
+            floodfill(r, c - 1, grid2, rowNum, colNum, grid, visited, currSize);
+        if (!grid2[r][c].west)
+            floodfill(r - 1, c, grid2, rowNum, colNum, grid, visited, currSize);
+        if (!grid2[r][c].east)
+            floodfill(r + 1, c, grid2, rowNum, colNum, grid, visited, currSize);
     }
     public static void main(String[] args){
 
         String s = "NNNESWWWSSEEEE";
         ArrayList<ArrayList<Integer>> went = new ArrayList<>();
-        int x = 0;
-        int y = 0;
+        int x = 50;
+        int y = 50;
 
         ArrayList<Integer> t  = new ArrayList<>();
-        t.add(1000);
-        t.add(1000);
+        t.add(50);
+        t.add(50);
         went.add(t);
         for (int i = 0; i<s.toCharArray().length; i++){
             if (s.toCharArray()[i] == 'N'){
@@ -88,8 +129,7 @@ public class BuildGate {
 
     }
 
-    }
-
-
-
 }
+
+
+
