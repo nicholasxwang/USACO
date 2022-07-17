@@ -42,50 +42,53 @@ public class BuildGate {
             grid2[x + 1][y].change(grid2[x + 1][y].north, grid2[x + 1][y].south, grid2[x + 1][y].east, true);
         }
         ArrayList<ArrayList<ArrayList<Integer>>> connected = new ArrayList<>(); // Array of Regions of Coordinates of X/Y
+        int ans = 0;
         for (int r = 0; r < rowNum; r++) {
             for (int c = 0; c < colNum; c++) {
                 if (!visited[r][c]) {
-                   // System.out.println("++++++");
+                    ans++;
                     floodfill(r, c, grid2, rowNum, colNum, grid, visited, connected, -1);
                 }
             }
-            //System.out.println(connected);
         }
 
-        return  connected.size()-1;
+        return  ans-1;
 
 
     }
     public static void floodfill(int r, int c, DetectWall[][] grid2, int rowNum, int colNum, int[][] grid, boolean[][] visited, ArrayList<ArrayList<ArrayList<Integer>>> component, int component_id) {
-        //System.out.println("RECURSIVE ("+r+", "+c+")");
+        int[] R_CHANGE = {0, 1, 0, -1};
+        int[] C_CHANGE = {1, 0, -1, 0};
+        Stack<ArrayList<Integer>> frontier = new Stack<>();
+        ArrayList<Integer> temp = new ArrayList<Integer>();
+        temp.add(r);
+        temp.add(c);
+        frontier.push(temp);
+        while (!frontier.isEmpty()) {
+            ArrayList<Integer> curr = frontier.pop();
+            int row = curr.get(0);
+            int col = curr.get(1);
 
-        if (
-                (r < 0 || r >= rowNum || c < 0 || c >= colNum)  // if out of bounds
-                        // wrong color
-                        || visited[r][c]  // already visited this square
-        ) return;
+            if (row < 0 || row >= rowNum || col < 0 || col >= colNum
+                    || visited[row][col])
+                continue;
 
-        visited[r][c] = true; // mark current square as visited
-        // recursively call flood fill for neighboring squares
-        if (component_id == -1){
-            ArrayList<ArrayList<Integer>> temp = new ArrayList<ArrayList<Integer>>();
-            component.add(temp);
-            component_id = component.size()-1;
+            visited[row][col] = true;
+            boolean[] dw = {grid2[r][c].north, grid2[r][c].east, grid2[r][c].south, grid2[r][c].west};
+            for (int i = 0; i < 4; i++) {
+                if (dw[i])
+                    continue;
+                temp.clear();
+                temp.add(row + R_CHANGE[i]);
+                temp.add(col + C_CHANGE[i]);
+                frontier.add(temp);
+            }
+            System.out.println(frontier);
+
         }
-        ArrayList<Integer> temp2 = new ArrayList<>();
-        temp2.add(r);
-        temp2.add(c);
-        component.get(component_id).add(temp2);
 
-        if (!grid2[r][c].north)
-            floodfill(r, c + 1, grid2, rowNum, colNum, grid, visited, component, component_id);
-        if (!grid2[r][c].south)
-            floodfill(r, c - 1, grid2, rowNum, colNum, grid, visited ,component, component_id);
-        if (!grid2[r][c].west)
-            floodfill(r - 1, c, grid2, rowNum, colNum, grid, visited, component, component_id);
-        if (!grid2[r][c].east)
-            floodfill(r + 1, c, grid2, rowNum, colNum, grid, visited, component, component_id);
     }
+
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new FileReader("gates.in"));
         int num = Integer.parseInt(br.readLine());
