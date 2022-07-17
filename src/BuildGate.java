@@ -1,4 +1,5 @@
 import java.util.*;
+import java.io.*;
 
 class DetectWall {
     boolean north;
@@ -20,23 +21,13 @@ class DetectWall {
 
 }
 public class BuildGate {
-    public static void println(String[][] arr){
-        String line = "";
-        for (int i = 0; i<arr.length; i++){
-            line = "";
-            for (int j = 0; j<arr.length; j++){
-                line+=arr[i][j];
-            }
-            System.out.println(line);
-        }
-    }
 
-    public static void start_floodfill(ArrayList<ArrayList<Integer>> indexes) {
-        int[][] grid = new int[10][10];  // the grid itself
-        DetectWall[][] grid2 = new DetectWall[10][10];  // the grid itself
-        int rowNum = 10;
-        int colNum = 10;  // grid dimensions, rows and columns
-        boolean[][] visited = new boolean[10][10];  // keeps track of which nodes have been visited
+    public static int start_floodfill(int num, ArrayList<ArrayList<Integer>> indexes) {
+        int[][] grid = new int[num*2][num*2];  // the grid itself
+        DetectWall[][] grid2 = new DetectWall[num*2][num*2];  // the grid itself
+        int rowNum = num*2;
+        int colNum = num*2;  // grid dimensions, rows and columns
+        boolean[][] visited = new boolean[num*2][num*2];  // keeps track of which nodes have been visited
         for (int i = 0; i<grid2.length; i++) {
             for (int j = 0; j < grid2[i].length; j++) {
                 grid2[i][j] = new DetectWall(false, false, false, false);
@@ -60,7 +51,8 @@ public class BuildGate {
             }
             //System.out.println(connected);
         }
-        System.out.println(connected.size()-1);
+
+        return  connected.size()-1;
 
 
     }
@@ -94,16 +86,17 @@ public class BuildGate {
         if (!grid2[r][c].east)
             floodfill(r + 1, c, grid2, rowNum, colNum, grid, visited, component, component_id);
     }
-    public static void main(String[] args){
-
-        String s = "NNNESWWWSSEEEE";
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new FileReader("gates.in"));
+        int num = Integer.parseInt(br.readLine());
+        String s = br.readLine();
         ArrayList<ArrayList<Integer>> went = new ArrayList<>();
-        int x = 5;
-        int y = 5;
+        int x = num;
+        int y = num;
 
         ArrayList<Integer> t  = new ArrayList<>();
-        t.add(5);
-        t.add(5);
+        t.add(x);
+        t.add(x);
         went.add(t);
         for (int i = 0; i<s.toCharArray().length; i++){
             if (s.toCharArray()[i] == 'N'){
@@ -118,11 +111,9 @@ public class BuildGate {
             if (s.toCharArray()[i] == 'W'){
                 x--;
             }
-            //System.out.println("("+x+", "+y+")");
             t  = new ArrayList<>();
             for (int j = 0; j<went.size(); j++){
                 if (went.get(j).get(0) == x && went.get(j).get(1) == y){
-                    //System.out.println("DUPLICATE!!!");
                 }
             }
             t.add(x);
@@ -130,7 +121,9 @@ public class BuildGate {
             went.add(t);
         }
 
-        start_floodfill(went);
+        PrintWriter pw = new PrintWriter("gates.out");
+        pw.println(start_floodfill(num, went));
+        pw.close();
 
     }
 
