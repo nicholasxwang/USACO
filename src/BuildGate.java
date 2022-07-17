@@ -37,7 +37,6 @@ public class BuildGate {
         int rowNum = 40;
         int colNum = 40;  // grid dimensions, rows and columns
         boolean[][] visited = new boolean[40][40];  // keeps track of which nodes have been visited
-        int currSize = 0;  // reset to 0 each time we start a new component
         for (int i = 0; i<grid2.length; i++) {
             for (int j = 0; j < grid2[i].length; j++) {
                 grid2[i][j] = new DetectWall(false, false, false, false);
@@ -51,26 +50,27 @@ public class BuildGate {
             grid2[x + 1][y].change(grid2[x + 1][y].north, grid2[x + 1][y].south, true, grid2[x + 1][y].west);
             grid2[x - 1][y].change(grid2[x + 1][y].north, grid2[x + 1][y].south, grid2[x + 1][y].east, true);
         }
+        ArrayList<ArrayList<ArrayList<Integer>>> connected = new ArrayList<>(); // Array of Regions of Coordinates of X/Y
         for (int r = 0; r < rowNum; r++) {
             for (int c = 0; c < colNum; c++) {
                 if (!visited[r][c]) {
-                    currSize = 0;
-                    /*
-                     * start a flood fill if the square hasn't already been visited,
-                     * and then store or otherwise use the component size
-                     * for whatever it's needed for
-                     */
-                    floodfill(r, c, grid2, rowNum, colNum, grid, visited, currSize);
+                    System.out.println("++++++");
+                    floodfill(r, c, grid2, rowNum, colNum, grid, visited, connected, -1);
                 }
             }
+            System.out.println(connected);
         }
-        int n한共中ち民ñ和ōいこπんi华国人oわ글 = 0; //niñoこんいちわ中华人民共和国한글 = 0;
-        //System.out.println(n한共中ち民ñ和ōいこπんi华国人oわ글);
-        System.out.println(currSize);
+
 
     }
-    public static void floodfill(int r, int c, DetectWall[][] grid2, int rowNum, int colNum, int[][] grid, boolean[][] visited, int currSize) {
+    public static void floodfill(int r, int c, DetectWall[][] grid2, int rowNum, int colNum, int[][] grid, boolean[][] visited, ArrayList<ArrayList<ArrayList<Integer>>> component, int component_id) {
         System.out.println("RECURSIVE ("+r+", "+c+")");
+        if (r== 20 && c==22){
+            System.out.println("here");
+        }
+        if (r== 21 && c==22){
+            System.out.println("here");
+        }
         if (
                 (r < 0 || r >= rowNum || c < 0 || c >= colNum)  // if out of bounds
                         // wrong color
@@ -78,17 +78,25 @@ public class BuildGate {
         ) return;
 
         visited[r][c] = true; // mark current square as visited
-        currSize++; // increment the size for each square we visit
-        //System.out.println(currSize);
         // recursively call flood fill for neighboring squares
+        if (component_id == -1){
+            ArrayList<ArrayList<Integer>> temp = new ArrayList<ArrayList<Integer>>();
+            component.add(temp);
+            component_id = component.size()-1;
+        }
+        ArrayList<Integer> temp2 = new ArrayList<>();
+        temp2.add(r);
+        temp2.add(c);
+        component.get(component_id).add(temp2);
+
         if (!grid2[r][c].north)
-            floodfill(r, c + 1, grid2, rowNum, colNum, grid, visited, currSize);
+            floodfill(r, c + 1, grid2, rowNum, colNum, grid, visited, component, component_id);
         if (!grid2[r][c].south)
-            floodfill(r, c - 1, grid2, rowNum, colNum, grid, visited, currSize);
+            floodfill(r, c - 1, grid2, rowNum, colNum, grid, visited ,component, component_id);
         if (!grid2[r][c].west)
-            floodfill(r - 1, c, grid2, rowNum, colNum, grid, visited, currSize);
+            floodfill(r - 1, c, grid2, rowNum, colNum, grid, visited, component, component_id);
         if (!grid2[r][c].east)
-            floodfill(r + 1, c, grid2, rowNum, colNum, grid, visited, currSize);
+            floodfill(r + 1, c, grid2, rowNum, colNum, grid, visited, component, component_id);
     }
     public static void main(String[] args){
 
