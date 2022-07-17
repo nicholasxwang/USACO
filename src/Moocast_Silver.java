@@ -37,19 +37,35 @@ class Graph{
         this.nodes.add(n);
     }
     public int start_dfs(){
+        int[] cache = new int[nodes.size()];
+        for (int i = 0; i<cache.length; i++){
+            cache[i] = -1;
+        }
         int ans = 0;
         for (int i = 0; i<nodes.size(); i++){
-            int dfs = dfs(nodes.get(i));
-            if (dfs> ans)
-                ans = dfs(nodes.get(i));
+            int dfs;
+            if (cache[nodes.get(i).id]!= -1){
+                dfs = cache[nodes.get(i).id];
+            }else{
+                dfs = dfs(nodes.get(i), cache);
+            }
+            if (dfs > ans)
+                ans = dfs(nodes.get(i), cache);
         }
         return ans;
 
     }
-    public int dfs(Node n){
+    public int dfs(Node n, int[] cache){
         int ans = 1;
         for (int i = 0; i<n.neighbours.size(); i++){
-            int dfs = dfs(n.neighbours.get(i));
+            int dfs;
+            if (cache[n.neighbours.get(i).id]!=-1){
+                dfs = cache[n.neighbours.get(i).id];
+            }else{
+                dfs = dfs(n.neighbours.get(i), cache);
+                cache[n.neighbours.get(i).id] = dfs;
+            }
+
             ans += dfs;
         }
         return ans;
