@@ -11,6 +11,7 @@ class Point{
 }
 public class BuildGate {
     public static void printgrid(String[][] grid){
+        System.out.println("――――――――――――――――――――――――――――――");
         for (int i = 0; i<grid.length; i++){
             for (int j = 0; j<grid[0].length; j++){
                 System.out.print(grid[i][j]);
@@ -22,7 +23,7 @@ public class BuildGate {
     // the given pixel is valid
     static boolean isValid(String[][] screen, int m, int n, int x, int y, String prevC, String newC)
     {
-        if(x < 0 || x >= m || y < 0 || y >= n || screen[x][y] != prevC
+        if(x < 0 || x >= m || y < 0 || y >= n
                 || screen[x][y]== newC || screen[x][y] == "#")
             return false;
         return true;
@@ -88,12 +89,12 @@ public class BuildGate {
         br.readLine();
         String s = br.readLine();
         ArrayList<ArrayList<Integer>> went = new ArrayList<>();
-        int x = 0;
-        int y = 0;
+        int x = 1;
+        int y = 1;
 
         ArrayList<Integer> t  = new ArrayList<>();
-        t.add(0);
-        t.add(0);
+        t.add(x*2);
+        t.add(y*2);
         went.add(t);
         int smallest_x = 10000;
         int smallest_y = 10000;
@@ -164,8 +165,9 @@ public class BuildGate {
                 y_bound = went.get(i).get(1);
             }
         }
-        x_bound++;
-        y_bound++;
+        //System.out.println(went);
+        x_bound+=2;
+        y_bound+=2;
         String[][] grid = new String[x_bound][y_bound];
         for (int i = 0; i<x_bound; i++){
             for (int j = 0; j<y_bound; j++){
@@ -183,15 +185,16 @@ public class BuildGate {
                     continue;
                 if (grid[i][j] == "•")
                     continue;
-                floodFill(grid,grid.length, grid[0].length, i, j, grid[x][y], "•");
-                printgrid(grid);
-                System.out.println("――――――――――――――――――――――――――――――");
+                floodFill(grid,grid.length, grid[0].length, i, j, ".", "•");
+                //printgrid(grid);
+//                System.out.println("――――――――――――――――――――――――――――――");
                 ans++;
             }
         }
         //printgrid(grid);
-        System.out.println(ans);
+        //System.out.println(ans);
         PrintWriter pw = new PrintWriter("gates.out");
+        pw.println(ans);
         pw.close();
     }
 
