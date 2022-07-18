@@ -112,10 +112,7 @@ public class BuildGate {
                 x--;
             }
             t  = new ArrayList<>();
-            for (int j = 0; j<went.size(); j++){
-                if (went.get(j).get(0) == x && went.get(j).get(1) == y){
-                }
-            }
+
             t.add(x*2);
             t.add(y*2);
             went.add(t);
@@ -153,10 +150,10 @@ public class BuildGate {
 
         for (int i = 0; i<went.size(); i++){
             if (smallest_x < 0){
-                went.get(i).set(0,went.get(i).get(0)+(-smallest_x));
+                went.get(i).set(0,went.get(i).get(0)+(-smallest_x)+1);
             }
             if (smallest_y < 0){
-                went.get(i).set(1,went.get(i).get(1)+(-smallest_y));
+                went.get(i).set(1,went.get(i).get(1)+(-smallest_y)+1);
             }
             if (went.get(i).get(0)> x_bound){
                 x_bound = went.get(i).get(0);
@@ -174,6 +171,7 @@ public class BuildGate {
                 grid[i][j] = ".";
             }
         }
+        //printgrid(grid);
         for (int i = 0; i<went.size(); i++){
             grid[went.get(i).get(0)][went.get(i).get(1)] = "#";
         }
