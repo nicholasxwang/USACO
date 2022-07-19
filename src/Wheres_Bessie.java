@@ -7,7 +7,7 @@ import java.util.Vector;
 public class Wheres_Bessie {
     static boolean isValid(String[][] screen, int m, int n, int x, int y, String prevC, String newC) {
         if (x < 0 || x >= m || y < 0 || y >= n
-                || screen[x][y] == newC || screen[x][y] == "#")
+                || screen[x][y] == newC || screen[x][y] != prevC)
             return false;
         return true;
     }
@@ -84,23 +84,22 @@ public class Wheres_Bessie {
                 for (int k = 0; k < N; k++) {
                     for (int l = k+1; l < N; l++) {
                         System.out.println("("+i+", "+j+", "+k+", "+l+")");
-                        if (i== 0 && j==3 && k==0 && l == 1){
-                            System.out.println();
-                        }
-                        String[][] newgrid = new String[j - i][l-k];
-                        for (int a = i; a < j; a++) {
-                            for (int b = k; b < l; b++) {
-                                newgrid[j - i-1][l - k-1] = grid[a][b];
+                        String[][] newgrid = new String[j - i+1][l-k+1];
+//                        System.out.println(Arrays.deepToString(newgrid));
+                        for (int a = i; a <= j; a++) {
+                            for (int b = k; b <= l; b++) {
+                                newgrid[a - i][b - k] = grid[a][b];
                             }
                         }
+                        //System.out.println(Arrays.deepToString(newgrid));
+                        Hashtable<String, Integer> ht = new Hashtable<>();
                         for (int a = 0; a < newgrid.length; a++) {
                             boolean breaky = false;
-                            for (int b = 0; b < newgrid[i].length; b++) {
-                                Hashtable<String, Integer> ht = new Hashtable<>();
+                            for (int b = 0; b < newgrid[a].length; b++) {
                                 String current = newgrid[a][b];
                                 if (current == "#")
                                     continue;
-                                floodFill(grid, grid.length, grid[0].length, i, j, current, "#");
+                                floodFill(newgrid, newgrid.length, newgrid[0].length, a, b, current, "#");
                                 if (!ht.keySet().contains(current)){
                                     ht.put(current, 0);
                                 }
@@ -118,7 +117,7 @@ public class Wheres_Bessie {
                                         returned2 = true;
                                     }
                                 }
-                                if (!returned && !returned2){
+                                if (!returned || !returned2){
                                     breaky = true;
                                     break;
                                 }
@@ -128,7 +127,7 @@ public class Wheres_Bessie {
                                 break;
                             }else{
                                 ans++;
-                                System.out.println(Arrays.deepToString(newgrid));
+                               // System.out.println(Arrays.deepToString(newgrid));
                             }
                         }
 
