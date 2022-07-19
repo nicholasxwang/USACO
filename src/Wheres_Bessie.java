@@ -93,9 +93,9 @@ public class Wheres_Bessie {
                                 newgrid[j - i-1][l - k-1] = grid[a][b];
                             }
                         }
-                        for (int a = 0; i < newgrid.length; i++) {
+                        for (int a = 0; a < newgrid.length; a++) {
                             boolean breaky = false;
-                            for (int b = 0; j < newgrid[i].length; j++) {
+                            for (int b = 0; b < newgrid[i].length; b++) {
                                 Hashtable<String, Integer> ht = new Hashtable<>();
                                 String current = newgrid[a][b];
                                 if (current == "#")
