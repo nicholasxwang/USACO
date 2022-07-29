@@ -7,7 +7,7 @@ import java.util.Vector;
 public class Wheres_Bessie {
     static boolean isValid(String[][] screen, int m, int n, int x, int y, String prevC, String newC) {
         if (x < 0 || x >= m || y < 0 || y >= n
-                || screen[x][y] == newC || screen[x][y] != prevC)
+                || screen[x][y].equals(newC) || !screen[x][y].equals(prevC))
             return false;
         return true;
     }
@@ -67,6 +67,7 @@ public class Wheres_Bessie {
         //BBBC
         //AABB
         //ABBC
+        //こんにちわ한글中文
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         //PrintWriter pw = new PrintWriter("");
         int N = Integer.parseInt(br.readLine());
@@ -90,6 +91,9 @@ public class Wheres_Bessie {
                             for (int b = k; b <= l; b++) {
                                 newgrid[a - i][b - k] = grid[a][b];
                             }
+                        }
+                        if (i ==0 && j==3 && k==0 && l==2){
+                            //System.out.println(Arrays.deepToString(newgrid));
                         }
                         //System.out.println(Arrays.deepToString(newgrid));
                         Hashtable<String, Integer> ht = new Hashtable<>();
@@ -117,7 +121,11 @@ public class Wheres_Bessie {
                                         returned2 = true;
                                     }
                                 }
-                                if (!returned || !returned2){
+                                if (!returned){
+                                    breaky = true;
+                                    break;
+                                }
+                                if (!returned2 && ht.size() > 1){
                                     breaky = true;
                                     break;
                                 }
@@ -127,7 +135,7 @@ public class Wheres_Bessie {
                                 break;
                             }else{
                                 ans++;
-                               // System.out.println(Arrays.deepToString(newgrid));
+                                System.out.println(Arrays.deepToString(newgrid));
                             }
                         }
 
