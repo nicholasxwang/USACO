@@ -6,13 +6,15 @@ import java.util.Arrays;
 
 
 class Vertex {
-    private int i;
-    private int j;
-    private int value;
-    private Vertex parent;
-    private ArrayList<Vertex> listAdj;
+    int i;
+    int j;
+    int id;
+    int value;
+    Vertex parent;
+    ArrayList<Vertex> listAdj;
 
-    public Vertex(int i, int j, int value, Vertex parent){
+    public Vertex(int i, int j, int id, int value, Vertex parent){
+        this.id = id;
         this.i = i;
         this.j = j;
         this.value = value;
@@ -20,7 +22,7 @@ class Vertex {
         this.listAdj = new ArrayList<Vertex>();
     }
 
-    public String getId(){return "("+i+", "+j+")";}
+    public int getId(){return this.id;}
     public int getValue(){return this.value;}
     public Vertex getParent(){return this.parent;}
     public ArrayList<Vertex> getListAdj(){return this.listAdj;}
@@ -48,23 +50,22 @@ class irrigation {
         Vertex currentVertex = null;
         int oldSize = 0;
 
-        listVertex[0].setValue(0); //Atribui zero ao vertice inicial
-        /*q eh a lista de vertices a serem investigados*/
+        listVertex[0].setValue(0);
         ArrayList<Vertex> q = buildMinHeap(listVertex.clone());
 
         while ((oldSize = q.size()) != 0){
-            currentVertex = q.remove(0);		//Remove o menor valor (primeiro vertex da list)
+            currentVertex = q.remove(0);
 
             for (Vertex v : currentVertex.getListAdj()){
                 if(q.contains(v) && matrixAdj[currentVertex.getId()][v.getId()] < v.getValue()){
-                    v.setParent(currentVertex);		//Atribui o vertice retirado como o novo pai
-                    v.setValue(matrixAdj[currentVertex.getId()][v.getId()]);	//Modifica o valor do vertice pelo peso da aresta correspondente
+                    v.setParent(currentVertex);
+                    v.setValue(matrixAdj[currentVertex.getId()][v.getId()]);
                 }
             }
 
             q = buildMinHeap(q.toArray(new Vertex[q.size()]));
 
-            result[sizeV - oldSize] = currentVertex;		//Guarda os vertices ja acessados
+            result[sizeV - oldSize] = currentVertex;
         }
 
         int total = 0;
@@ -154,12 +155,12 @@ class irrigation {
         int init_j = Integer.parseInt(temp[1]);
         int[][] matrixAdj = new int[N][N];
         Vertex[] listVertex = new Vertex[N];
-        listVertex[0] = new Vertex(init_i, init_j, INFINITY, null);
+        listVertex[0] = new Vertex(init_i, init_j, 0, 0, null);
         for (int i = 1; i < N; i++) {
             temp = br.readLine().split(" ");
             int cur_i = Integer.parseInt(temp[0]);
             int cur_j = Integer.parseInt(temp[1]);
-            listVertex[i] = new Vertex(cur_i,  cur_j, INFINITY, null);
+            listVertex[i] = new Vertex(cur_i,  cur_j, i, INFINITY, null);
 
         }
 
