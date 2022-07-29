@@ -6,30 +6,31 @@ import java.util.Arrays;
 
 
 class Vertex {
-    private String id;
+    private int i;
+    private int j;
     private int value;
     private Vertex parent;
     private ArrayList<Vertex> listAdj;
 
-    public Vertex(String id, int value, Vertex parent){
-        this.id = id;
+    public Vertex(int i, int j, int value, Vertex parent){
+        this.i = i;
+        this.j = j;
         this.value = value;
         this.parent = parent;
         this.listAdj = new ArrayList<Vertex>();
     }
 
-    public String getId(){return this.id;}
+    public String getId(){return "("+i+", "+j+")";}
     public int getValue(){return this.value;}
     public Vertex getParent(){return this.parent;}
     public ArrayList<Vertex> getListAdj(){return this.listAdj;}
 
-    public void setId(String id){this.id = id;}
     public void setValue(int value){this.value = value;}
     public void setParent(Vertex parent){this.parent = parent;}
 
     @Override
     public String toString() {
-        return "Vertex [id=" + id + ", value=" + value + ", parent=" + parent + "]";
+        return "Vertex [id=" +"("+i+", "+j+")" + ", value=" + value + ", parent=" + parent + "]";
     }
 }
 
@@ -153,33 +154,21 @@ class irrigation {
         int init_j = Integer.parseInt(temp[1]);
         int[][] matrixAdj = new int[N][N];
         Vertex[] listVertex = new Vertex[N];
-        listVertex[0] = new Vertex(init_i + "x" + init_j, INFINITY, null);
+        listVertex[0] = new Vertex(init_i, init_j, INFINITY, null);
         for (int i = 1; i < N; i++) {
             temp = br.readLine().split(" ");
             int cur_i = Integer.parseInt(temp[0]);
             int cur_j = Integer.parseInt(temp[1]);
-            listVertex[i] = new Vertex(cur_i + "x" + cur_j, INFINITY, null);
+            listVertex[i] = new Vertex(cur_i,  cur_j, INFINITY, null);
 
         }
 
         for (int i = 0; i < N; i++) {
-            for (int j = i + 1; j < N; j++) {
-                if (boolean true) {
-                    int value = Integer.parseInt(listVertex[i]);
-                    matrixAdj[i][j] = value;
-                    matrixAdj[j][i] = value;
-
-                    if (value != 0) {
-                        listVertex[i].getListAdj().add(listVertex[j]);
-                        listVertex[j].getListAdj().add(listVertex[i]);
-                    }
-
-                    k++;
-                } else {
-                    j--;
-                    k++;
-                }
-            }
+            for (int j = 0; j < N; j++) {
+                matrixAdj[i][j]=(listVertex[i].i-listVertex[j].i)*(listVertex[i].i-listVertex[j].i)+(listVertex[i].j-listVertex[j].j)*(listVertex[i].j-listVertex[j].j);
+                // remove the edge from graph if cost is less than c
+                if (matrixAdj[i][j]<C) matrixAdj[i][j]=0;
+             }
         }
         showBiMatrix(matrixAdj);
         primMST(N, matrixAdj, listVertex);
