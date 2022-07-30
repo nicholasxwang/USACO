@@ -34,10 +34,12 @@ class IcyPerimeter {
         // Color the pixel with the new color
         screen[x][y] = newC;
 
+
         // While the queue is not empty i.e. the
         // whole component having prevC color
         // is not colored with newC color
         ans_keep_list.add(new AnswerKeeper());
+
         while (queue.size() > 0) {
             // Dequeue the front node
             Point currPixel = queue.get(queue.size() - 1);
@@ -58,10 +60,10 @@ class IcyPerimeter {
                 queue.add(new Point(posX + 1, posY));
                 ans_keep_list.get(ans_keep_list.size() - 1).add_area();
             }else {
-                if (posX < 0 || posX >= m || posY < 0 || posY >= n) {
+                if (posX+1 < 0 || posX+1 >= m || posY < 0 || posY >= n) {
                     ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
                 }
-                else if ((posX+1)<m && Objects.equals(screen[posX + 1][posY], ".")) {
+                if ((posX+1)<m && Objects.equals(screen[posX + 1][posY], ".")) {
                     ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
                 }
             }
@@ -71,10 +73,10 @@ class IcyPerimeter {
                 queue.add(new Point(posX - 1, posY));
                 ans_keep_list.get(ans_keep_list.size() - 1).add_area();
             }else{
-                if (posX < 0 || posX >= m || posY < 0 || posY >= n) {
+                if ((posX - 1) < 0 || posX - 1 >= m || posY < 0 || posY >= n) {
                     ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
                 }
-                else if (posX > 0 && Objects.equals(screen[posX - 1][posY], ".")) {
+               if (posX > 0 && Objects.equals(screen[posX - 1][posY], ".")) {
                     ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
                 }
 
@@ -85,10 +87,10 @@ class IcyPerimeter {
                 queue.add(new Point(posX, posY + 1));
                 ans_keep_list.get(ans_keep_list.size() - 1).add_area();
             }else{
-                if (posX < 0 || posX >= m || posY < 0 || posY >= n) {
+                if (posX  < 0 || posX >= m || posY + 1< 0 || posY+ 1 >= n) {
                     ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
                 }
-                else if ((posY+1)<n && Objects.equals(screen[posX][posY + 1], ".")) {
+                if ((posY+1)<n && Objects.equals(screen[posX][posY + 1], ".")) {
                     ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
                 }
             }
@@ -98,10 +100,10 @@ class IcyPerimeter {
                 queue.add(new Point(posX, posY - 1));
                 ans_keep_list.get(ans_keep_list.size() - 1).add_area();
             }else{
-                if (posX < 0 || posX >= m || posY < 0 || posY >= n) {
+                if (posX < 0 || posX >= m || posY -1 < 0 || posY-1 >= n) {
                     ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
                 }
-                else if (posY>0 && Objects.equals(screen[posX][posY - 1], ".")) {
+               if (posY>0 && Objects.equals(screen[posX][posY - 1], ".")) {
                     ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
                 }
             }
