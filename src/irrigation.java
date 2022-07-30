@@ -20,7 +20,7 @@ class irrigation {
     }
     public static void main(String[] args) throws IOException {
         BufferedReader br =
-                new BufferedReader(new InputStreamReader(System.in));
+                new BufferedReader(new FileReader("irrigation.in"));
 
         String[] temp;
 
@@ -64,20 +64,6 @@ class irrigation {
             }
 
 
-//        int[][] adj2 = { {0, 4, 6, 0, 0, 0},
-//            {4, 0, 6, 3, 4, 0},
-//            {6, 6, 0, 1, 8, 0},
-//            {0, 3, 1, 0, 2, 3},
-//            {0, 4, 8, 2, 0, 7},
-//            {0, 0, 0, 3, 7, 0} };
-        int[][] adj2 = { {0, 29, 17},
-                {29, 0, 10},
-                {17, 10, 0}  };
-        for (int i = 0; i<adj.length; i++){
-            for (int j = 0; j<adj.length; j++){
-                adj[i][j] = adj2[i][j];
-            }
-        }
         for (int i = 0; i<adj.length; i++){
             for (int j = 0; j<adj.length; j++){
                 if (adj[i][j]<C){
@@ -99,9 +85,22 @@ class irrigation {
             }
         }
         //Print MST
-        for(int i=1;i<N;++i)
-            System.out.println("U->V: "+parent[i]+"->"+i+"  wt = "+adj[parent[i]][i]+"\n");
-        System.out.println("k  ");
+        int ans = 0;
+        for(int i=1;i<N;++i) {
+            //System.out.println("U->V: " + parent[i] + "->" + i + "  wt = " + adj[parent[i]][i] + "\n");
+            if (parent[i] == -1){
+                ans = -1;
+                break;
+            }else{
+                ans +=adj[parent[i]][i];
+            }
+
+        }
+        //System.out.println(ans);
+        PrintWriter pw = new PrintWriter("irrigation.out");
+        pw.println(ans);
+        pw.close();
+
 
 
     }
