@@ -1,62 +1,140 @@
+import java.util.*;
 import java.io.*;
-import java.io.FileReader;
+class AnswerKeeper{
+    int area;
+    int perimeter;
+    public AnswerKeeper(){
+        this.area = 0;
+        this.perimeter = 0;
+    }
+    public void add_area(){
+        this.area = this.area+1;
+    }
+    public void add_perimeter(){
+        this.perimeter= this.perimeter+1;
+    }
+}
+class IcyPerimeter {
+    static boolean isValid(String[][] screen, int m, int n, int x, int y, String prevC, String newC) {
+        if (x < 0 || x >= m || y < 0 || y >= n
+                || screen[x][y].equals(newC) || !screen[x][y].equals(prevC))
+            return false;
+        return true;
+    }
 
-class Floodfill {
-    private static int[][] grid;  // the grid itself
-    private static int rowNum;
-    private static int colNum;  // grid dimensions, rows and columns
-    private static boolean[][] visited;  // keeps track of which nodes have been visited
-    private static int currSize = 0;  // reset to 0 each time we start a new component
 
-    public static void main(String[] args) {
-        /*
-         * input code and other problem-specific stuff here
-         */
-        for (int r = 0; r < rowNum; r++){
-            for (int c = 0; c < colNum; c++){
-                if(!visited[r][c]){
-                    currSize = 0;
-                    /*
-                     * start a flood fill if the square hasn't already been visited,
-                     * and then store or otherwise use the component size
-                     * for whatever it's needed for
-                     */
-                    floodfill(r, c, grid[r][c]);
+    // FloodFill function
+    static void floodFill(String[][] screen, int m, int n, int x, int y, String prevC, String newC, ArrayList<AnswerKeeper> ans_keep_list) {
+        Vector<Point> queue = new Vector<Point>();
+
+        // Append the position of starting
+        // pixel of the component
+        queue.add(new Point(x, y));
+
+        // Color the pixel with the new color
+        screen[x][y] = newC;
+
+        // While the queue is not empty i.e. the
+        // whole component having prevC color
+        // is not colored with newC color
+        ans_keep_list.add(new AnswerKeeper());
+        while (queue.size() > 0) {
+            // Dequeue the front node
+            Point currPixel = queue.get(queue.size() - 1);
+            queue.remove(queue.size() - 1);
+
+            int posX = currPixel.x;
+
+            int posY = currPixel.y;
+
+            // Check if the adjacent
+            // pixels are valid
+            if (isValid(screen, m, n, posX + 1, posY, prevC, newC)) {
+                // Color with newC
+                // if valid and enqueue
+                screen[posX + 1][posY] = newC;
+
+
+                queue.add(new Point(posX + 1, posY));
+                ans_keep_list.get(ans_keep_list.size() - 1).add_area();
+            }else {
+                if (posX < 0 || posX >= m || posY < 0 || posY >= n) {
+                    ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
+                }
+                else if ((posX+1)<m && Objects.equals(screen[posX + 1][posY], ".")) {
+                    ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
+                }
+            }
+
+            if (isValid(screen, m, n, posX - 1, posY, prevC, newC)) {
+                screen[posX - 1][posY] = newC;
+                queue.add(new Point(posX - 1, posY));
+                ans_keep_list.get(ans_keep_list.size() - 1).add_area();
+            }else{
+                if (posX < 0 || posX >= m || posY < 0 || posY >= n) {
+                    ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
+                }
+                else if (posX > 0 && Objects.equals(screen[posX - 1][posY], ".")) {
+                    ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
+                }
+
+            }
+
+            if (isValid(screen, m, n, posX, posY + 1, prevC, newC)) {
+                screen[posX][posY + 1] = newC;
+                queue.add(new Point(posX, posY + 1));
+                ans_keep_list.get(ans_keep_list.size() - 1).add_area();
+            }else{
+                if (posX < 0 || posX >= m || posY < 0 || posY >= n) {
+                    ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
+                }
+                else if ((posY+1)<n && Objects.equals(screen[posX][posY + 1], ".")) {
+                    ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
+                }
+            }
+
+            if (isValid(screen, m, n, posX, posY - 1, prevC, newC)) {
+                screen[posX][posY - 1] = newC;
+                queue.add(new Point(posX, posY - 1));
+                ans_keep_list.get(ans_keep_list.size() - 1).add_area();
+            }else{
+                if (posX < 0 || posX >= m || posY < 0 || posY >= n) {
+                    ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
+                }
+                else if (posY>0 && Objects.equals(screen[posX][posY - 1], ".")) {
+                    ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
                 }
             }
         }
     }
 
-    private static void floodfill(int r, int c, int color) {
-        if (
-                (r < 0 || r >= rowNum || c < 0 || c >= colNum)  // if out of bounds
-                        || grid[r][c] != color  // wrong color
-                        || visited[r][c]  // already visited this square
-        ) return;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(br.readLine());
+        String[][] grid = new String[N][N];
+        for (int i = 0; i < N; i++) {
+            char[] subgrid = br.readLine().toCharArray();
+            for (int j = 0; j < N; j++) {
+                grid[i][j] = String.valueOf(subgrid[j]);
+            }
+        }
+        ArrayList<AnswerKeeper> answer_keeper_list = new ArrayList<>();
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (Objects.equals(grid[i][j], "•")) {
+                    continue;
+                }
+                floodFill(grid, N, N, i, j, "#", "•", answer_keeper_list);
+                System.out.println(Arrays.deepToString(grid).replace("],", "], \n"));
+                System.out.println("\n\n");
+            }
 
-        visited[r][c] = true; // mark current square as visited
-        currSize++; // increment the size for each square we visit
-
-        // recursively call flood fill for neighboring squares
-        floodfill(r, c + 1, color);
-        floodfill(r, c - 1, color);
-        floodfill(r - 1, c, color);
-        floodfill(r + 1, c, color);
-    }
-}
-public class IcyPerimeter {
-    public static void main(String[] main) throws IOException{
-        BufferedReader b = new BufferedReader(new FileReader("./perimeter.in"));
-        int N = Integer.parseInt(b.readLine());
-        int[][] a = new int[N][N];
-//        ##....
-//        ....#.
-//        .#..#.
-//        .#####
-//        ...###
-//        ....##
-        for (int i = 0; i<N;i++){
 
         }
+//        System.out.println(answer_keeper_list);
+        for (int i = 0; i<answer_keeper_list.size(); i++){
+            System.out.println("Area = "+answer_keeper_list.get(i).area+", Perimeter = "+answer_keeper_list.get(i).perimeter);
+        }
+
     }
 }
