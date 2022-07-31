@@ -62,11 +62,7 @@ class IcyPerimeter {
             // Check if the adjacent
             // pixels are valid
             if (isValid(screen, m, n, posX + 1, posY, prevC, newC)) {
-                // Color with newC
-                // if valid and enqueue
                 screen[posX + 1][posY] = newC;
-
-
                 queue.add(new Point(posX + 1, posY));
                 ans_keep_list.get(ans_keep_list.size() - 1).add_area();
             }else {
@@ -74,7 +70,7 @@ class IcyPerimeter {
                 if ( posX+1 < 0 || posX+1 >= m || posY < 0 || posY >= n) {
                     ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
                 }
-                if ((posX+1)<m && Objects.equals(screen[posX + 1][posY], ".")) {
+                else  if ((posX+1)<m && Objects.equals(screen[posX + 1][posY], ".")) {
                     ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
                 }
             }
@@ -84,10 +80,10 @@ class IcyPerimeter {
                 queue.add(new Point(posX - 1, posY));
                 ans_keep_list.get(ans_keep_list.size() - 1).add_area();
             }else{
-                if ((posX - 1) < 0 || posX - 1 >= m || posY < 0 || posY >= n) {
+                if ((posX - 1) < 0 || (posX - 1) >= m || posY < 0 || posY >= n) {
                     ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
                 }
-               if (posX > 0 && Objects.equals(screen[posX - 1][posY], ".")) {
+               else if (posX-1 > 0 && Objects.equals(screen[posX - 1][posY], ".")) {
                     ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
                 }
 
@@ -101,7 +97,7 @@ class IcyPerimeter {
                 if (posX  < 0 || posX >= m || posY + 1< 0 || posY+ 1 >= n) {
                     ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
                 }
-                if ((posY+1)<n && Objects.equals(screen[posX][posY + 1], ".")) {
+                else  if ((posY+1)<n && Objects.equals(screen[posX][posY + 1], ".")) {
                     ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
                 }
             }
@@ -114,7 +110,7 @@ class IcyPerimeter {
                 if (posX < 0 || posX >= m || posY -1 < 0 || posY-1 >= n) {
                     ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
                 }
-               if (posY>0 && Objects.equals(screen[posX][posY - 1], ".")) {
+               else  if (posY-1>0 && Objects.equals(screen[posX][posY - 1], ".")) {
                     ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
                 }
             }
@@ -138,18 +134,18 @@ class IcyPerimeter {
                     continue;
                 }
                 floodFill(grid, N, N, i, j, "#", "•", answer_keeper_list);
-                //System.out.println(Arrays.deepToString(grid).replace("],", "], \n"));
-                //System.out.println("\n\n");
+                System.out.println(Arrays.deepToString(grid).replace("],", "], \n"));
+                System.out.println("\n\n");
             }
 
 
         }
-//        System.out.println(answer_keeper_list);
+        System.out.println(answer_keeper_list);
         ArrayList<AnswerKeeper> max_areas = new ArrayList<>();
         int max_area = -1;
         for (int i = 0; i<answer_keeper_list.size(); i++){
 
-            //System.out.println("Area = "+answer_keeper_list.get(i).area+", Perimeter = "+answer_keeper_list.get(i).perimeter);
+            System.out.println("Area = "+answer_keeper_list.get(i).area+", Perimeter = "+answer_keeper_list.get(i).perimeter);
             if (answer_keeper_list.get(i).area > max_area){
                 max_area = answer_keeper_list.get(i).area;
                 max_areas.clear();
