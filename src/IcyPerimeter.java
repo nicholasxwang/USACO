@@ -18,9 +18,9 @@ class AnswerKeeper{
 class IcyPerimeter {
     static boolean isValid(String[][] screen, int m, int n, int x, int y, String prevC, String newC) {
         if (x < 0 || x >= m || y < 0 || y >= n
-                || screen[x][y].equals(newC) || !screen[x][y].equals(prevC))
-            return false;
-        return true;
+                || screen[x][y].equals("."))
+            return true;
+        return false;
 
 
 
@@ -91,19 +91,86 @@ class IcyPerimeter {
     }
 
 
-    static void floodFill2(String[][] screen, int N) {
-        int a=0;
-        for (int i = 1; i<N; i++){
-            for (int j = 1; j<N; j++){
-                String r = screen[i][j];
-                if (i-1 >= 0 && Objects.equals(screen[i - 1][j], ".")) a++;
-                if (i+1 < N && Objects.equals(screen[i + 1][j], ".")) a++;
-                if ( j-1 >= 0 && Objects.equals(screen[i][j - 1], ".")) a++;
-                if (j+1 < N && Objects.equals(screen[i][j + 1], ".")) a++;
+    static void floodFill2(String[][] screen, int m, int n, int x, int y, String prevC, String newC, ArrayList<AnswerKeeper> ans_keep_list) {
+
+        Vector<Point> queue = new Vector<Point>();
+
+        // Append the position of starting
+        // pixel of the component
+        queue.add(new Point(x, y));
+
+        // Color the pixel with the new color
+        boolean validd = false;
+        if (Objects.equals(screen[x][y], prevC)) {
+            validd = true;
+        }
+        screen[x][y] = newC;
+
+
+        // While the queue is not empty i.e. the
+        // whole component having prevC color
+        // is not colored with newC color
+        ans_keep_list.add(new AnswerKeeper());
+        if (validd)
+            ans_keep_list.get(ans_keep_list.size() - 1).add_area();
+        else {
+            //return;
+        }
+
+        while (queue.size() > 0) {
+            // Dequeue the front node
+            Point currPixel = queue.get(queue.size() - 1);
+            queue.remove(queue.size() - 1);
+
+            int posX = currPixel.x;
+
+            int posY = currPixel.y;
+
+            // Check if the adjacent
+            // pixels are valid
+            if (isValid(screen, m, n, posX + 1, posY, prevC, newC)) {
+                try{
+                    screen[posX + 1][posY] = newC;
+                }catch(Exception e){
+                    //do nothing
+                }
+
+                queue.add(new Point(posX + 1, posY));
+                ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
+            }
+
+            if (isValid(screen, m, n, posX - 1, posY, prevC, newC)) {
+                try{
+                    screen[posX - 1][posY] = newC;
+                }catch(Exception e){
+                    //do nothing
+                }
+                queue.add(new Point(posX - 1, posY));
+                ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
+            }
+
+            if (isValid(screen, m, n, posX, posY + 1, prevC, newC)) {
+                try{
+                    screen[posX][posY + 1] = newC;
+                }catch(Exception e){
+                    //do nothing
+                }
+                queue.add(new Point(posX, posY + 1));
+                ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
+            }
+
+            if (isValid(screen, m, n, posX, posY - 1, prevC, newC)) {
+                try{
+                    screen[posX][posY - 1] = newC;
+                }catch(Exception e){
+                    //do nothing
+                }
+                queue.add(new Point(posX, posY - 1));
+                ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
             }
         }
-        System.out.println(a);
     }
+
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -121,7 +188,7 @@ class IcyPerimeter {
                 if (Objects.equals(grid[i][j], "•")) {
                     continue;
                 }
-                floodFill(grid, N, N, i, j, "#", "•", answer_keeper_list);
+                floodFill2(grid, N, N, i, j, "#", "•", answer_keeper_list);
                 System.out.println(Arrays.deepToString(grid).replace("],", "], \n"));
                 System.out.println("\n\n");
             }
@@ -153,7 +220,7 @@ class IcyPerimeter {
                 }
             }
         }
-        floodFill2(grid, N);
+        //floodFill2(grid, N);
 
         System.out.println(target.area + " "+ (target.perimeter));
 
