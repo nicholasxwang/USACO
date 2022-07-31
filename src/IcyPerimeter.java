@@ -1,5 +1,6 @@
 import java.util.*;
 import java.io.*;
+
 class AnswerKeeper{
     int area;
     int perimeter;
@@ -20,11 +21,14 @@ class IcyPerimeter {
                 || screen[x][y].equals(newC) || !screen[x][y].equals(prevC))
             return false;
         return true;
-    }
 
+
+
+    }
 
     // FloodFill function
     static void floodFill(String[][] screen, int m, int n, int x, int y, String prevC, String newC, ArrayList<AnswerKeeper> ans_keep_list) {
+
         Vector<Point> queue = new Vector<Point>();
 
         // Append the position of starting
@@ -33,11 +37,10 @@ class IcyPerimeter {
 
         // Color the pixel with the new color
         boolean validd = false;
-        if (Objects.equals(screen[x][y], prevC)){
+        if (Objects.equals(screen[x][y], prevC)) {
             validd = true;
         }
         screen[x][y] = newC;
-
 
 
         // While the queue is not empty i.e. the
@@ -46,7 +49,7 @@ class IcyPerimeter {
         ans_keep_list.add(new AnswerKeeper());
         if (validd)
             ans_keep_list.get(ans_keep_list.size() - 1).add_area();
-        else{
+        else {
             //return;
         }
 
@@ -65,56 +68,41 @@ class IcyPerimeter {
                 screen[posX + 1][posY] = newC;
                 queue.add(new Point(posX + 1, posY));
                 ans_keep_list.get(ans_keep_list.size() - 1).add_area();
-            }else {
-
-                if ( posX+1 < 0 || posX+1 >= m || posY < 0 || posY >= n) {
-                    ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
-                }
-                else  if ((posX+1)<m && Objects.equals(screen[posX + 1][posY], ".")) {
-                    ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
-                }
             }
 
             if (isValid(screen, m, n, posX - 1, posY, prevC, newC)) {
                 screen[posX - 1][posY] = newC;
                 queue.add(new Point(posX - 1, posY));
                 ans_keep_list.get(ans_keep_list.size() - 1).add_area();
-            }else{
-                if ((posX - 1) < 0 || (posX - 1) >= m || posY < 0 || posY >= n) {
-                    ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
-                }
-               else if (posX-1 > 0 && Objects.equals(screen[posX - 1][posY], ".")) {
-                    ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
-                }
-
             }
 
             if (isValid(screen, m, n, posX, posY + 1, prevC, newC)) {
                 screen[posX][posY + 1] = newC;
                 queue.add(new Point(posX, posY + 1));
                 ans_keep_list.get(ans_keep_list.size() - 1).add_area();
-            }else{
-                if (posX  < 0 || posX >= m || posY + 1< 0 || posY+ 1 >= n) {
-                    ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
-                }
-                else  if ((posY+1)<n && Objects.equals(screen[posX][posY + 1], ".")) {
-                    ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
-                }
             }
 
             if (isValid(screen, m, n, posX, posY - 1, prevC, newC)) {
                 screen[posX][posY - 1] = newC;
                 queue.add(new Point(posX, posY - 1));
                 ans_keep_list.get(ans_keep_list.size() - 1).add_area();
-            }else{
-                if (posX < 0 || posX >= m || posY -1 < 0 || posY-1 >= n) {
-                    ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
-                }
-               else  if (posY-1>0 && Objects.equals(screen[posX][posY - 1], ".")) {
-                    ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
-                }
             }
         }
+    }
+
+
+    static void floodFill2(String[][] screen, int N) {
+        int a=0;
+        for (int i = 1; i<N; i++){
+            for (int j = 1; j<N; j++){
+                String r = screen[i][j];
+                if (i-1 >= 0 && Objects.equals(screen[i - 1][j], ".")) a++;
+                if (i+1 < N && Objects.equals(screen[i + 1][j], ".")) a++;
+                if ( j-1 >= 0 && Objects.equals(screen[i][j - 1], ".")) a++;
+                if (j+1 < N && Objects.equals(screen[i][j + 1], ".")) a++;
+            }
+        }
+        System.out.println(a);
     }
 
     public static void main(String[] args) throws IOException {
@@ -165,8 +153,9 @@ class IcyPerimeter {
                 }
             }
         }
+        floodFill2(grid, N);
 
-        System.out.println(target.area + " "+ target.perimeter);
+        System.out.println(target.area + " "+ (target.perimeter));
 
     }
 }
