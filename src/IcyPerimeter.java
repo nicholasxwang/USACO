@@ -67,11 +67,16 @@ class IcyPerimeter {
             for (int j = 0; j<grid.length; j++){
                 int r = Integer.parseInt(grid[i][j]);
                 if (r==0) continue;
-
-                if (i>0 && Integer.parseInt(grid[i-1][j])==0) ans_keep_lis.get(r).add_perimeter();
-                if (i<grid.length-1 && Integer.parseInt(grid[i+1][j])==0) ans_keep_lis.get(r).add_perimeter();
+                try {
+                if (i > 0 && Integer.parseInt(grid[i - 1][j]) == 0) ans_keep_lis.get(r).add_perimeter();
+                }catch(Exception ignored){}
+                try {
+                    if (i+1<grid.length && Integer.parseInt(grid[i+1][j])==0) ans_keep_lis.get(r).add_perimeter();
+                }catch(Exception ignored){}
+                try {
                 if (j>0 && Integer.parseInt(grid[i][j-1])==0) ans_keep_lis.get(r).add_perimeter();
-                if (j<grid.length-1 && Integer.parseInt(grid[i][j+1])==0) ans_keep_lis.get(r).add_perimeter();
+                }catch(Exception ignored){}
+            try{if (j+1<grid.length && Integer.parseInt(grid[i][j+1])==0) ans_keep_lis.get(r).add_perimeter();}catch(Exception ignored){}
             }
         }
 
@@ -79,40 +84,28 @@ class IcyPerimeter {
 
     }
     static void floodFill(String[][] screen, int m, int n, int x, int y, String prevC, String newC, ArrayList<AnswerKeeper> ans_keep_list) {
-        Vector<Point_> queue = new Vector<Point_>();
+        Vector<Point_> queue = new Vector<>();
         newC = String.valueOf(color);
 
-//        if (screen[x][y].equals(prevC)){
         if (!screen[x][y].equals(".")){
+            ans_keep_list.add(new AnswerKeeper(newC));
             color++;
+            if (color == 2) {
+                //come here
+                System.out.println(".");
+
+            }
             screen[x][y] = newC;
+            ans_keep_list.get(ans_keep_list.size() - 1).add_area();
         }else{
             screen[x][y] = "0";
+            ans_keep_list.add(new AnswerKeeper(String.valueOf(0)));
         }
-        // Append the position of starting
-        // pixel of the component
         queue.add(new Point_(x, y));
 
-        // Color the pixel with the new color
-        boolean validd = false;
-        if (Objects.equals(screen[x][y], prevC)){
-            validd = true;
-        }
 
-
-
-        // While the queue is not empty i.e. the
-        // whole component having prevC color
-        // is not colored with newC color
-        ans_keep_list.add(new AnswerKeeper(String.valueOf(color)));
-        if (validd)
-            ans_keep_list.get(ans_keep_list.size() - 1).add_area();
-        else{
-            //return;
-        }
 
         while (queue.size() > 0) {
-            // Dequeue the front node
             Point_ currPixel = queue.get(queue.size() - 1);
             queue.remove(queue.size() - 1);
 
@@ -120,8 +113,6 @@ class IcyPerimeter {
 
             int posY = currPixel.y;
 
-            // Check if the adjacent
-            // pixels are valid
             if (isValid(screen, m, n, posX + 1, posY, prevC, newC)) {
                 screen[posX + 1][posY] = newC;
                 queue.add(new Point_(posX + 1, posY));
@@ -179,84 +170,6 @@ class IcyPerimeter {
         }
     }
 
-//    static void floodFill2(String[][] screen, int m, int n, int x, int y, String prevC, String newC, ArrayList<AnswerKeeper> ans_keep_list) {
-//        Vector<Point_> queue = new Vector<Point_>();
-//
-//        // Append the position of starting
-//        // pixel of the component
-//        queue.add(new Point_(x, y));
-//
-//        // Color the pixel with the new color
-//        boolean validd = false;
-//        if (Objects.equals(screen[x][y], prevC)){
-//            validd = true;
-//        }
-//        screen[x][y] = newC;
-//
-//
-//
-//        // While the queue is not empty i.e. the
-//        // whole component having prevC color
-//        // is not colored with newC color
-//        ans_keep_list.add(new AnswerKeeper());
-//        if (validd)
-//            ans_keep_list.get(ans_keep_list.size() - 1).add_area();
-//        else{
-//            //return;
-//        }
-//
-//        while (queue.size() > 0) {
-//            // Dequeue the front node
-//            Point_ currPixel = queue.get(queue.size() - 1);
-//            queue.remove(queue.size() - 1);
-//
-//            int posX = currPixel.x;
-//
-//            int posY = currPixel.y;
-//
-//            // Check if the adjacent
-//            // pixels are valid
-//
-//            if (!screen[posX][posY].equals(".")){
-//
-//                if ( posX+1 < 0 || posX+1 >= m || posY < 0 || posY >= n) {
-//                    ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
-//                }
-//                else  if ((posX+1)<m && Objects.equals(screen[posX + 1][posY], ".")) {
-//                    ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
-//                }
-//            }
-//
-//           if (!screen[posX][posY ].equals(".")){
-//                if ((posX - 1) < 0 || posX - 1 >= m || posY < 0 || posY >= n) {
-//                    ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
-//                }
-//                else if (posX > 0 && Objects.equals(screen[posX - 1][posY], ".")) {
-//                    ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
-//                }
-//
-//            }
-//
-//            if (!screen[posX][posY ].equals(".")){
-//                if (posX  < 0 || posX >= m || posY + 1< 0 || posY+ 1 >= n) {
-//                    ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
-//                }
-//                else  if ((posY+1)<n && Objects.equals(screen[posX][posY + 1], ".")) {
-//                    ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
-//                }
-//            }
-//
-//            if (!screen[posX][posY ].equals(".")){
-//                if (posX < 0 || posX >= m || posY -1 < 0 || posY-1 >= n) {
-//                    ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
-//                }
-//                else  if (posY-1>0 && Objects.equals(screen[posX][posY - 1], ".")) {
-//                    ans_keep_list.get(ans_keep_list.size() - 1).add_perimeter();
-//                }
-//            }
-//        }
-//    }
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader("perimeter.in"));
         int N = Integer.parseInt(br.readLine());
@@ -289,7 +202,7 @@ class IcyPerimeter {
         int max_area = -1;
         for (int i = 0; i<answer_keeper_list.size(); i++){
 
-            //System.out.println("Area = "+answer_keeper_list.get(i).area+", Perimeter = "+answer_keeper_list.get(i).perimeter);
+            System.out.println("#" + answer_keeper_list.get(i).color +" Area = "+answer_keeper_list.get(i).area+", Perimeter = "+answer_keeper_list.get(i).perimeter);
             if (answer_keeper_list.get(i).area > max_area){
                 max_area = answer_keeper_list.get(i).area;
                 max_areas.clear();
@@ -310,7 +223,7 @@ class IcyPerimeter {
             }
         }
 
-        //System.out.println(target.area + " "+ (target.perimeter+1));
+        System.out.println(target.area + " "+ (target.perimeter+1));
         PrintWriter pw = new PrintWriter("perimeter.out");
         pw.println(target.area + " " + (target.perimeter+1));
         pw.close();
