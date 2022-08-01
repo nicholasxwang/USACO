@@ -8,7 +8,8 @@ class Edge{
 }
 public class MooTube {
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new FileReader("mootube.in"));
+        PrintWriter pw = new PrintWriter("mootube.out");
         String[] s;
         s = br.readLine().split(" ");
         int N = Integer.parseInt(s[0]);
@@ -27,7 +28,7 @@ public class MooTube {
         }for (int q = 0; q < Q; q++) {
             s = br.readLine().split(" ");
             int x = Integer.parseInt(s[0]);
-            int y = Integer.parseInt(s[1]);
+            int y = Integer.parseInt(s[1])-1;
             Queue<Integer> bfsQueue = new LinkedList<Integer>();
             ArrayList<Boolean> visited = new ArrayList<>();
             int visCount = 0;
@@ -41,15 +42,16 @@ public class MooTube {
                 bfsQueue.remove();
 
                 for (Edge out : e[currentNode]) {
-                    if (!visited.get(out.n1) && out.weight >= x) {
-                        visited.set(out.n1, true);
-                        bfsQueue.add(out.n1);
+                    if (!visited.get(out.n2) && out.weight >= x) {
+                        visited.set(out.n2, true);
+                        bfsQueue.add(out.n2);
                         visCount += 1;
                     }
                 }
             }
-            System.out.println(visCount);
+            pw.println(visCount);
         }
+        pw.close();
 
     }
 }
