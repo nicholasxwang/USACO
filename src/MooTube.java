@@ -10,33 +10,32 @@ public class MooTube {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader("mootube.in"));
         PrintWriter pw = new PrintWriter("mootube.out");
-        String[] s;
-        s = br.readLine().split(" ");
-        int N = Integer.parseInt(s[0]);
-        int Q = Integer.parseInt(s[1]);
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(st.nextToken());
+        int Q = Integer.parseInt(st.nextToken());
         LinkedList<Edge>[] e = new LinkedList[N];
         for (int i = 0; i < N; i++) {
             e[i] = new LinkedList<>();
         }
         for (int i = 0; i < N-1; i++) {
-            s = br.readLine().split(" ");
-            int x = Integer.parseInt(s[0]);
-            int y = Integer.parseInt(s[1]);
-            int z = Integer.parseInt(s[2]);
+            st = new StringTokenizer(br.readLine());
+            int x = Integer.parseInt(st.nextToken());
+            int y = Integer.parseInt(st.nextToken());
+            int z = Integer.parseInt(st.nextToken());
             e[x-1].add(new Edge(z, x-1, y-1));
             e[y-1].add(new Edge(z, y-1, x-1));
         }
         String answer = "";
         for (int q = 0; q < Q; q++) {
-            s = br.readLine().split(" ");
-            int x = Integer.parseInt(s[0]);
-            int y = Integer.parseInt(s[1])-1;
-            Queue<Integer> bfsQueue = new LinkedList<Integer>();
+            st = new StringTokenizer(br.readLine());
+            int x = Integer.parseInt(st.nextToken());
+            int y = Integer.parseInt(st.nextToken())-1;
+            LinkedList<Integer> bfsQueue = new LinkedList<Integer>();
             boolean[] visited = new boolean[N];
             int visCount = 0;
-            for (int i = 0; i < N; i++) {
-                visited[i] = false;
-            }
+//            for (int i = 0; i < N; i++) {
+//                visited[i] = false;
+//            }
             visited[y] = true;
             bfsQueue.add(y);
             while (!bfsQueue.isEmpty()) {
