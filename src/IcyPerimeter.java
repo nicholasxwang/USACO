@@ -11,7 +11,7 @@ class IcyPerimeter {
     static void floodFill(String[][] screen, int N, int x, int y) {
         Vector<Point_> queue = new Vector<>();
         String newC = String.valueOf(color);
-        if (!screen[x][y].equals(".")) { screen[x][y] = newC; color++;}
+        if (!screen[x][y].equals(".")) { screen[x][y] = newC;}
         else screen[x][y] = "0";
         queue.add(new Point_(x, y));
         while (queue.size() > 0) {
@@ -24,6 +24,7 @@ class IcyPerimeter {
             if (isValid(screen, N, posX, posY + 1, newC)) { screen[posX][posY + 1] = newC; queue.add(new Point_(posX, posY + 1));}
             if (isValid(screen, N, posX, posY - 1, newC)) { screen[posX][posY - 1] = newC; queue.add(new Point_(posX, posY - 1));}
         }
+        if (!screen[x][y].equals(".")) color++;
     }
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader("perimeter.in"));
@@ -37,6 +38,7 @@ class IcyPerimeter {
         }
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
+                //System.out.println(Arrays.deepToString(grid).replace("], ", "], \n")+"\n\n");
                 if (!Objects.equals(grid[i][j], ".") && !Objects.equals(grid[i][j], "#")) continue;
                 floodFill(grid, N, i, j);
             }
