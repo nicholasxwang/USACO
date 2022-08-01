@@ -25,7 +25,9 @@ public class MooTube {
             int z = Integer.parseInt(s[2]);
             e[x-1].add(new Edge(z, x-1, y-1));
             e[y-1].add(new Edge(z, y-1, x-1));
-        }for (int q = 0; q < Q; q++) {
+        }
+        String answer = "";
+        for (int q = 0; q < Q; q++) {
             s = br.readLine().split(" ");
             int x = Integer.parseInt(s[0]);
             int y = Integer.parseInt(s[1])-1;
@@ -49,8 +51,13 @@ public class MooTube {
                     }
                 }
             }
-            pw.println(visCount);
+            if (q != Q-1) {
+                pw.print(visCount + "\n");
+            } else {
+                pw.print(visCount);
+            }
         }
+
         pw.close();
 
     }
