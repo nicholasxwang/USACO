@@ -14,9 +14,9 @@ public class MooTube {
         s = br.readLine().split(" ");
         int N = Integer.parseInt(s[0]);
         int Q = Integer.parseInt(s[1]);
-        ArrayList<Edge>[] e = new ArrayList[N];
+        LinkedList<Edge>[] e = new LinkedList[N];
         for (int i = 0; i < N; i++) {
-            e[i] = new ArrayList<>();
+            e[i] = new LinkedList<>();
         }
         for (int i = 0; i < N-1; i++) {
             s = br.readLine().split(" ");
@@ -32,32 +32,33 @@ public class MooTube {
             int x = Integer.parseInt(s[0]);
             int y = Integer.parseInt(s[1])-1;
             Queue<Integer> bfsQueue = new LinkedList<Integer>();
-            ArrayList<Boolean> visited = new ArrayList<>();
+            boolean[] visited = new boolean[N];
             int visCount = 0;
-            for (int i = 0; i < N*2; i++) {
-                visited.add(false);
+            for (int i = 0; i < N; i++) {
+                visited[i] = false;
             }
-            visited.set(y, true);
+            visited[y] = true;
             bfsQueue.add(y);
             while (!bfsQueue.isEmpty()) {
                 int currentNode = bfsQueue.peek();
                 bfsQueue.remove();
 
                 for (Edge out : e[currentNode]) {
-                    if (!visited.get(out.n2) && out.weight >= x) {
-                        visited.set(out.n2, true);
+                    if (!visited[out.n2] && out.weight >= x) {
+                        visited[out.n2] = true;
                         bfsQueue.add(out.n2);
                         visCount += 1;
                     }
                 }
             }
             if (q != Q-1) {
-                pw.print(visCount + "\n");
+               answer+=(visCount + "\n");
             } else {
-                pw.print(visCount);
+                answer+=(visCount);
             }
         }
 
+        pw.println(answer);
         pw.close();
 
     }
