@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 public class Wheres_Bessie {
     static boolean isValid(String[][] screen, int m, int n, int x, int y, String prevC) {
-        System.out.println("x: " + x + " y: " + y);
+        //System.out.println("x: " + x + " y: " + y);
         return !(x < 0 || x >= m || y < 0 || y >= n || screen[x][y].equals(".") || !screen[x][y].equals(prevC));}
     static boolean pcl(Hashtable<String, Integer>  hashtable, boolean ending  ){
         if (!ending && hashtable.size() > 2)   return false;
@@ -56,8 +56,8 @@ public class Wheres_Bessie {
                         boolean break_loop = false;
                         for (int n = 0; n<subgrid.length; n++){
                             for (int m = 0; m<subgrid[0].length; m++){
-                                System.out.println(Arrays.deepToString(subgrid));
-                                if (!Objects.equals(subgrid[i][j], ".")) {
+                                //System.out.println(Arrays.deepToString(subgrid));
+                                if (!Objects.equals(subgrid[n][m], ".")) {
                                     ht.put(subgrid[n][m], ht.getOrDefault(subgrid[n][m], 0) + 1);
                                     floodFill(subgrid, subgrid.length, subgrid[0].length, n, m, subgrid[n][m]);
                                     if (!pcl(ht, false)){
@@ -70,6 +70,7 @@ public class Wheres_Bessie {
                             if (break_loop) break;
                             if (!pcl(ht, true)){
                                 answer++;
+                                break;
                             }
                         }
                     }
