@@ -100,29 +100,11 @@ public class Wheres_Bessie {
             for (int j = 0; j<pcls.size(); j++) {
                 if (i==j) continue;
                 if (contains(pcls.get(i).get(0), pcls.get(i).get(2), pcls.get(i).get(1), pcls.get(i).get(3), pcls.get(j).get(0), pcls.get(j).get(2))
-                && contains(pcls.get(i).get(0), pcls.get(i).get(2), pcls.get(i).get(1), pcls.get(i).get(3), pcls.get(j).get(1), pcls.get(j).get(3))) {
+                && contains(pcls.get(i).get(0), pcls.get(i).get(2), pcls.get(i).get(1), pcls.get(i).get(3), pcls.get(j).get(1), pcls.get(j).get(3)) && !weak_index.contains(j)) {
                     weak_index.add(j);
-                    //System.out.println("EATEN - ("+pcls.get(j).get(0)+", "+pcls.get(j).get(1)+", "+pcls.get(j).get(2)+", "+pcls.get(j).get(3)+")");
-                } else{
-                    //System.out.println("SURVIVED- ("+pcls.get(j).get(0)+", "+pcls.get(j).get(1)+", "+pcls.get(j).get(2)+", "+pcls.get(j).get(3)+")");
-
                 }
             }
         }
-//        for (int i = 0; i<pcls.size(); i++){
-//            if (!weak_index.contains(i)) {
-//                System.out.println("SURVIVED - ("+pcls.get(i).get(0)+", "+pcls.get(i).get(1)+", "+pcls.get(i).get(2)+", "+pcls.get(i).get(3)+")");
-//            }else{
-//                System.out.println("EATEN - ("+pcls.get(i).get(0)+", "+pcls.get(i).get(1)+", "+pcls.get(i).get(2)+", "+pcls.get(i).get(3)+")");
-//            }
-        //}
-
-        for (int i = 0; i<weak_index.size(); i++) {
-            pcls.remove(weak_index.get(i));
-        }
-
-
-        //System.out.println(pcls.size() - weak_index.size());
         PrintWriter pw = new PrintWriter("where.out");
         pw.println(pcls.size() - weak_index.size());
         pw.close();
