@@ -45,7 +45,7 @@ public class Wheres_Bessie {
             s = br.readLine().split("");
             for (int j = 0; j < N; j++) grid[i][j] = s[j];
         }
-        int answer = 0;
+        ArrayList<ArrayList<Integer>> pcls = new ArrayList<>();
         for (int i = 0; i < N; i++) { for (int j = i+1; j < N; j++) { for (int k = 0; k < N; k++) { for (int l = k+1; l < N; l++) {
                         String[][] subgrid = new String[j-i+1][l-k+1];
                         for (int n = 0; n<j-i+1; n++) {
@@ -53,6 +53,7 @@ public class Wheres_Bessie {
                         }
                         Hashtable<String, Integer> ht = new Hashtable<String, Integer>();
                         boolean break_loop = false;
+                        System.out.println("("+i+","+j+","+k+","+l+")");
                         System.out.println(Arrays.deepToString(subgrid));
                         for (int n = 0; n<subgrid.length; n++){
                             for (int m = 0; m<subgrid[0].length; m++){
@@ -68,7 +69,12 @@ public class Wheres_Bessie {
                             if (break_loop) break;
                         }
                         if (pcl(ht, true)){
-                            answer++;
+                            ArrayList<Integer> pcl = new ArrayList<>();
+                            pcl.add(i);
+                            pcl.add(j);
+                            pcl.add(k);
+                            pcl.add(l);
+                            pcls.add(pcl);
                             System.out.println("PCL ^^ ");
                             break;
                         }
@@ -77,6 +83,27 @@ public class Wheres_Bessie {
             }
         }
 
-        System.out.println(answer);
+        ArrayList<Integer> weak_index = new ArrayList<>();
+        for (int i = 0; i<pcls.size(); i++) {
+            //for (int j = i+1; j<pcls.get(i).size(); j++) {
+            for (int j = 0; j<pcls.size(); j++) {
+                if (i==j) continue;
+                if ((pcls.get(i).get(0) <= pcls.get(j).get(0) )&& (pcls.get(i).get(2) <= pcls.get(j).get(2)) &&
+                        pcls.get(i).get(1) >= pcls.get(j).get(1) && pcls.get(i).get(3) >= pcls.get(j).get(3)) {
+                    weak_index.add(j);
+                    System.out.println("EATEN - ("+pcls.get(j).get(0)+", "+pcls.get(j).get(1)+", "+pcls.get(j).get(2)+", "+pcls.get(j).get(3)+")");
+                    //break;
+                }else{
+                    System.out.println("SURVIVED- ("+pcls.get(j).get(0)+", "+pcls.get(j).get(1)+", "+pcls.get(j).get(2)+", "+pcls.get(j).get(3)+")");
+
+                }
+            }
+        }
+        for (int i = 0; i<weak_index.size(); i++) {
+            pcls.remove(weak_index.get(i));
+        }
+
+
+        System.out.println(pcls.size());
     }
 }
