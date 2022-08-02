@@ -1,149 +1,81 @@
 import java.io.*;
-import java.util.Arrays;
-import java.util.Hashtable;
-import java.util.Vector;
-
-
+import java.util.*;
 public class Wheres_Bessie {
-    static boolean isValid(String[][] screen, int m, int n, int x, int y, String prevC, String newC) {
-        if (x < 0 || x >= m || y < 0 || y >= n
-                || screen[x][y].equals(newC) || !screen[x][y].equals(prevC))
-            return false;
-        return true;
+    static boolean isValid(String[][] screen, int m, int n, int x, int y, String prevC) {
+        System.out.println("x: " + x + " y: " + y);
+        return !(x < 0 || x >= m || y < 0 || y >= n || screen[x][y].equals(".") || !screen[x][y].equals(prevC));}
+    static boolean pcl(Hashtable<String, Integer>  hashtable, boolean ending  ){
+        if (!ending && hashtable.size() > 2)   return false;
+        if (ending && hashtable.size() != 2)   return false;
+        if (ending) {
+            boolean has_single = false;
+            boolean has_double = false;
+            for (String key : hashtable.keySet()) {
+                if (hashtable.get(key) == 1) {
+                    has_single = true;
+                }
+                if (hashtable.get(key) > 1) {
+                    has_double = true;
+                }
+            }
+            return has_single && has_double;
+        } return true;
     }
-
-
-    // FloodFill function
-    static void floodFill(String[][] screen, int m, int n, int x, int y, String prevC, String newC) {
+    static void floodFill(String[][] screen, int m, int n, int x, int y, String prevC) {
         Vector<Point> queue = new Vector<Point>();
-
-        // Append the position of starting
-        // pixel of the component
         queue.add(new Point(x, y));
-
-        // Color the pixel with the new color
-        screen[x][y] = newC;
-
-        // While the queue is not empty i.e. the
-        // whole component having prevC color
-        // is not colored with newC color
+        screen[x][y] = ".";
         while (queue.size() > 0) {
-            // Dequeue the front node
             Point currPixel = queue.get(queue.size() - 1);
             queue.remove(queue.size() - 1);
-
             int posX = currPixel.x;
             int posY = currPixel.y;
-
-            // Check if the adjacent
-            // pixels are valid
-            if (isValid(screen, m, n, posX + 1, posY, prevC, newC)) {
-                // Color with newC
-                // if valid and enqueue
-                screen[posX + 1][posY] = newC;
-                queue.add(new Point(posX + 1, posY));
-            }
-
-            if (isValid(screen, m, n, posX - 1, posY, prevC, newC)) {
-                screen[posX - 1][posY] = newC;
-                queue.add(new Point(posX - 1, posY));
-            }
-
-            if (isValid(screen, m, n, posX, posY + 1, prevC, newC)) {
-                screen[posX][posY + 1] = newC;
-                queue.add(new Point(posX, posY + 1));
-            }
-
-            if (isValid(screen, m, n, posX, posY - 1, prevC, newC)) {
-                screen[posX][posY - 1] = newC;
-                queue.add(new Point(posX, posY - 1));
-            }
+            if (isValid(screen, m, n, posX + 1, posY, prevC)) { screen[posX + 1][posY] =  ".";  queue.add(new Point(posX + 1, posY));}
+            if (isValid(screen, m, n, posX - 1, posY, prevC)) { screen[posX - 1][posY] =  ".";;;queue.add(new Point(posX - 1, posY));}
+            if (isValid(screen, m, n, posX, posY + 1, prevC)) { screen[posX][posY + 1] =  ".";; queue.add(new Point(posX, posY + 1));}
+            if (isValid(screen, m, n, posX, posY - 1, prevC)) { screen[posX][posY - 1] =  ".";; queue.add(new Point(posX, posY - 1));}
         }
     }
 
     public static void main(String[] args) throws IOException {
-        //4
-        //ABBC
-        //BBBC
-        //AABB
-        //ABBC
-        //こんにちわ한글中文
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        //PrintWriter pw = new PrintWriter("");
         int N = Integer.parseInt(br.readLine());
         String[][] grid = new String[N][N];
         String[] s;
         for (int i = 0; i < N; i++) {
             s = br.readLine().split("");
-            for (int j = 0; j < N; j++) {
-                grid[i][j] = s[j];
-            }
+            for (int j = 0; j < N; j++) grid[i][j] = s[j];
         }
-        int ans = 0;
-        for (int i = 0; i < N; i++) {
-            for (int j = i+1; j < N; j++) {
-                for (int k = 0; k < N; k++) {
-                    for (int l = k+1; l < N; l++) {
-                        System.out.println("("+i+", "+j+", "+k+", "+l+")");
-                        String[][] newgrid = new String[j - i+1][l-k+1];
-//                        System.out.println(Arrays.deepToString(newgrid));
-                        for (int a = i; a <= j; a++) {
-                            for (int b = k; b <= l; b++) {
-                                newgrid[a - i][b - k] = grid[a][b];
-                            }
+        int answer = 0;
+        for (int i = 0; i < N; i++) { for (int j = i+1; j < N; j++) { for (int k = 0; k < N; k++) { for (int l = k+1; l < N; l++) {
+                        String[][] subgrid = new String[j-i+1][l-k+1];
+                        for (int n = 0; n<j-i+1; n++) {
+                            for (int m = 0; m<l-k+1; m++) subgrid[n][m] = grid[n+i][m+k];
                         }
-                        if (i ==0 && j==3 && k==0 && l==2){
-                            //System.out.println(Arrays.deepToString(newgrid));
-                        }
-                        //System.out.println(Arrays.deepToString(newgrid));
-                        Hashtable<String, Integer> ht = new Hashtable<>();
-                        for (int a = 0; a < newgrid.length; a++) {
-                            boolean breaky = false;
-                            for (int b = 0; b < newgrid[a].length; b++) {
-                                String current = newgrid[a][b];
-                                if (current == "#")
-                                    continue;
-                                floodFill(newgrid, newgrid.length, newgrid[0].length, a, b, current, "#");
-                                if (!ht.keySet().contains(current)){
-                                    ht.put(current, 0);
-                                }
-                                ht.put(current, ht.get(current)+1);
-                                if (ht.size() > 2){
-                                    breaky = true;
-                                    break;
-                                }
-                                boolean returned = false;
-                                boolean returned2 = false;
-                                for (String key : ht.keySet()){
-                                    if (ht.get(key) == 1){
-                                        returned = true;
-                                    }else{
-                                        returned2 = true;
+                        Hashtable<String, Integer> ht = new Hashtable<String, Integer>();
+                        boolean break_loop = false;
+                        for (int n = 0; n<subgrid.length; n++){
+                            for (int m = 0; m<subgrid[0].length; m++){
+                                System.out.println(Arrays.deepToString(subgrid));
+                                if (!Objects.equals(subgrid[i][j], ".")) {
+                                    ht.put(subgrid[n][m], ht.getOrDefault(subgrid[n][m], 0) + 1);
+                                    floodFill(subgrid, subgrid.length, subgrid[0].length, n, m, subgrid[n][m]);
+                                    if (!pcl(ht, false)){
+                                        //break two loops
+                                        break_loop = true;
+                                        break;
                                     }
                                 }
-                                if (!returned){
-                                    breaky = true;
-                                    break;
-                                }
-                                if (!returned2 && ht.size() > 1){
-                                    breaky = true;
-                                    break;
-                                }
-
                             }
-                            if (breaky){
-                                break;
-                            }else{
-                                ans++;
-                                System.out.println(Arrays.deepToString(newgrid));
+                            if (break_loop) break;
+                            if (!pcl(ht, true)){
+                                answer++;
                             }
                         }
-
                     }
                 }
             }
         }
-        System.out.println(ans);
-
+        System.out.println(answer);
     }
 }
