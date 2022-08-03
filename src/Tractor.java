@@ -1,21 +1,23 @@
-// Java Program to Implement Dijkstra's Algorithm
-// Using Priority Queue
-
-// Importing utility classes
+import java.io.*;
 import java.util.*;
-
+class Location{
+    int x;
+    int y;
+    int id;
+    public Location(int x, int y, int id){
+        this.x = x;
+        this.y = y;
+        this.id = id;
+    }
+}
 // Main class DPQ
 public class Tractor {
-
-    // Member variables of this class
     private int dist[];
     private Set<Integer> settled;
     private PriorityQueue<DijkstraNode> pq;
-    // Number of vertices
     private int V;
     List<List<DijkstraNode> > adj;
 
-    // Constructor of this class
     public Tractor(int V)
     {
 
@@ -28,18 +30,14 @@ public class Tractor {
 
     // Method 1
     // Dijkstra's Algorithm
-    public void dijkstra(List<List<DijkstraNode> > adj, int src)
+    public void dijkstra(List<List<DijkstraNode> > adj, Location src)
     {
         this.adj = adj;
-
         for (int i = 0; i < V; i++)
             dist[i] = Integer.MAX_VALUE;
-
-        // Add source DijkstraNode to the priority queue
         pq.add(new DijkstraNode(src, 0));
-
         // Distance to the source is 0
-        dist[src] = 0;
+        dist[src.id] = 0;
 
         while (settled.size() != V) {
 
@@ -50,7 +48,7 @@ public class Tractor {
 
             // Removing the minimum distance DijkstraNode
             // from the priority queue
-            int u = pq.remove().DijkstraNode;
+            int u = pq.remove().DijkstraNode.id;
 
             // Adding the DijkstraNode whose distance is
             // finalized
@@ -78,6 +76,7 @@ public class Tractor {
         int newDistance = -1;
 
         // All the neighbors of v
+
         for (int i = 0; i < adj.get(u).size(); i++) {
             DijkstraNode v = adj.get(u).get(i);
 
@@ -87,45 +86,43 @@ public class Tractor {
                 newDistance = dist[u] + edgeDistance;
 
                 // If new distance is cheaper in cost
-                if (newDistance < dist[v.DijkstraNode])
-                    dist[v.DijkstraNode] = newDistance;
+                if (newDistance < dist[v.DijkstraNode.id])
+                    dist[v.DijkstraNode.id] = newDistance;
 
                 // Add the current DijkstraNode to the queue
-                pq.add(new DijkstraNode(v.DijkstraNode, dist[v.DijkstraNode]));
+                pq.add(new DijkstraNode(v.DijkstraNode, dist[v.DijkstraNode.id]));
             }
         }
     }
 
     // Main driver method
-    public static void main(String arg[])
-    {
-
-        int V = 5;
-        int source = 0;
-
+    public static void main(String[] args)  throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String[] s =  br.readLine().split(" ");
+        int N = Integer.parseInt(s[0]);
+        int X = Integer.parseInt(s[1]);
+        int Y = Integer.parseInt(s[2]);
+        Location source = new Location(X, Y, 0);
         // Adjacency list representation of the
         // connected edges by declaring List class object
         // Declaring object of type List<DijkstraNode>
         List<List<DijkstraNode> > adj
                 = new ArrayList<List<DijkstraNode> >();
-
         // Initialize list for every DijkstraNode
-        for (int i = 0; i < V; i++) {
+        for (int i = 0; i < N; i++) {
             List<DijkstraNode> item = new ArrayList<DijkstraNode>();
             adj.add(item);
         }
-
         // Inputs for the Tractor(dpq) graph
-        adj.get(0).add(new DijkstraNode(1, 9));
-        adj.get(0).add(new DijkstraNode(2, 6));
-        adj.get(0).add(new DijkstraNode(3, 5));
-        adj.get(0).add(new DijkstraNode(4, 3));
-
-        adj.get(2).add(new DijkstraNode(1, 2));
-        adj.get(2).add(new DijkstraNode(3, 4));
-
+        for (int i = 1; i<N+1; i++){
+            s = br.readLine().split(" ");
+            int x = Integer.parseInt(s[0]);
+            int y = Integer.parseInt(s[1]);
+            Location loc = new Location(x, y, i);
+            adj.get(0).add(new DijkstraNode(loc, 1));
+        }
         // Calculating the single source shortest path
-        Tractor dpq = new Tractor(V);
+        Tractor dpq = new Tractor(N+1);
         dpq.dijkstra(adj, source);
 
         // Printing the shortest path to all the DijkstraNodes
@@ -144,16 +141,16 @@ public class Tractor {
 class DijkstraNode implements Comparator<DijkstraNode> {
 
     // Member variables of this class
-    public int DijkstraNode;
+    public Location DijkstraNode;
     public int cost;
 
     // Constructors of this class
 
-    // Constructor 1
+    // Constructor 1=
     public DijkstraNode() {}
 
     // Constructor 2
-    public DijkstraNode(int DijkstraNode, int cost)
+    public DijkstraNode(Location DijkstraNode, int cost)
     {
 
         // This keyword refers to current instance itself
