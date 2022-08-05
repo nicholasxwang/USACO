@@ -73,8 +73,8 @@ class Tractor {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String[] s = br.readLine().split(" ");
         int N = Integer.parseInt(s[0]);
-        int x = Integer.parseInt(s[1])-1;
-        int y = Integer.parseInt(s[2])-1;
+        int x = Integer.parseInt(s[1]);
+        int y = Integer.parseInt(s[2]);
         ArrayList<ArrayList<Integer>> points = new ArrayList<>(N);
         int max_x = x;
         int max_y = y;
@@ -83,8 +83,8 @@ class Tractor {
         source.add(y);
         for (int i = 0; i<N; i++){
             s = br.readLine().split(" ");
-            x = Integer.parseInt(s[0])-1;
-            y = Integer.parseInt(s[1])-1;
+            x = Integer.parseInt(s[0]);
+            y = Integer.parseInt(s[1]);
             ArrayList<Integer> t = new ArrayList<>();
             t.add(x);
             t.add(y);
@@ -97,15 +97,20 @@ class Tractor {
                 max_y = y;
             }
         }
+
         max_x++;
         max_y++;
         ArrayList<Integer> processed_points = new ArrayList<>();
+        for (int i = 0; i<N; i++){
+            processed_points.add(0);
+        }
         for (int i = 0; i<max_x; i++){
             for (int j = 0; j<max_y; j++){
                 int v = twoD_to_oneD(i, j, max_y);
                 processed_points.add(v);
             }
-        }int[][] graph = new int[processed_points.size()][processed_points.size()];
+        }
+        int[][] graph = new int[processed_points.size()][processed_points.size()];
         for (int i = 0; i<processed_points.size(); i++){
             for (int j = 0; j<processed_points.size(); j++){
                 ArrayList<Integer> xy = oneD_to_twoD(processed_points.get(i), max_y);
