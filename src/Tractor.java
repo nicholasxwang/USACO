@@ -33,7 +33,7 @@ class Tractor {
         }
         return vertex;
     }
-    public static void dijkstra(int graph[][]){
+    public static void dijkstra(int graph[][], ArrayList<Integer> source){
         int[] parent = new int[V];
         ArrayList<Integer> value = new ArrayList<>();
         ArrayList<Boolean> processed = new ArrayList<>();
@@ -42,7 +42,7 @@ class Tractor {
             processed.add(false);
         }
         parent[0] = -1;
-        value.set(0, 0);
+        value.set(source.get(0), source.get(1));
         for (int i = 0; i<V; i++){
             int U = selectMinVertex(value, processed);
 
@@ -72,7 +72,7 @@ class Tractor {
         ArrayList<Integer> source = new ArrayList<>();
         source.add(x);
         source.add(y);
-        for (int i = 0; i<V; i++){
+        for (int i = 0; i<N; i++){
             s = br.readLine().split(" ");
             x = Integer.parseInt(s[0]);
             y = Integer.parseInt(s[1]);
@@ -88,7 +88,7 @@ class Tractor {
                 max_y = y;
             }
         }
-        int[][] graph = new int[(max_x+1)*(max_y+1)][(max_x+1)*(max_y+1)];
+
         ArrayList<Integer> processed_points = new ArrayList<>();
         for (int i = 0; i<max_x; i++){
             for (int j = 0; j<max_y; j++){
@@ -96,47 +96,42 @@ class Tractor {
                 processed_points.add(v);
             }
         }
+        int[][] graph = new int[processed_points.size()][processed_points.size()];
         for (int i = 0; i<processed_points.size(); i++){
             for (int j = 0; j<processed_points.size(); j++){
                 ArrayList<Integer> xy = oned_twodd(processed_points.get(i), max_x, max_y);
                 x = xy.get(0);
                 y = xy.get(1);
-                ArrayList<Integer> xy2 = oned_twodd(processed_points.get(i), max_x, max_y);
+                ArrayList<Integer> xy2 = oned_twodd(processed_points.get(j), max_x, max_y);
                 int x2 = xy2.get(0);
                 int y2 = xy2.get(1);
                 int value = 9;
                 if (i == j){
                     value = 0;
                 }
-                else if (includes(points, x2, y2)){
-                    value = 1;
-                }
-                else if (!includes(points, x2, y2)){
-                   if (x2 - x == 1 || x2 - x == -1 || y2 - y == 1 || y2 - y == -1) {
-                       value = 0;
-                   }
-                }
-
-
-                graph[processed_points.get(i)][processed_points.get(j)] = value;
-                value = 9;
-                if (i == j){
-                    value = 0;
-                }
-                else if (includes(points, x, y)){
-                    value = 1;
-                }
-                else if (!includes(points, x2, y2)){
-                    if (x2 - x == 1 || x2 - x == -1 || y2 - y == 1 || y2 - y == -1) {
-                        value = 0;
+                else {
+                    boolean x_diff = x2 - x == 1 || x2 - x == -1;
+                    boolean y_diff = y2 - y == 1 || y2 - y == -1;
+                    if (x_diff && y_diff) {
+                        x_diff = false;
+                        y_diff = false;
+                    }
+                    if (x_diff || y_diff) {
+                        if (includes(points, x2, y2)) {
+                            value = 1;
+                        } else {
+                            value = 0;
+                        }
                     }
                 }
 
 
-                graph[processed_points.get(j)][processed_points.get(i)] = value;
+
+                graph[processed_points.get(i)][processed_points.get(j)] = value;
+
             }
         }
 
-        dijkstra(graph);
+        dijkstra(graph, source);
     }
 }
