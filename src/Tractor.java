@@ -12,7 +12,6 @@ class Tractor {
         for (ArrayList<Integer> integers : ar) { if (integers.get(0) == x && integers.get(1) == y) return true; }
         return false;
     }
-
     public static boolean accessible(int x1, int y1, int x2, int y2){
         if (x1 == x2 && Math.abs(y1-y2) == 1) return true;
         return y1 == y2 && Math.abs(x1 - x2) == 1;
@@ -40,19 +39,16 @@ class Tractor {
         int source_int = twoD_to_oneD(source.get(0), source.get(1), max_y);
         parent[source_int] = -1;
         value.set(source_int, 0);
-        //processed.set(source_int, true);
         for (int i = 0; i<V; i++){
             int U = selectMinVertex(value, processed, V);
-
             for (int j = 0; j<V; j++){
-                if (!processed.get(j) && value.get(U) != 9 &&
+                if (graph[U][j]!=0  && !processed.get(j) && value.get(U) != 9 &&
                 value.get(U) + graph[U][j] < value.get(j)){
                     if (value.get(U) + graph[U][j] < value.get(j)){
                         value.set(j, value.get(U) + graph[U][j]);
                         parent[j] = U;
                     }
                 }
-
             }
         }
         System.out.println(value.get(0));
@@ -87,7 +83,6 @@ class Tractor {
         }
         max_x++;
         max_y++;
-
         ArrayList<Integer> processed_points = new ArrayList<>();
         for (int i = 0; i<max_x; i++){
             for (int j = 0; j<max_y; j++){
@@ -117,11 +112,9 @@ class Tractor {
                         }
                     }
                 }
-                graph[processed_points.get(i)][processed_points.get(j)] = value;
-
+                graph[processed_points.get(i)][processed_points.get(j)] = value+1;
             }
         }
-
         dijkstra(graph, source, max_y);
     }
 }
