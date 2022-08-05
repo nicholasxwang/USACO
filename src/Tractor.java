@@ -1,6 +1,8 @@
 import java.io.*;
 import java.util.*;
 class Tractor {
+    static int max_value = 9;
+    //int max_value = Integer.MAX_VALUE;
     public static int twoD_to_oneD(int x, int y, int size_y){ return x*size_y + y;}
     public static ArrayList<Integer> oneD_to_twoD(int id, int size_y){
         ArrayList<Integer> ar = new ArrayList<>();
@@ -16,11 +18,14 @@ class Tractor {
         if (x1 == x2 && Math.abs(y1-y2) == 1) return true;
         return y1 == y2 && Math.abs(x1 - x2) == 1;
     }
+
     public static int selectMinVertex(ArrayList<Integer> value, ArrayList<Boolean> processed, int V){
-        int minimum = 9;
+        int minimum = max_value;
         int vertex = -1;
         for (int i = 0; i<V; i++){
             if (!processed.get(i) && value.get(i)<minimum){
+                //debug
+
                 minimum = value.get(i);
                 vertex = i;
             }
@@ -33,16 +38,18 @@ class Tractor {
         ArrayList<Integer> value = new ArrayList<>();
         ArrayList<Boolean> processed = new ArrayList<>();
         for (int i = 0; i<V; i++){
-            value.add(9);
+            value.add(max_value);
             processed.add(false);
+            parent[i] = -1;
         }
         int source_int = twoD_to_oneD(source.get(0), source.get(1), max_y);
         parent[source_int] = -1;
         value.set(source_int, 0);
         for (int i = 0; i<V; i++){
             int U = selectMinVertex(value, processed, V);
+            processed.set(U, true);
             for (int j = 0; j<V; j++){
-                if (graph[U][j]!=0  && !processed.get(j) && value.get(U) != 9 &&
+                if (graph[U][j]!=-1  && !processed.get(j) && value.get(U) != max_value &&
                 value.get(U) + graph[U][j] < value.get(j)){
                     if (value.get(U) + graph[U][j] < value.get(j)){
                         value.set(j, value.get(U) + graph[U][j]);
@@ -50,6 +57,15 @@ class Tractor {
                     }
                 }
             }
+        }
+        for (int i = 0; i<V; i++){
+            int weight;
+            try {
+                weight = graph[i][parent[i]];
+            }catch(Exception e){
+                weight=-1;
+            }
+            System.out.println(oneD_to_twoD(i, max_y)+" (id # "+i +")'s parent is "+oneD_to_twoD(parent[i], max_y)+" (id #"+parent[i]+") and their weight is "+weight+". The value is "+value.get(i)+". It has been processed: "+processed.get(i));
         }
         System.out.println(value.get(0));
     }
@@ -89,8 +105,7 @@ class Tractor {
                 int v = twoD_to_oneD(i, j, max_y);
                 processed_points.add(v);
             }
-        }
-        int[][] graph = new int[processed_points.size()][processed_points.size()];
+        }int[][] graph = new int[processed_points.size()][processed_points.size()];
         for (int i = 0; i<processed_points.size(); i++){
             for (int j = 0; j<processed_points.size(); j++){
                 ArrayList<Integer> xy = oneD_to_twoD(processed_points.get(i), max_y);
@@ -99,20 +114,20 @@ class Tractor {
                 ArrayList<Integer> xy2 = oneD_to_twoD(processed_points.get(j), max_y);
                 int x2 = xy2.get(0);
                 int y2 = xy2.get(1);
-                int value = 9;
+                int value = max_value;
                 if (i == j){
                     value = 0;
                 }
                 else {
                     if (accessible(x, y, x2, y2)){
-                        if (includes(points, x2, y2) && includes(points, x, y)) {
+                        if (includes(points, x2, y2)) {
                             value = 1;
                         } else {
                             value = 0;
                         }
                     }
                 }
-                graph[processed_points.get(i)][processed_points.get(j)] = value+1;
+                graph[processed_points.get(i)][processed_points.get(j)] = value;
             }
         }
         dijkstra(graph, source, max_y);
