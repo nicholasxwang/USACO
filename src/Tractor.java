@@ -104,7 +104,7 @@ class Tractor {
                 ArrayList<Integer> xy2 = oned_twodd(processed_points.get(i), max_x, max_y);
                 int x2 = xy2.get(0);
                 int y2 = xy2.get(1);
-                int value = Integer.MAX_VALUE;
+                int value = 9;
                 if (i == j){
                     value = 0;
                 }
@@ -119,7 +119,7 @@ class Tractor {
 
 
                 graph[processed_points.get(i)][processed_points.get(j)] = value;
-                value = Integer.MAX_VALUE;
+                value = 9;
                 if (i == j){
                     value = 0;
                 }
