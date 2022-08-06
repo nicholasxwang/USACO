@@ -1,21 +1,31 @@
 import java.io.*; import java.util.*;
+class GameCell{  int x, y; public GameCell(int x, int y){ this.x = x;this.y = y; }}
 public class Multimoo {
-    static boolean isValid(int[][] grid, int x, int y, int current) { return  (!(x < 0 || x >= grid.length || y < 0 || y >= grid[0].length  || grid[x][y] == 0 || grid[x][y] != current));}
-    static void floodFill(int[][] grid,  ArrayList<ArrayList<Cell>> regions, int x, int y) {
-        Vector<Cell> queue = new Vector<>();
-        queue.add(new Cell(x, y));
+    static boolean contains(ArrayList<GameCell> visited, int x, int y) {
+        for (int i = 0; i < visited.size(); i++) {
+            if (visited.get(i).x == x && visited.get(i).y == y) {
+                return true;
+            }
+        }
+        return false;
+    }
+    static boolean isValid(int[][] grid, int x, int y, int current, ArrayList<GameCell> visited) { return  (!(x < 0 || x >= grid.length || y < 0 || y >= grid[0].length  || grid[x][y] == 0 || grid[x][y] != current || contains(visited, x, y)));}
+    static void floodFill(int[][] grid,  ArrayList<ArrayList<GameCell>> regions, int x, int y, ArrayList<GameCell> visited) {
+        Vector<GameCell> queue = new Vector<>();
+        queue.add(new GameCell(x, y));
+        visited.add(new GameCell(x, y));
         int current = grid[x][y];
-        ArrayList<Cell> currentRegion = new ArrayList<>();
-        currentRegion.add(new Cell(x, y));
+        ArrayList<GameCell> currentRegion = new ArrayList<>();
+        currentRegion.add(new GameCell(x, y));
         while (queue.size() > 0) {
-            Cell currPixel = queue.get(queue.size() - 1);
+            GameCell currPixel = queue.get(queue.size() - 1);
             queue.remove(queue.size() - 1);
             int posX = currPixel.x;
             int posY = currPixel.y;
-            if (isValid(grid,  posX + 1, posY, current)){  currentRegion.add(new Cell(posX + 1, posY)); queue.add(new Cell(posX + 1, posY));}
-            if (isValid(grid, posX - 1, posY, current)){  currentRegion.add(new Cell(posX - 1, posY)); queue.add(new Cell(posX - 1, posY));}
-            if (isValid(grid, posX, posY + 1, current)){    currentRegion.add(new Cell(posX, posY+1));queue.add(new Cell(posX, posY + 1));}
-            if (isValid(grid, posX, posY - 1, current)){ currentRegion.add(new Cell(posX, posY-1));queue.add(new Cell(posX, posY - 1));}
+            if (isValid(grid,  posX + 1, posY, current, visited) && !contains(visited, posX+1, posY)) { visited.add(new GameCell(posX + 1, posY));  currentRegion.add(new GameCell(posX + 1, posY)); queue.add(new GameCell(posX + 1, posY));}
+            if (isValid(grid, posX - 1, posY, current, visited) && !contains(visited, posX-1, posY)) { visited.add(new GameCell(posX - 1, posY)); currentRegion.add(new GameCell(posX - 1, posY)); queue.add(new GameCell(posX - 1, posY));}
+            if (isValid(grid, posX, posY + 1, current, visited) && !contains(visited, posX, posY+1)) { visited.add(new GameCell(posX, posY+1));   currentRegion.add(new GameCell(posX, posY+1));queue.add(new GameCell(posX, posY + 1));}
+            if (isValid(grid, posX, posY - 1, current, visited) && !contains(visited, posX, posY-1)) {visited.add(new GameCell(posX, posY-1)); currentRegion.add(new GameCell(posX, posY-1));queue.add(new GameCell(posX, posY - 1));}
         }
         regions.add(currentRegion);
 
@@ -28,7 +38,7 @@ public class Multimoo {
         ArrayList<int[][]> pairs = new ArrayList<>();
         Set <Integer> set = new HashSet<>();
         for (int i = 0; i<N; i++){
-            String[] s = br.readLine().split("");
+            String[] s = br.readLine().split(" ");
             for (int j = 0; j<N; j++){
                 grid[i][j] = Integer.parseInt(s[j]);
                 set.add(grid[i][j]);
@@ -40,21 +50,24 @@ public class Multimoo {
                 int[][] newgrid = new int[N][N];
                for (int k = 0; k<N; k++){
                    for (int l = 0; l<N; l++){
-                       if (grid[k][l] == arrayset.get(j)){
-                           grid[k][l] = arrayset.get(i);
-                       }
                        newgrid[k][l] = grid[k][l];
+                       if (newgrid[k][l] == arrayset.get(j)){
+                           newgrid[k][l] = arrayset.get(i);
+                       }
                    }
                }
                pairs.add(newgrid);
             }
         }
-        ArrayList<ArrayList<Cell>> regions = new ArrayList<>();
+        ArrayList<ArrayList<GameCell>> regions = new ArrayList<>();
+        ArrayList<GameCell> visited = new ArrayList<>();
         for (int i = 0; i<N; i++){
             for (int j = 0; j<N; j++){
-                if (grid[i][j] != 0){
-                    floodFill(grid, regions, i, j);
+                if (contains(visited, i, j)){
+                    continue;
                 }
+                floodFill(grid, regions, i, j, visited);
+
             }
         }
         int max = 0;
@@ -63,6 +76,30 @@ public class Multimoo {
                 max = regions.get(i).size();
             }
         }
+        PrintWriter pw = new PrintWriter("multimoo.out");
+        pw.println(max);
+        max = 0;
+        for (int n = 0; n<pairs.size(); n++){
+            regions = new ArrayList<>();
+            visited = new ArrayList<>();
+            for (int i = 0; i<N; i++){
+                for (int j = 0; j<N; j++){
+                    if (contains(visited, i, j)){
+                        continue;
+                    }
+                    floodFill(pairs.get(n), regions, i, j, visited);
+
+                }
+            }
+
+            for (int i = 0; i<regions.size(); i++){
+                if (regions.get(i).size() > max){
+                    max = regions.get(i).size();
+                }
+            }
+        }
+        pw.println(max);
+        pw.close();
 
 
 
