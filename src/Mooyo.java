@@ -65,7 +65,6 @@ public class Mooyo {
     }
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader("mooyomooyo.in"));
-        PrintWriter pw = new PrintWriter("mooyomooyo.out");
         StringTokenizer st = new StringTokenizer(br.readLine());
         int i, j, N, K;
         N = Integer.parseInt(st.nextToken());
@@ -109,6 +108,17 @@ public class Mooyo {
             }
 
         }
-        printgrid(grid);
+//        printgrid(grid);
+
+       //print to mooyomooyo.out
+        PrintWriter pw = new PrintWriter(new File("mooyomooyo.out"));
+        for (i = 0; i<N; i++){
+            for (j = 0; j<10; j++){
+                pw.print(grid[i][j]);
+            }
+            if (i != N-1)
+                pw.println();
+        }
+        pw.close();
     }
 }
