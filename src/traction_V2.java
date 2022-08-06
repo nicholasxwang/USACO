@@ -15,13 +15,9 @@ public class traction_V2 {
         }
         return false;
     }
-    public static boolean accessible(int x1, int y1, int x2, int y2) {
-        if (x1 == x2 && Math.abs(y1 - y2) == 1) return true;
-        return y1 == y2 && Math.abs(x1 - x2) == 1;
-    }
 
     public static int search_path(int[][] graph, int x, int y, int max_x, int max_y, boolean[] visited){
-        System.out.println("(" + x + "," + y + ")"+" "+ Arrays.toString(visited));
+        System.out.println("(" + x + "," + y + ")"+" ");
         if (x==0 && y==0){ visited[twoD_to_oneD(x, y, max_y)]  = true; return 0;};
         if (x<0 || y<0 || x>=max_x|| y>=max_y) return max_value;
         visited[twoD_to_oneD(x, y, max_y)] = true;
@@ -31,17 +27,20 @@ public class traction_V2 {
         int value4 = max_value;
         if (twoD_to_oneD(x+1, y, max_y) < visited.length && !visited[twoD_to_oneD(x+1, y, max_y)])
             value1 = search_path(graph, x+1, y, max_x, max_y, visited);
-        //int value2 =  search_path(graph, x-1, y, max_x, max_y, visited);
+        if (value1 == 0) return graph[x][y];
         if (twoD_to_oneD(x-1, y, max_y) >= 0 && !visited[twoD_to_oneD(x-1, y, max_y)])
             value2 =  search_path(graph, x-1, y, max_x, max_y, visited);
         if (twoD_to_oneD(x, y+1, max_y)  < visited.length  && !visited[twoD_to_oneD(x, y+1, max_y)])
             value3 = search_path(graph, x, y+1, max_x, max_y, visited);
-        //int value4 = search_path(graph, x+1, y-1, max_x, max_y, visited);
         if (twoD_to_oneD(x, y-1, max_y) >= 0 && !visited[twoD_to_oneD(x, y-1, max_y)])
             value4 = search_path(graph, x, y-1, max_x, max_y, visited);
         int var = Math.min(Math.min(value1, value2), Math.min(value3, value4));
         visited[twoD_to_oneD(x, y, max_y)]  = true;
-        System.out.println(var + graph[x][y]);
+        System.out.println("Canidate #1 ("+(x+1)+", "+(y)+"): "+value1);
+        System.out.println("Canidate #2 ("+(x-1)+", "+(y)+"): "+value2);
+        System.out.println("Canidate #3 ("+(x)+", "+(y+1)+"): "+value3);
+        System.out.println("Canidate #4 ("+(x)+", "+(y-1)+"): "+value4);
+        System.out.println("("+x+", "+y+"): "+(var + graph[x][y]));
         return var + graph[x][y];
 
     }
@@ -84,7 +83,7 @@ public class traction_V2 {
             graph[p.get(0)][p.get(1)] = 1;
         }
 
-        boolean[] visited = new boolean[twoD_to_oneD(max_x-1, max_y-1, max_y)];
+        boolean[] visited = new boolean[1000];
         for (int i = 0; i < visited.length; i++) {
             visited[i] = false;
         }
