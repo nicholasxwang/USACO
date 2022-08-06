@@ -20,17 +20,28 @@ public class traction_V2 {
         return y1 == y2 && Math.abs(x1 - x2) == 1;
     }
 
-    public static int search_path(int[][] graph, int x, int y, int max_x, int max_y, int[] visited){
+    public static int search_path(int[][] graph, int x, int y, int max_x, int max_y, boolean[] visited){
         System.out.println("(" + x + "," + y + ")"+" "+ Arrays.toString(visited));
-        if (x==0 && y==0){ visited[twoD_to_oneD(x, y, max_y)]  = 0; return 0;};
+        if (x==0 && y==0){ visited[twoD_to_oneD(x, y, max_y)]  = true; return 0;};
         if (x<0 || y<0 || x>=max_x|| y>=max_y) return max_value;
-        //if(visited[twoD_to_oneD(x,y,max_y)]!=-1) return visited[twoD_to_oneD(x,y,max_y)];
-//        visited[twoD_to_oneD(x, y, max_y)] = max_value;
-        int value1 = search_path(graph, x+1, y, max_x, max_y, visited);
-        int value2 =  search_path(graph, x-1, y, max_x, max_y, visited);
-        int value3 = search_path(graph, x, y+1, max_x, max_y, visited);
-        int value4 = search_path(graph, x+1, y-1, max_x, max_y, visited);
+        visited[twoD_to_oneD(x, y, max_y)] = true;
+        int value1 = max_value;
+        int value2 = max_value;
+        int value3 = max_value;
+        int value4 = max_value;
+        if (twoD_to_oneD(x+1, y, max_y) < visited.length && !visited[twoD_to_oneD(x+1, y, max_y)])
+            value1 = search_path(graph, x+1, y, max_x, max_y, visited);
+        //int value2 =  search_path(graph, x-1, y, max_x, max_y, visited);
+        if (twoD_to_oneD(x-1, y, max_y) >= 0 && !visited[twoD_to_oneD(x-1, y, max_y)])
+            value2 =  search_path(graph, x-1, y, max_x, max_y, visited);
+        if (twoD_to_oneD(x, y+1, max_y)  < visited.length  && !visited[twoD_to_oneD(x, y+1, max_y)])
+            value3 = search_path(graph, x, y+1, max_x, max_y, visited);
+        //int value4 = search_path(graph, x+1, y-1, max_x, max_y, visited);
+        if (twoD_to_oneD(x, y-1, max_y) >= 0 && !visited[twoD_to_oneD(x, y-1, max_y)])
+            value4 = search_path(graph, x, y-1, max_x, max_y, visited);
         int var = Math.min(Math.min(value1, value2), Math.min(value3, value4));
+        visited[twoD_to_oneD(x, y, max_y)]  = true;
+        System.out.println(var + graph[x][y]);
         return var + graph[x][y];
 
     }
@@ -66,43 +77,16 @@ public class traction_V2 {
 
         max_x++;
         max_y++;
-        ArrayList<Integer> processed_points = new ArrayList<>();
-        for (int i = 0; i < N; i++) {
-            processed_points.add(0);
+
+        int[][] graph = new int[max_x][max_y];
+        for (int i = 0; i<points.size(); i++) {
+            ArrayList<Integer> p = points.get(i);
+            graph[p.get(0)][p.get(1)] = 1;
         }
-        for (int i = 0; i < max_x; i++) {
-            for (int j = 0; j < max_y; j++) {
-                int v = twoD_to_oneD(i, j, max_y);
-                processed_points.add(v);
-            }
-        }
-        int[][] graph = new int[processed_points.size()][processed_points.size()];
-        for (int i = 0; i < processed_points.size(); i++) {
-            for (int j = 0; j < processed_points.size(); j++) {
-                ArrayList<Integer> xy = oneD_to_twoD(processed_points.get(i), max_y);
-                x = xy.get(0);
-                y = xy.get(1);
-                ArrayList<Integer> xy2 = oneD_to_twoD(processed_points.get(j), max_y);
-                int x2 = xy2.get(0);
-                int y2 = xy2.get(1);
-                int value = max_value;
-                if (i == j) {
-                    value = 0;
-                } else {
-                    if (accessible(x, y, x2, y2)) {
-                        if (includes(points, x2, y2)) {
-                            value = 1;
-                        } else {
-                            value = 0;
-                        }
-                    }
-                }
-                graph[processed_points.get(i)][processed_points.get(j)] = value;
-            }
-        }
-        int[] visited = new int[processed_points.size()];
-        for (int i = 0; i < processed_points.size(); i++) {
-            visited[i] = max_value;
+
+        boolean[] visited = new boolean[twoD_to_oneD(max_x-1, max_y-1, max_y)];
+        for (int i = 0; i < visited.length; i++) {
+            visited[i] = false;
         }
         int result = search_path(graph, source.get(0), source.get(1), max_x, max_y, visited);
         System.out.println(result);
