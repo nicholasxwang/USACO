@@ -1,8 +1,8 @@
 import java.io.*; import java.util.*;
 public class WhyDidTheCowCrossTheRoadf2 {
     public static void main(String[] main) throws IOException{
-        //BufferedReader br = new BufferedReader(new FileReader("maxcross.in"));
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new FileReader("maxcross.in"));
+        //BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         PrintWriter pw = new PrintWriter("maxcross.out");
         StringTokenizer st = new StringTokenizer(br.readLine());
         int i, N, K, B;
@@ -10,8 +10,12 @@ public class WhyDidTheCowCrossTheRoadf2 {
         K = Integer.parseInt(st.nextToken());
         B = Integer.parseInt(st.nextToken());
         int[] numbers, binary, prefix, difference;
-        numbers = binary = prefix = difference = new int[N];
-        for (i = 0; i<B; i++) binary[Integer.parseInt(br.readLine())-1] = 1;
+        numbers = new int[N];
+        binary = new int[N];
+        prefix = new int[N];
+        difference = new int[N];
+        for (i = 0; i<binary.length; i++){binary[i] = 1;}
+        for (i = 0; i<B; i++){binary[Integer.parseInt(br.readLine())-1] = 0;}
         for (i = 1; i<=N; i++){
             numbers[i-1] = i;
             if (i > 1) prefix[i-1] = prefix[i-2] + binary[i-1];
@@ -20,11 +24,12 @@ public class WhyDidTheCowCrossTheRoadf2 {
         }
         int min = Integer.MAX_VALUE;
         for (i = 0; i<N; i++){
-            if (i+K > N) break;
+            if (i+K >= N) break;
             int var = difference[i+K] - difference[i];
             if (var < min) min = var;
         }
-        System.out.println(min);
+        //System.out.println(min);
+        pw.println(min);
         pw.close();
     }
 }
