@@ -32,21 +32,31 @@ public class Lifeguards {
             average /= (intervals[i][1] - intervals[i][0]);
             averages[i] = average;
         }
+        System.out.println(Arrays.toString(averages));
 
-        int mininum_average = 0;
+        int minimum_average = 0;
         for (int i = 0; i < N; i++) {
-            if (averages[i] < averages[mininum_average]) {
-                mininum_average = i;
+            if (averages[i] < averages[minimum_average]) {
+                minimum_average = i;
             }
         }
 
+        System.out.println(minimum_average);
 
         for (int i =0; i<prefix.length; i++){
-            if (intervals[i][0]-1 <= i && i < intervals[i][1]-1){
+            if (intervals[minimum_average][0]-1 <= i && i < intervals[minimum_average][1]){
                 prefix[i]--;
             }
         }
         System.out.println(Arrays.toString(prefix));
+        int answer = 1;
+        for (int i = 0; i<prefix.length; i++){
+            if (prefix[i] > 0){
+                answer++;
+            }
+        }
+        pw.println(answer);
+        pw.close();
     }
 
 
