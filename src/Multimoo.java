@@ -62,7 +62,7 @@ public class Multimoo {
         Set <Integer> set = new HashSet<>();
         int max_cur = 0;
         for (int i = 0; i<N; i++){
-            StringTokenizer st = new StringTokenizer(br.readLine());;
+            StringTokenizer st = new StringTokenizer(br.readLine());
             for (int j = 0; j<N; j++){
                 grid[i][j] = Integer.parseInt(st.nextToken());
                 set.add(grid[i][j]);
@@ -80,25 +80,25 @@ public class Multimoo {
         //find neighbours
         for (int i = 0; i<N; i++){
             for (int j = 0; j<N; j++){
-                if (i > 0 && grid[i][j] == grid[i-1][j]){
+                if (i > 0 && grid[i][j] != grid[i-1][j] && !neighbours[grid[i][j]].contains(grid[i-1][j])){
                     if (neighbours[grid[i][j]] == null){
                         neighbours[grid[i][j]] = new ArrayList<>();
                     }
                     neighbours[grid[i][j]].add(grid[i-1][j]);
                 }
-                if (i < N-1 && grid[i][j] == grid[i+1][j]){
+                if (i < N-1 && grid[i][j] != grid[i+1][j] && !neighbours[grid[i][j]].contains(grid[i+1][j])){
                     if (neighbours[grid[i][j]] == null){
                         neighbours[grid[i][j]] = new ArrayList<>();
                     }
                     neighbours[grid[i][j]].add(grid[i+1][j]);
                 }
-                if (j > 0 && grid[i][j] == grid[i][j-1]){
+                if (j > 0 && grid[i][j] != grid[i][j-1] && !neighbours[grid[i][j]].contains(grid[i][j-1])){
                     if (neighbours[grid[i][j]] == null){
                         neighbours[grid[i][j]] = new ArrayList<>();
                     }
                     neighbours[grid[i][j]].add(grid[i][j-1]);
                 }
-                if (j < N-1 && grid[i][j] == grid[i][j+1]){
+                if (j < N-1 && grid[i][j] != grid[i][j+1] && !neighbours[grid[i][j]].contains(grid[i][j+1])){
                     if (neighbours[grid[i][j]] == null){
                         neighbours[grid[i][j]] = new ArrayList<>();
                     }
