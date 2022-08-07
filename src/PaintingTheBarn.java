@@ -1,77 +1,50 @@
-import java.io.*;
-import java.util.*;
-
-public class PaintingTheBarn{
-    public static boolean checkIfContained(Integer x, Integer y, ArrayList<Integer> range){
-        if (x < range.get(0)){
-            return false;
-        }
-        if (y < range.get(1)){
-            return false;
-        }
-        if (x > range.get(2)){
-            return false;
-        }
-        if (y > range.get(3)){
-            return false;
-        }
-        return true;
-    }
+import java.util.*; import java.io.*;
+public class PaintingTheBarn {
     public static void main(String[] args) throws IOException{
-        BufferedReader b = new BufferedReader(new FileReader("./paintbarn.in"));
-        String[] t = b.readLine().split(" ");
-        int N = Integer.parseInt(t[0]);
-        int K = Integer.parseInt(t[1]);
-        int s_x = 99999;
-        int s_y = 99999;
-        int b_x = -1;
-        int b_y = -1;
-        ArrayList<ArrayList<Integer>> main = new ArrayList<ArrayList<Integer>>();
-        for (int i = 0; i<N; i++){
-            t = b.readLine().split(" ");
-            ArrayList<Integer> main_temp = new ArrayList<>();
-            int el1 = Integer.parseInt(t[0]);
-            int el2 = Integer.parseInt(t[1]);
-            int el3 = Integer.parseInt(t[2]);
-            int el4 = Integer.parseInt(t[3]);
-            if (el1 < s_x){
-                s_x = el1;
-            }
-            if (el2 < s_y){
-                s_y = el2;
-            }
-            if (el3 > b_x){
-                b_x = el3;
-            }
-            if (el4 > b_y){
-                b_y = el4;
-            }
-            main_temp.add(el1);
-            main_temp.add(el2);
-            main_temp.add(el3);
-            main_temp.add(el4);
-            main.add(main_temp);
-
-        }
-
-        int[][] grid = new int[b_x - s_x][b_y - s_y];
-        for (int i =s_x; i<b_x; i++){
-            for (int j = s_y; j<b_y; j++){
-                for (int k = 0; k<main.size(); k++){
-                    if (checkIfContained(i-s_x, j-s_y, main.get(k)))
-                        grid[i-s_x][j-s_y]+=1;
+       BufferedReader br = new BufferedReader(new FileReader("paintbarn.in"));
+       PrintWriter pw = new PrintWriter("paintbarn.out");
+       StringTokenizer st = new StringTokenizer(br.readLine());
+       int N = Integer.parseInt(st.nextToken());
+       int K = Integer.parseInt(st.nextToken());
+       int lower_x = Integer.MAX_VALUE;
+       int upper_x = Integer.MIN_VALUE;
+       int lower_y = Integer.MAX_VALUE;
+       int upper_y = Integer.MIN_VALUE;
+       int[][] points = new int[N][4];
+       for (int i = 0; i<N; i++){
+           st = new StringTokenizer(br.readLine());
+           int x1 = Integer.parseInt(st.nextToken());
+           int y1 = Integer.parseInt(st.nextToken());
+           int x2 = Integer.parseInt(st.nextToken());
+           int y2 = Integer.parseInt(st.nextToken());
+           if (x1 < lower_x) lower_x = x1;
+           if (x2 > upper_x) upper_x = x2;
+           if (y1 < lower_y) lower_y = y1;
+           if (y2 > upper_y) upper_y = y2;
+           points[i][0] = x1;
+           points[i][1] = y1;
+           points[i][2] = x2;
+           points[i][3] = y2;
+       }
+       int[][] grid = new int[upper_x-lower_x+1][upper_y-lower_y+1];
+       for (int i = 0; i<N; i++){
+           int x1 = points[i][0] - lower_x;
+           int y1 = points[i][1] - lower_y;
+           int x2 = points[i][2] - lower_x;
+           int y2 = points[i][3] - lower_y;
+              for (int j = x1; j<=x2; j++){
+                for (int k = y1; k<=y2; k++){
+                     grid[j][k]++;
                 }
-            }
-        }
-        int ans = 0;
-        for (int i =s_x; i<b_x; i++){
-            for (int j = s_y; j<b_y; j++){
-                if (grid[i-s_x][j-s_y] == K){
-                    ans++;
-                }
-            }}
-
-        System.out.println(ans);
+              }
+       }
+       int answer = 0;
+       for (int i = 0; i<grid.length; i++){
+              for (int j = 0; j<grid[i].length; j++){
+                if (grid[i][j] == K) answer++;
+              }
+       }
+       System.out.println(answer);
+       pw.close();
     }
-
 }
