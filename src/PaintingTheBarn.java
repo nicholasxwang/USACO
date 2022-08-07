@@ -27,24 +27,22 @@ public class PaintingTheBarn {
            points[i][3] = y2;
        }
        int[][] grid = new int[upper_x-lower_x+1][upper_y-lower_y+1];
+       int answer = 0;
        for (int i = 0; i<N; i++){
            int x1 = points[i][0] - lower_x;
            int y1 = points[i][1] - lower_y;
            int x2 = points[i][2] - lower_x;
            int y2 = points[i][3] - lower_y;
-              for (int j = x1+1; j<=x2; j++){
-                for (int k = y1+1; k<=y2; k++){
-                     grid[j][k]++;
+           for (int j = x1+1; j<=x2; j++){
+            for (int k = y1+1; k<=y2; k++){
+                 grid[j][k]++;
+                 if (grid[j][k] == K) answer++;
+                 if (grid[j][k] > K) answer--;
 
-                }
-              }
+            }
+          }
        }
-       int answer = 0;
-       for (int i = 0; i<grid.length; i++){
-              for (int j = 0; j<grid[i].length; j++){
-                if (grid[i][j] == K) answer++;
-              }
-       }
+
        pw.println(answer);
        pw.close();
     }
