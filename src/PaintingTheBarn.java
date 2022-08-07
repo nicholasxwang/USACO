@@ -32,9 +32,10 @@ public class PaintingTheBarn {
            int y1 = points[i][1] - lower_y;
            int x2 = points[i][2] - lower_x;
            int y2 = points[i][3] - lower_y;
-              for (int j = x1; j<=x2; j++){
-                for (int k = y1; k<=y2; k++){
+              for (int j = x1+1; j<=x2; j++){
+                for (int k = y1+1; k<=y2; k++){
                      grid[j][k]++;
+
                 }
               }
        }
@@ -44,7 +45,7 @@ public class PaintingTheBarn {
                 if (grid[i][j] == K) answer++;
               }
        }
-       System.out.println(answer);
+       pw.println(answer);
        pw.close();
     }
 }
