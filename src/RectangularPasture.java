@@ -23,18 +23,29 @@ public class RectangularPasture {
                 boolean valid_pair = true;
                 for (int k = 0; k<N; k++){
                     if (k== i || k==j ) continue;
-                    if (valid_pair(points[i][0], points[i][1], points[j][0], points[j][1], points[k][0], points[k][1])){
+                    if (!valid_pair(points[i][0], points[i][1], points[j][0], points[j][1], points[k][0], points[k][1])){
                         valid_pair = false;
                         System.out.println("("+points[i][0]+","+points[i][1]+") and ("+points[j][0]+","+points[j][1]+") are false because of ("+points[k][0]+","+points[k][1]+")");
                         break;
                     }
                 }
                 if (valid_pair){
-                    pairs.add(new Integer[]{i, j});
+                    pairs.add(new Integer[]{points[i][0], points[i][1], points[j][0], points[j][1]});
                 }
             }
         }
         System.out.println(pairs);
+
+        for (int i = 0; i<pairs.size(); i++){
+            int lower_x = Math.min(pairs.get(i)[0], pairs.get(i)[2]);
+            int upper_x = Math.max(pairs.get(i)[0], pairs.get(i)[2]);
+            int lower_y = Math.min(pairs.get(i)[1], pairs.get(i)[3]);
+            int upper_y = Math.max(pairs.get(i)[1], pairs.get(i)[3]);
+            for (int j = 0; j<N; j++){
+                
+
+            }
+        }
 
     }
 }
