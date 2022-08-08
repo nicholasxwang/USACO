@@ -22,40 +22,36 @@ public class Lifeguards {
         }
         System.out.println(Arrays.toString(prefix));
 
-        double[] averages = new double[N];
-        for (int i = 0; i < N; i++) {
-            // find average of interval
-            double average = 0;
-            for (int j = intervals[i][0]; j < intervals[i][1]-1; j++) {
-                average += prefix[j];
-            }
-            average /= (intervals[i][1] - intervals[i][0]);
-            averages[i] = average;
-        }
-        System.out.println(Arrays.toString(averages));
+        int answer = 0;
+        int[] valuable = new int[intervals.length];
+        for (int i = 0; i<intervals.length; i++){
+            for (int j = intervals[i][0]; j<intervals[i][1]; j++){
+                int valuable_amount = 0;
+                if (prefix[j] == 1) valuable_amount++;
+                valuable[i] += valuable_amount;
 
-        int minimum_average = 0;
-        for (int i = 0; i < N; i++) {
-            if (averages[i] < averages[minimum_average]) {
-                minimum_average = i;
             }
         }
+        System.out.println(Arrays.toString(valuable));
+        for (int value : valuable) {
+            if (answer < value) answer = value;
+        }
 
-        System.out.println(minimum_average);
-
-        for (int i =0; i<prefix.length; i++){
-            if (intervals[minimum_average][0] <= i && i < intervals[minimum_average][1]){
+        for (int i =0; i<intervals.length; i++){
+            if (intervals[answer][0] <= i && i < intervals[answer][1]){
                 prefix[i]--;
             }
         }
         System.out.println(Arrays.toString(prefix));
-        int answer = 1;
+        int realanswer = 1;
         for (int i = 0; i<prefix.length; i++){
             if (prefix[i] > 0){
-                answer++;
+                realanswer++;
             }
         }
-        pw.println(answer);
+
+
+        pw.println(realanswer-1);
         pw.close();
     }
 
