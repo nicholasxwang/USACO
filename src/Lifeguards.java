@@ -44,7 +44,7 @@ public class Lifeguards {
         System.out.println(minimum_average);
 
         for (int i =0; i<prefix.length; i++){
-            if (intervals[minimum_average][0]-1 <= i && i < intervals[minimum_average][1]){
+            if (intervals[minimum_average][0] <= i && i < intervals[minimum_average][1]){
                 prefix[i]--;
             }
         }
