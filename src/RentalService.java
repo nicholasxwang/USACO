@@ -1,54 +1,80 @@
-import java.io.*; import java.util.*;
+import java.io.*;
+import java.util.*;
 public class RentalService {
-
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new java.io.InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new FileReader("rental.in"));
+        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("rental.out")));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
-        int R = Integer.parseInt(st.nextToken());
-        int[] cows = new int[N];
-        int[][] buy = new int[M][2];
-        int[] rent = new int[R];
-        for (int i = 0; i<N; i++){
-            cows[i] = Integer.parseInt(br.readLine());
-        }
-        for (int i = 0; i<M; i++){
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
+        int r = Integer.parseInt(st.nextToken());
+        int[] milkProduced = new int[n];
+        for(int i = 0; i < n; i++) { milkProduced[i] = Integer.parseInt(br.readLine());}
+        sort(milkProduced);
+        Shop[] shops = new Shop[m];
+        for(int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
-            buy[i][0] = Integer.parseInt(st.nextToken())-1;
-            buy[i][1] = Integer.parseInt(st.nextToken())-1;
+            shops[i] = new Shop(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
         }
-        for (int i = 0; i<R; i++){
-            rent[i] = Integer.parseInt(br.readLine());
-        }
-        Arrays.sort(cows); //sort
-        Arrays.sort(rent); //sort
-        Arrays.sort(buy, new Comparator<int[]>() {
-            public int compare(int[] a, int[] b) {
-                return a[1] - b[1];
+        Arrays.sort(shops);
+        long[] maxProfit = new long[n+1];
+        {
+            int index = 0;
+            for(int i = 0; i < n; i++) {
+                maxProfit[i+1] = maxProfit[i];
+                while(index < m && milkProduced[i] > 0) {
+                    int use = Math.min(milkProduced[i], shops[index].quantity);
+                    maxProfit[i+1] += use * (long)shops[index].price;
+                    milkProduced[i] -= use;
+                    shops[index].quantity -= use;
+                    if(shops[index].quantity == 0) {
+                        index++;
+                    }
+                }
             }
-        });
-        Collections.reverse(Arrays.asList(cows)); //reverse
-
-
-        //find the lowest price time
-
-        int total_gallons = 0;
-        for (int i = 0; i<cows.length; i++){
-            if (i < (cows.length - rent.length)){
-                //default to choosing buy
-                int gallons_produced = cows[i];
-                total_gallons += gallons_produced;
-                continue;
-            }
-            int gallons_produced = cows[i];
-            int rent_price = rent[i];
-
-
         }
-        //65+69 =
-
-
-
+        int[] rental = new int[r];
+        for(int i = 0; i < r; i++) {
+            rental[i] = Integer.parseInt(br.readLine());
+        }
+        sort(rental);
+        {
+            int a = n-1;
+            int rI = 0;
+            long rentalSoFar = 0;
+            while(a >= 0 && rI < r) {
+                rentalSoFar += rental[rI];
+                maxProfit[a] += rentalSoFar;
+                rI++;
+                a--;
+            }
+        }
+        long ret = 0;
+        for(long out: maxProfit) {
+            ret = Math.max(ret, out);
+        }
+        pw.println(ret);
+        pw.close();
     }
+
+    public static void sort(int[] l) {
+        Arrays.sort(l);
+        for(int i = 0; i < l.length-1-i; i++) {
+            l[i] ^= l[l.length-1-i];
+            l[l.length-1-i] ^= l[i];
+            l[i] ^= l[l.length-1-i];
+        }
+    }
+
+    static class Shop implements Comparable<Shop> {
+        public int quantity, price;
+        public Shop(int a, int b) {
+            quantity=a;
+            price=b;
+        }
+        public int compareTo(Shop s) {
+            return s.price - price;
+        }
+    }
+
 }

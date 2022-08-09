@@ -1,27 +1,26 @@
-import java.util.*; import java.io.*;
+import java.io.*; import java.util.*;
 public class BovineShuffle {
-    public static void main(String[] args) throws IOException{
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader("shuffle.in"));
-        int N = Integer.parseInt(br.readLine());
+        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("shuffle.out")));
+        int n = Integer.parseInt(br.readLine());
+        int[] to = new int[n];
+        int[] parent = new int[n];
         StringTokenizer st = new StringTokenizer(br.readLine());
-        HashSet<Integer> positions = new HashSet<Integer>();
-        int[] sources = new int[N];
-        for (int i = 0; i<N; i++){
-            int value = Integer.parseInt(st.nextToken());
-            positions.add(value);
-            sources[i] = value;
+        for(int i = 0; i < n; i++) {
+            to[i] = Integer.parseInt(st.nextToken())-1;
+            parent[to[i]]++;
         }
-        Queue<Integer> queue = new LinkedList<Integer>();
-        while (true){
-            for (int i = 0; i<sources.length; i++){
-                if (!positions.contains(sources[i]) || queue){
-                    queue.add(i);
-                }
-            }
+        int ret = n;
+        LinkedList<Integer> q = new LinkedList<Integer>();
+        for(int i = 0; i < n; i++) {
+            if(parent[i] == 0) { q.add(i); ret--;}
         }
-        PrintWriter pw = new PrintWriter(new FileWriter("shuffle.out"));
-        pw.println(positions.size());
+        while(!q.isEmpty()) {
+            int curr = q.removeFirst();
+            if(--parent[to[curr]] == 0) { q.add(to[curr]); ret--; }
+        }
+        pw.println(ret);
         pw.close();
-
     }
 }
