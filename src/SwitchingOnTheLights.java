@@ -4,7 +4,19 @@ class RoomLocation{
     int y;
     public RoomLocation(int x, int y){ this.x = x;this.y = y; }
 }
+
 public class SwitchingOnTheLights {
+    public static void print_grid(int[][] grid){
+        for(int i = 0; i < grid.length; i++){
+            for(int j = 0; j < grid[0].length; j++){
+                System.out.print(grid[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println();
+        System.out.println();
+    }
     public static int twod_to_one(int n, int i, int j) {
         return i * n + j;
     }
@@ -13,6 +25,28 @@ public class SwitchingOnTheLights {
         ret[0] = i / n;
         ret[1] = i % n;
         return ret;
+    }
+//    static int accessible_from_origin(int[][] grid, int n, int i, int j) {
+//        int origin = 0;
+//        int point = twod_to_one(n, i, j);
+//
+//    }
+    //problem: not all points are accessible from the origin
+    //we could do another floodfill orrr
+    public static ArrayList<Integer> accessible(int[][] grid){
+        HashSet<Integer> accessible = new HashSet<Integer>();
+        for (int i = 0; i<grid.length; i++){
+            for (int j = 0; j<grid[0].length; j++){
+                if (grid[i][j] == 1){
+                    accessible.add(twod_to_one(grid.length, i-1, j));
+                    accessible.add(twod_to_one(grid.length, i+1, j));
+                    accessible.add(twod_to_one(grid.length, i, j+1));
+                    accessible.add(twod_to_one(grid.length, i, j-1));
+                    accessible.add(twod_to_one(grid.length, i, j));
+                }
+            }
+        }
+        return new ArrayList<Integer>(accessible);
     }
     static int floodFill(int[][] rooms, int N, int x, int y, int[][]  matrix) {
         Vector<RoomLocation> queue = new Vector<>();
@@ -24,11 +58,14 @@ public class SwitchingOnTheLights {
             queue.remove(queue.size() - 1);
             int current_RoomLocationvalue = twod_to_one(N, currPixel.x, currPixel.y);
             for (int i = 0; i<N*N; i++){
-                if (matrix[current_RoomLocationvalue][i] == 1 && rooms[i/N][i%N] == 0) {
+                ArrayList<Integer> accessible = accessible(rooms);
+                if (matrix[current_RoomLocationvalue][i] == 1 && rooms[i/N][i%N] == 0 && accessible.contains(i)) {
+
                     int[] next_point = one_to_twod(i, N);
                     rooms[next_point[0]][next_point[1]] = 1;
                     queue.add(new RoomLocation(next_point[0], next_point[1]));
                     changes++;
+                    //print_grid(rooms);
                 }
             }
 
@@ -53,17 +90,19 @@ public class SwitchingOnTheLights {
             matrix[giver][receiver] = 1;
         }
         int[][] rooms = new int[N][N];
+        int answer= 1;
         while (true){
             int changes = floodFill(rooms, N, 0, 0, matrix) ;
+
+            answer += changes;
             if (changes == 0) break;
         }
-//        System.out.println(Arrays.deepToString(rooms));
-        int answer= 0;
-        for (int i = 0; i<N; i++){
-            for (int j = 0; j<N; j++){
-                if (rooms[i][j] == 1) answer++;
-            }
-        }
+        //print_grid(rooms);
+//        for (int i = 0; i<N; i++){
+//            for (int j = 0; j<N; j++){
+//                if (rooms[i][j] == 1) answer++;
+//            }
+//        }
         pw.println(answer);
         pw.close();
 
