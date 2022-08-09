@@ -8,7 +8,7 @@ public class LoanRepayment {
                 long leftover = (N-g + m-1) / m;
                 return leftover <= k;
             }
-            g+= y;
+            //g+= y;
             long maxmatch = N - x*y;
             long numdays = (maxmatch - g) / y + 1;
             if(numdays > k) numdays = k;
@@ -24,7 +24,7 @@ public class LoanRepayment {
         long N = Long.parseLong(st.nextToken());
         long K = Long.parseLong(st.nextToken());
         long M = Long.parseLong(st.nextToken());
-        long low = 0;
+        long low = 1;
         long high = 1000000000000L;
         long mid = 0;
         while (low < high){
@@ -39,7 +39,7 @@ public class LoanRepayment {
 
         //System.out.println(low-1);
         PrintWriter pw = new PrintWriter(new File("loan.out"));
-        pw.println(low-1);
+        pw.println(low);
         pw.close();
 
 
