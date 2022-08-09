@@ -26,21 +26,21 @@ public class LoanRepayment {
         long M = Long.parseLong(st.nextToken());
         long low = 0;
         long high = 1000000000000L;
-        //long high = 100L;
         long mid = 0;
         while (low < high){
             mid = (low + high + 1)/2;
             if (valid(N, K, M, mid)){
-//                high = mid;
                low = mid;
             }
             else {
-//                low = mid-1;
                 high = mid-1;
             }
         }
 
-        System.out.println(mid);
+        //System.out.println(low-1);
+        PrintWriter pw = new PrintWriter(new File("loan.out"));
+        pw.println(low-1);
+        pw.close();
 
 
     }
