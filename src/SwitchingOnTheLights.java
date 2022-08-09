@@ -1,4 +1,9 @@
 import java.util.*; import java.io.*;
+class RoomLocation{
+    int x;
+    int y;
+    public RoomLocation(int x, int y){ this.x = x;this.y = y; }
+}
 public class SwitchingOnTheLights {
     public static int twod_to_one(int n, int i, int j) {
         return i * n + j;
@@ -9,25 +14,24 @@ public class SwitchingOnTheLights {
         ret[1] = i % n;
         return ret;
     }
-    static boolean isValid(int[][] screen, int N, int x, int y, int old_x, int old_y, int[][] matrix) {
-        int new_value = twod_to_one(N, x, y);
-        int old_value = twod_to_one(N, old_x, old_y);
-        return  (!(x < 0 || x >= N || y < 0 || y >= N  || matrix[old_value][new_value] == 0));
-    }
     static int floodFill(int[][] rooms, int N, int x, int y, int[][]  matrix) {
-        Vector<Point_> queue = new Vector<>();
+        Vector<RoomLocation> queue = new Vector<>();
         rooms[x][y] = 1;
-        queue.add(new Point_(x, y));
+        queue.add(new RoomLocation(x, y));
         int changes = 0;
         while (queue.size() > 0) {
-            Point_ currPixel = queue.get(queue.size() - 1);
+            RoomLocation currPixel = queue.get(queue.size() - 1);
             queue.remove(queue.size() - 1);
-            int posX = currPixel.x;
-            int posY = currPixel.y;
-            if (isValid(rooms, N, posX + 1, posY, posX, posY, matrix)) { rooms[posX + 1][posY] = 1; queue.add(new Point_(posX + 1, posY)); changes++;}
-            if (isValid(rooms, N, posX - 1, posY, posX, posY, matrix)) { rooms[posX - 1][posY] = 1; queue.add(new Point_(posX - 1, posY)); changes++;}
-            if (isValid(rooms, N, posX, posY + 1, posX, posY, matrix)) { rooms[posX][posY + 1] = 1; queue.add(new Point_(posX, posY + 1)); changes++;}
-            if (isValid(rooms, N, posX, posY - 1, posX, posY, matrix)) {rooms[posX][posY - 1] = 1; queue.add(new Point_(posX, posY - 1)); changes++;}
+            int current_RoomLocationvalue = twod_to_one(N, currPixel.x, currPixel.y);
+            for (int i = 0; i<N*N; i++){
+                if (matrix[current_RoomLocationvalue][i] == 1 && rooms[i/N][i%N] == 0) {
+                    int[] next_point = one_to_twod(i, N);
+                    rooms[next_point[0]][next_point[1]] = 1;
+                    queue.add(new RoomLocation(next_point[0], next_point[1]));
+                    changes++;
+                }
+            }
+
         }
         return changes;
     }
@@ -53,7 +57,15 @@ public class SwitchingOnTheLights {
             int changes = floodFill(rooms, N, 0, 0, matrix) ;
             if (changes == 0) break;
         }
-        System.out.println(Arrays.deepToString(rooms));
+//        System.out.println(Arrays.deepToString(rooms));
+        int answer= 0;
+        for (int i = 0; i<N; i++){
+            for (int j = 0; j<N; j++){
+                if (rooms[i][j] == 1) answer++;
+            }
+        }
+        pw.println(answer);
+        pw.close();
 
 
 
