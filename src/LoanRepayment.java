@@ -1,5 +1,23 @@
 import java.io.*; import java.util.*;
 public class LoanRepayment {
+    public static boolean valid(long N, long k, long m, long x){
+        long g = 0L;
+        while (k > 0 && g < N){
+            long y = (N-g)/(x);
+            if (y < m){
+                long leftover = (N-g + m-1) / m;
+                return leftover <= k;
+            }
+            g+= y;
+            long maxmatch = N - x*y;
+            long numdays = (maxmatch - g) / y + 1;
+            if(numdays > k) numdays = k;
+            g += y * numdays;
+            k -= numdays;
+
+        }
+        return g >= N;
+    }
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader("loan.in"));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -7,68 +25,22 @@ public class LoanRepayment {
         long K = Long.parseLong(st.nextToken());
         long M = Long.parseLong(st.nextToken());
         long low = 0;
-        long high = N/M;
-        high+=10;
-        long mid = -1;
-        ArrayList<Long> list = new ArrayList<Long>();
-//        list.add(-1);
-//        list.add(-1);
-        //contains two most recent;
-        while (true){
-            mid = (low + high)/2;
-            long current_total = 0;
-            long revolution = 0;
-            long formula;
-            while (current_total < N){
-                formula = (N-current_total)/(mid+1);
-                if (formula < M){
-                    formula = M;
-                }
-                current_total+= formula;
-                revolution++;
-
+        long high = 1000000000000L;
+        //long high = 100L;
+        long mid = 0;
+        while (low < high){
+            mid = (low + high + 1)/2;
+            if (valid(N, K, M, mid)){
+//                high = mid;
+               low = mid;
             }
-
-           // System.out.println(mid+" -> "+revolution);
-//            list.remove(0);
-            list.add(mid);
-            if (list.size() > 3){
-                list.remove(0);
-            }
-            if (revolution == K ){
-                break;
-            }
-
-            else if (revolution < K ) // x is on the right side
-                low = mid + 1;
-
-            else                  // x is on the left side
-                high = mid - 1;
-        }
-        long var1 = Math.min(list.get(0), list.get(1));
-        long var2 = Math.max(list.get(0), list.get(1));
-
-        for (long min = var2; min >= var1; min--){
-            long current_total = 0;
-            long revolution = 0;
-            long formula;
-            while (current_total < N){
-                formula = (N-current_total)/(mid+1);
-                if (formula < M){
-                    formula = M;
-                }
-                current_total+= formula;
-                revolution++;
-
-            }
-            if (revolution == K){
-                System.out.println(min);
-                PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("loan.out")));
-                pw.println(min);
-                pw.close();
-                break;
+            else {
+//                low = mid-1;
+                high = mid-1;
             }
         }
+
+        System.out.println(mid);
 
 
     }

@@ -1,51 +1,55 @@
 import java.util.*; import java.io.*;
 public class RectangularPasture {
-    public static boolean valid_pair(int x1, int y1, int x2, int y2, int middle_x, int middl_y){
-        return !(x1 <= middle_x && middle_x <= x2 && y1 <= middl_y && middl_y <= y2);
+    public static int getSum(int[][] sums, int from_x, int to_x, int from_y, int to_y) {
+        return sums[to_x][to_y] - sums[from_x - 1][to_y] - sums[to_x][from_y - 1] + sums[from_x - 1][from_y - 1];
     }
+
     public static void main(String[] args) throws IOException {
+        int[][] sums;
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int N = Integer.parseInt(br.readLine());
-        int[][] points = new int[N][2];
-        for (int i = 0; i<N; i++){
+        int n = Integer.parseInt(br.readLine());
+        int[] xs = new int[n];
+        int[] ys = new int[n];
+        Integer[] cows = new Integer[n];
+        for (int j = 0; j < n; j++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
-            int A = Integer.parseInt(st.nextToken());
-            int B = Integer.parseInt(st.nextToken());
-//            points[i][0] = A - 1;
-//            points[i][1] = B - 1;
-            points[i][0] = A;
-            points[i][1] = B;
+            xs[j] = Integer.parseInt(st.nextToken());
+            ys[j] = Integer.parseInt(st.nextToken());
+            cows[j] = j;
         }
-
-        ArrayList<Integer[]> pairs = new ArrayList<Integer[]>();
-        for (int i = 0; i<N; i++){
-            for (int j = i+1; j<N; j++) {
-                boolean valid_pair = true;
-                for (int k = 0; k<N; k++){
-                    if (k== i || k==j ) continue;
-                    if (!valid_pair(points[i][0], points[i][1], points[j][0], points[j][1], points[k][0], points[k][1])){
-                        valid_pair = false;
-                        System.out.println("("+points[i][0]+","+points[i][1]+") and ("+points[j][0]+","+points[j][1]+") are false because of ("+points[k][0]+","+points[k][1]+")");
-                        break;
-                    }
+        Arrays.sort(cows, Comparator.comparingInt(j -> xs[j]));
+        for (int x = 1; x <= n; x++) {
+            xs[cows[x - 1]] = x;
+        }
+        Arrays.sort(cows, Comparator.comparingInt(j -> ys[j]));
+        for (int y = 1; y <= n; y++) {
+            ys[cows[y - 1]] = y;
+        }
+        sums = new int[n + 1][n + 1];
+        for (int j = 0; j < n; j++) {
+            sums[xs[j]][ys[j]]++;
+        }
+        for (int x = 0; x <= n; x++) {
+            for (int y = 0; y <= n; y++) {
+                if (x > 0) {
+                    sums[x][y] += sums[x - 1][y];
                 }
-                if (valid_pair){
-                    pairs.add(new Integer[]{points[i][0], points[i][1], points[j][0], points[j][1]});
+                if (y > 0) {
+                    sums[x][y] += sums[x][y - 1];
+                }
+                if (x > 0 && y > 0) {
+                    sums[x][y] -= sums[x - 1][y - 1];
                 }
             }
         }
-        System.out.println(pairs);
-
-        for (int i = 0; i<pairs.size(); i++){
-            int lower_x = Math.min(pairs.get(i)[0], pairs.get(i)[2]);
-            int upper_x = Math.max(pairs.get(i)[0], pairs.get(i)[2]);
-            int lower_y = Math.min(pairs.get(i)[1], pairs.get(i)[3]);
-            int upper_y = Math.max(pairs.get(i)[1], pairs.get(i)[3]);
-            for (int j = 0; j<N; j++){
-                
-
+        long answer = n + 1;
+        for (int j = 0; j < n; j++) {
+            for (int k = j + 1; k < n; k++) {
+                answer += getSum( sums, Math.min(xs[j], xs[k]), Math.max(xs[j], xs[k]), 1, Math.min(ys[j], ys[k]))
+                        * getSum(sums, Math.min(xs[j], xs[k]), Math.max(xs[j], xs[k]), Math.max(ys[j], ys[k]), n);
             }
         }
+        System.out.println(answer);
 
-    }
 }
+    }
