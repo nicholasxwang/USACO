@@ -14,7 +14,7 @@ public class HighCardWins {
         for (int i = N*2; i>=1; i--){
             if (elsie.size() > comparing_index && elsie.get(comparing_index)!=i){
                 bessie.add(i);
-            }else if (elsie.size() - 1 ==  comparing_index && elsie.get(elsie.size()-1) != i){
+            }else if (elsie.size() - 1 ==  comparing_index){
                 bessie.add(i);
             }
             else{
