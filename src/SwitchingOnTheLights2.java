@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.*;
 public class SwitchingOnTheLights2 {
+    static int[][] on;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader("lightson.in"));
         PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("lightson.out")));
@@ -8,7 +9,7 @@ public class SwitchingOnTheLights2 {
         int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
         switches = new ArrayList[n][n];
-        on = new boolean[n][n];
+        on = new int[n][n];
         visited = new boolean[n][n];
         for(int i = 0; i < n; i++) {
             for(int j = 0; j < n; j++) {
@@ -25,35 +26,47 @@ public class SwitchingOnTheLights2 {
         }
         LinkedList<Pair> q = new LinkedList<Pair>();
         q.add(new Pair(0, 0));
-        on[0][0] = true;
-        // start by searching the top-left corner
+        on[0][0] = 1;
         search(0, 0);
         int ret = 0;
-        for(boolean[] row: on) {
-            for(boolean col: row) {
-                if(col) {
+        for(int[] row: on) {
+            for(int col: row) {
+                if(col == 1) {
                     ret++;
                 }
             }
         }
+        print_grid(on);
         pw.println(ret);
         pw.close();
     }
 
-    static boolean[][] on;
     static boolean[][] visited;
     static int[] dx = new int[]{-1,1,0,0};
     static int[] dy = new int[]{0,0,-1,1};
     static ArrayList<Pair>[][] switches;
 
+    public static void print_grid(int[][] grid){
+        for(int i = 0; i < grid.length; i++){
+            for(int j = 0; j < grid[0].length; j++){
+                System.out.print(grid[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println();
+        System.out.println();
+    }
+
     public static void search(int x, int y) {
+        print_grid(on);
         // if we've already searched this square, don't do it again to save time
         if(isVisited(x, y)) return;
         visited[x][y] = true;
         for(Pair next: switches[x][y]) {
             // step 1 - turn on all squares that Bessie can
-            if(!on[next.x][next.y]) {
-                on[next.x][next.y] = true;
+            if(on[next.x][next.y] != 1) {
+                on[next.x][next.y] = 1;
                 if(hasVisitedNeighbor(next.x, next.y)) {
                     // this square is next to one Bessie can visit, so go search it
                     search(next.x, next.y);
@@ -87,7 +100,7 @@ public class SwitchingOnTheLights2 {
      * Returns true if and only if square (x, y) is on.
      */
     public static boolean isOn(int x, int y) {
-        return x >= 0 && x < on.length && y >= 0 && y < on[x].length && on[x][y];
+        return x >= 0 && x < on.length && y >= 0 && y < on[x].length && on[x][y] == 1;
     }
 
     /*

@@ -59,13 +59,13 @@ public class SwitchingOnTheLights {
             int current_RoomLocationvalue = twod_to_one(N, currPixel.x, currPixel.y);
             for (int i = 0; i<N*N; i++){
                 ArrayList<Integer> accessible = accessible(rooms);
-                if (matrix[current_RoomLocationvalue][i] == 1 && rooms[i/N][i%N] == 0 && accessible.contains(i)) {
+                if (matrix[current_RoomLocationvalue][i] == 1 && rooms[i/N][i%N] == 0){ //&& accessible.contains(i)) {
 
                     int[] next_point = one_to_twod(i, N);
                     rooms[next_point[0]][next_point[1]] = 1;
                     queue.add(new RoomLocation(next_point[0], next_point[1]));
                     changes++;
-                    //print_grid(rooms);
+                    print_grid(rooms);
                 }
             }
 
@@ -94,15 +94,15 @@ public class SwitchingOnTheLights {
         while (true){
             int changes = floodFill(rooms, N, 0, 0, matrix) ;
 
-            answer += changes;
+            //answer += changes;
             if (changes == 0) break;
         }
-        //print_grid(rooms);
-//        for (int i = 0; i<N; i++){
-//            for (int j = 0; j<N; j++){
-//                if (rooms[i][j] == 1) answer++;
-//            }
-//        }
+        for (int i = 0; i<N; i++){
+            for (int j = 0; j<N; j++){
+                if (rooms[i][j] == 0) answer++;
+            }
+        }
+        print_grid(rooms);
         pw.println(answer);
         pw.close();
 
