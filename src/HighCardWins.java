@@ -21,16 +21,6 @@ public class HighCardWins {
                 comparing_index++;
             }
         }
-//        System.out.println(bessie);
-//        bessie.clear(); //dont forget this
-//        for (int i = N*2; i>=1; i--){
-//            if (!elsie.contains(i)){
-//                bessie.add(i);
-//            }else{
-//                comparing_index++;
-//            }
-//        }
-//        System.out.println(bessie);
 
         int answer = 0;
         while (!elsie.isEmpty() && !bessie.isEmpty()){
