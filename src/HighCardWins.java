@@ -1,27 +1,25 @@
 import java.io.*; import java.util.*;
-
 public class HighCardWins {
     public static void main(String[] args) throws IOException {
-        //BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedReader br = new BufferedReader(new FileReader("highcard.in"));
         int N = Integer.parseInt(br.readLine());
         ArrayList<Integer> elsie = new ArrayList<Integer>();
         ArrayList<Integer> bessie = new ArrayList<Integer>();
         for (int i = 0; i<N; i++){
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(st.nextToken());
+            int a = Integer.parseInt(br.readLine());
             elsie.add(a);
         }
+        Collections.sort(elsie, Collections.reverseOrder());
+        int comparing_index = 0;
         for (int i = N*2; i>=1; i--){
-            if (!elsie.contains(i)){
+            if (elsie.size() > comparing_index && elsie.get(comparing_index)!=i){
                 bessie.add(i);
+            }else{
+                comparing_index++;
             }
         }
-        Collections.sort(elsie, Collections.reverseOrder());
-        //Collections.sort(bessie, Collections.reverseOrder());
         int answer = 0;
         while (!elsie.isEmpty() && !bessie.isEmpty()){
-            //System.out.println(elsie + "\n\n" + bessie+"\n\n\n");
             if (bessie.get(0) > elsie.get(0)){
                 answer++;
                 bessie.remove(0);
