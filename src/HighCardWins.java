@@ -14,10 +14,24 @@ public class HighCardWins {
         for (int i = N*2; i>=1; i--){
             if (elsie.size() > comparing_index && elsie.get(comparing_index)!=i){
                 bessie.add(i);
-            }else{
+            }else if (elsie.size() - 1 ==  comparing_index && elsie.get(elsie.size()-1) != i){
+                bessie.add(i);
+            }
+            else{
                 comparing_index++;
             }
         }
+//        System.out.println(bessie);
+//        bessie.clear(); //dont forget this
+//        for (int i = N*2; i>=1; i--){
+//            if (!elsie.contains(i)){
+//                bessie.add(i);
+//            }else{
+//                comparing_index++;
+//            }
+//        }
+//        System.out.println(bessie);
+
         int answer = 0;
         while (!elsie.isEmpty() && !bessie.isEmpty()){
             if (bessie.get(0) > elsie.get(0)){
