@@ -40,12 +40,13 @@ public class Convention {
                     current_bus = current_bus - C;
                     bus_count++;
                     int bus_max_wait_time = cows.get(i) - cows.get(i-C+1);
-                    if (bus_max_wait_time >  mid){
-                        full = true;
-                        break;
-                    }
                     if (bus_max_wait_time > max_wait_time){
                         max_wait_time = bus_max_wait_time;
+                    }
+                    if (bus_max_wait_time >  mid){
+                        full = true;
+                        if (i == N-1) full = false;
+                        break;
                     }
                 }
                 if (bus_count >= M){
@@ -54,7 +55,8 @@ public class Convention {
                     break;
                 }
             }
-            if (mid <= max_wait_time){
+
+            if (mid >= max_wait_time){
                 full = true;
             }
             System.out.println("low: " + low + " high: " + high + " mid: " + mid+" full: " + full+" " +max_wait_time);
@@ -62,7 +64,7 @@ public class Convention {
                 break;
 
             //else if (!full) // x is on the right side
-            else if (full)
+            else if (!full)
                 low = mid + 1;
 
             else                  // x is on the left side
