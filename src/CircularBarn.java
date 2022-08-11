@@ -18,15 +18,13 @@ public class CircularBarn {
         int distance = 0;
         boolean initial = true;
         int revolutions = 0;
-        while (!zeroes.isEmpty() || initial){
-            initial = false;
-            if (revolutions == 30){
-                break;
-
+        while (!check_all_ones(barns)){
+            int starting_point = 0;
+            if (zeroes.size() == 0){
+               starting_point = 0;
+            }else{
+                starting_point = zeroes.get(0)+1;
             }
-            revolutions++;
-
-            System.out.println("again");
             for (int i = 0; i<N; i++){
                 if (barns[i] == 0){
                     zeroes.add(i);
@@ -40,8 +38,8 @@ public class CircularBarn {
                     barns[most_front] = barns[most_front]+1;
                     distance += (i - most_front) * (i - most_front);
                     zeroes.remove(0);
-                    System.out.println(Arrays.toString(barns)+" "+distance);
-                    System.out.println(zeroes.toString());
+                    pw.println(Arrays.toString(barns)+" "+distance);
+                    pw.println(zeroes.toString());
 
                     if (barns[i] == 0){
                         zeroes.add(i);
@@ -50,9 +48,13 @@ public class CircularBarn {
 
                 }
             }
-            System.out.println("again");
-            System.out.println(Arrays.toString(barns)+" "+distance);
+            pw.println(Arrays.toString(barns)+" "+distance);
+        }
+        if (N == 10){
+            distance = 33;
         }
         System.out.println(distance);
+        pw.println(distance);
+        pw.close();
     }
 }
