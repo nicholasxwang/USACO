@@ -16,7 +16,16 @@ public class CircularBarn {
         }
         ArrayList<Integer> zeroes = new ArrayList<Integer>();
         int distance = 0;
-        while (!check_all_ones(barns)){
+        boolean initial = true;
+        int revolutions = 0;
+        while (!zeroes.isEmpty() || initial){
+            initial = false;
+            if (revolutions == 30){
+                break;
+
+            }
+            revolutions++;
+
             System.out.println("again");
             for (int i = 0; i<N; i++){
                 if (barns[i] == 0){
@@ -37,6 +46,7 @@ public class CircularBarn {
                     if (barns[i] == 0){
                         zeroes.add(i);
                     }
+                    break;
 
                 }
             }
