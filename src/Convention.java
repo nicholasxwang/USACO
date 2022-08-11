@@ -27,13 +27,14 @@ public class Convention {
         Collections.sort(cows);
         int mid = 0;
         int revolutions = 0;
+        int max_wait_time = 0;
         while (low != high ){
             revolutions++;
             mid = (low + high) / 2;
             int bus_count = 0;
             int current_bus = 0;
             boolean full = false;
-            int max_wait_time = 0;
+            max_wait_time = 0;
             for (int i = 0; i<N; i++){
                 current_bus ++;
                 if (current_bus >= C){
@@ -59,8 +60,8 @@ public class Convention {
             if (mid >= max_wait_time){
                 full = true;
             }
-            System.out.println("low: " + low + " high: " + high + " mid: " + mid+" full: " + full+" " +max_wait_time);
-            if (revolutions>30) //|| high <-1)
+            //System.out.println("low: " + low + " high: " + high + " mid: " + mid+" full: " + full+" " +max_wait_time);
+            if (revolutions>30 || !full) //|| high <-1)
                 break;
 
             //else if (!full) // x is on the right side
@@ -70,7 +71,9 @@ public class Convention {
             else                  // x is on the left side
                 high = mid - 1;
         }
-        System.out.println(mid);
+        //System.out.println(max_wait_time);
+        pw.println(max_wait_time);
+        pw.close();
 
     }
 }
