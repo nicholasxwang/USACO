@@ -35,26 +35,34 @@ public class Convention {
             boolean full = false;
             int max_wait_time = 0;
             for (int i = 0; i<N; i++){
-                if (current_bus > C){
-                    current_bus = 0\;
+                current_bus ++;
+                if (current_bus >= C){
+                    current_bus = current_bus - C;
                     bus_count++;
                     int bus_max_wait_time = cows.get(i) - cows.get(i-C+1);
+                    if (bus_max_wait_time >  mid){
+                        full = true;
+                        break;
+                    }
                     if (bus_max_wait_time > max_wait_time){
                         max_wait_time = bus_max_wait_time;
                     }
                 }
-                if (bus_count > M){
+                if (bus_count >= M){
                     full = true;
                     max_wait_time = Integer.MAX_VALUE;
                     break;
                 }
-                current_bus ++;
+            }
+            if (mid <= max_wait_time){
+                full = true;
             }
             System.out.println("low: " + low + " high: " + high + " mid: " + mid+" full: " + full+" " +max_wait_time);
-            if (revolutions>20)
+            if (revolutions>30) //|| high <-1)
                 break;
 
-            else if (full) // x is on the right side
+            //else if (!full) // x is on the right side
+            else if (full)
                 low = mid + 1;
 
             else                  // x is on the left side
