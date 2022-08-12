@@ -18,23 +18,57 @@ public class Convention2{
         BufferedReader br = new BufferedReader(new FileReader("convention2.in"));
         PrintWriter pw = new PrintWriter(new FileWriter("convention2.out"));
         int N = Integer.parseInt(br.readLine());
-        int[][] cows = new int[N][2];
         PriorityQueue<GrassEatingCows> pq = new PriorityQueue<GrassEatingCows>(new Comparator<GrassEatingCows>() {
             public int compare(GrassEatingCows g1, GrassEatingCows g2) {
                 if (g1.priority == g2.priority) return g1.arrival - g2.arrival;
                 return g1.priority - g2.priority;
             }
         });
-
+        int[][] rawcows = new int[N][2];
+        GrassEatingCows[] cows = new GrassEatingCows[N];
         for (int i = 0; i<N; i++){
             String[] s = br.readLine().split(" ");
-            cows[i][0] = Integer.parseInt(s[0]);
-            cows[i][1] = Integer.parseInt(s[1]);
-            GrassEatingCows cow = new GrassEatingCows(i, cows[i][0], cows[i][1]);
-            pq.add(cow);
+            rawcows[i][0] = Integer.parseInt(s[0]);
+            rawcows[i][1] = Integer.parseInt(s[1]);
+            GrassEatingCows cow = new GrassEatingCows(i, rawcows[i][0], rawcows[i][1]);
+            cows[i] = cow;
+        }
+        int time = 0;
+        int first_arrival = 0;
+        int delayed = 0;
+        for (int i = 0; i<N; i++){
+            if (cows[i].arrival < cows[first_arrival].arrival && cows[i].priority > cows[first_arrival].priority) first_arrival =  i;
+        }
+        pq.add(cows[first_arrival]);
+        ArrayList<Integer> processed = new ArrayList<Integer>();
+        processed.add(first_arrival);
+        while (!pq.isEmpty()){
+            System.out.println("Time: ["+" "+time+" "+"]");
+            GrassEatingCows cow = pq.poll();
+            first_arrival = -1;
+            for (int i = 0; i<N; i++){
+                if (processed.contains(i)) continue;
+                if (first_arrival == -1) first_arrival = i;
+                if (cows[i].arrival < cows[first_arrival].arrival && cows[i].priority > cows[first_arrival].priority) first_arrival =  i;
+            }
+            if (first_arrival != -1) {
+                pq.add(cows[first_arrival]);
+                processed.add(first_arrival);
+            }
+//            time = cow.arrival + cow.time_taken - 1;
+//            int time_waited = time - cow.arrival - cow.time_taken;
+//            if (time_waited > delayed){
+//                delayed = time_waited;
+//            }
+//            time++;
+            time = time + cow.time_taken - 1;
+            int time_waited = time - cow.arrival - cow.time_taken + 1;
+            if (time_waited > delayed){
+                delayed = time_waited;
+            }
+
         }
         System.out.println(pq);
-        int delayed = 0;
 
 
         pw.println(delayed);

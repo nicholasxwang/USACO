@@ -8,7 +8,6 @@ class theEdge {
 }
 public class WormholeSort3 {
     static void dfs(int curr, int label, int minW, LinkedList<theEdge>[] edges, int[] component) {
-        //int[] component;
         if(component[curr] == label) return;
         component[curr] = label;
         for(theEdge child: edges[curr]) if(child.w >= minW) dfs(child.d, label, minW, edges, component);
