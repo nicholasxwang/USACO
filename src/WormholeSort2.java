@@ -58,7 +58,7 @@ public class WormholeSort2 {
         }
         return true;
     }
-    
+
     static class Edge {
         int d, w;
         public Edge(int d, int w) {
