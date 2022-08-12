@@ -56,9 +56,11 @@ public class Convention2{
             if (first_arrival != -1) {
                 pq.add(cows[first_arrival]);
                 processed.add(first_arrival);
-                int time_waited = time - cows[first_arrival].arrival - cows[first_arrival].time_taken + 1;
-                time = cows[first_arrival].arrival;
-                time = time + cows[first_arrival].time_taken - 1;
+            }
+            if (cow != null) {
+                int time_waited = time - cow.arrival;
+                time = cow.arrival;
+                time = time + cow.time_taken - 1;
                 System.out.println(first_arrival + 1);
 
 
