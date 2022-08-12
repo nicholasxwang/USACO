@@ -1,53 +1,42 @@
 import java.io.*; import java.util.*;
+class GrassEatingCows{
+    int priority;
+    int time_taken;
+    int arrival;
+    public GrassEatingCows(int priority, int arrival, int time_taken){
+        this.priority = priority;
+        this.time_taken = time_taken;
+        this.arrival = arrival;
+    }
+    // custom print
+    public String toString(){
+        return "priority: " + priority + " time_taken: " + time_taken + " arrival: " + arrival;
+    }
+}
 public class Convention2{
     public static void main(String[] args) throws IOException{
-//        BufferedReader br = new BufferedReader(new java.io.InputStreamReader(System.in));
         BufferedReader br = new BufferedReader(new FileReader("convention2.in"));
-//        PrintWriter pw = new PrintWriter(System.out);
         PrintWriter pw = new PrintWriter(new FileWriter("convention2.out"));
         int N = Integer.parseInt(br.readLine());
         int[][] cows = new int[N][2];
-        ArrayList<Integer> significant = new ArrayList<>();
+        PriorityQueue<GrassEatingCows> pq = new PriorityQueue<GrassEatingCows>(new Comparator<GrassEatingCows>() {
+            public int compare(GrassEatingCows g1, GrassEatingCows g2) {
+                if (g1.priority == g2.priority) return g1.arrival - g2.arrival;
+                return g1.priority - g2.priority;
+            }
+        });
+
         for (int i = 0; i<N; i++){
             String[] s = br.readLine().split(" ");
             cows[i][0] = Integer.parseInt(s[0]);
             cows[i][1] = Integer.parseInt(s[1]);
-            significant.add(cows[i][0]);
-            //significant.add(cows[i][1]+cows[i][0]);
+            GrassEatingCows cow = new GrassEatingCows(i, cows[i][0], cows[i][1]);
+            pq.add(cow);
         }
-
-        int eaten_count = 0;
-        int timestamp = 0;
-        int current_finish = 0;
-        int early = 0;
+        System.out.println(pq);
         int delayed = 0;
-        while (eaten_count != N){
-            early++;
-            if (early == 10000){
-                break;
-            }
-            for (int i = 0; i<N; i++){
-                if (cows[i][0] == -1) continue;
-//                if (cows[i][0] <= timestamp && current_finish <= cows[i][1]){
-                if (cows[i][0] <= timestamp && current_finish <= timestamp){
-//                    if (cows[i][0] - timestamp > delayed) {
-                    if (timestamp  - cows[i][0] > delayed) {
-//                        delayed =  cows[i][0] - timestamp;
-                        delayed = timestamp - cows[i][0];
-                    }
 
-                    eaten_count++;
-                    current_finish = timestamp + cows[i][1];
-                    //System.out.println(i+" will start eating. ETA: "+current_finish);
-                    //prevent cow from eating twice
-                    cows[i][0] = -1;
 
-                }
-            }
-            timestamp++;
-            //System.out.println(timestamp);
-        }
-        //System.out.println(delayed);
         pw.println(delayed);
         pw.close();
 
