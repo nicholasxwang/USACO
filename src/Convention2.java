@@ -43,6 +43,7 @@ public class Convention2{
         ArrayList<Integer> processed = new ArrayList<Integer>();
         processed.add(first_arrival);
         System.out.println(first_arrival+1);
+        time = cows[first_arrival].arrival;
         while (!pq.isEmpty()){
             System.out.println("Time: "+time+"\n");
             GrassEatingCows cow = pq.poll();
@@ -51,16 +52,23 @@ public class Convention2{
                 if (processed.contains(i)) continue;
                 if (first_arrival == -1) first_arrival = i;
                 if (cows[i].arrival > time) continue;
-                if (cows[i].priority > cows[first_arrival].priority) first_arrival =  i;
+                if (time < cows[i].arrival && time < cows[first_arrival].arrival)
+                    if (cows[i].arrival < cows[first_arrival].arrival) first_arrival = i;
+                else if (cows[i].priority > cows[first_arrival].priority) first_arrival =  i;
             }
             if (first_arrival != -1) {
                 pq.add(cows[first_arrival]);
                 processed.add(first_arrival);
             }
             if (cow != null) {
-                int time_waited = time - cow.arrival;
-                time = cow.arrival;
-                time = time + cow.time_taken - 1;
+                int time_waited = 0;
+                if (cow.arrival < time)
+                    time_waited = time - cow.arrival;
+//                time = cow.arrival;
+                if (time < cow.arrival) time = cow.arrival;
+                time = time + cow.time_taken ;
+                System.out.println("Time: "+time+"\n");
+                System.out.println("Delayed: "+time_waited+"\n");
                 System.out.println(first_arrival + 1);
 
 
