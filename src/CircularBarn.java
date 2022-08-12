@@ -25,7 +25,7 @@ public class CircularBarn {
             }else{
                 starting_point = zeroes.get(0)+1;
             }
-            for (int i = 0; i<N; i++){
+            for (int i = N-1; i>=0; i--){
                 if (barns[i] == 0){
                     zeroes.add(i);
                 }else{
@@ -44,17 +44,19 @@ public class CircularBarn {
                     if (barns[i] == 0){
                         zeroes.add(i);
                     }
-                    break;
+                   // break;
 
                 }
             }
             pw.println(Arrays.toString(barns)+" "+distance);
         }
-        if (N == 10){
-            distance = 33;
-        }
+//        if (N == 10){
+//            distance = 33;
+//        }
         System.out.println(distance);
         pw.println(distance);
         pw.close();
+
     }
+
 }
