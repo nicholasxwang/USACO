@@ -44,30 +44,27 @@ public class Convention2{
         processed.add(first_arrival);
         System.out.println(first_arrival+1);
         while (!pq.isEmpty()){
-            System.out.println("Time: ["+" "+time+" "+"]");
+            System.out.println("Time: "+time+"\n");
             GrassEatingCows cow = pq.poll();
             first_arrival = -1;
             for (int i = 0; i<N; i++){
                 if (processed.contains(i)) continue;
                 if (first_arrival == -1) first_arrival = i;
-                if (cows[i].arrival < cows[first_arrival].arrival && cows[i].priority > cows[first_arrival].priority) first_arrival =  i;
+                if (cows[i].arrival > time) continue;
+                if (cows[i].priority > cows[first_arrival].priority) first_arrival =  i;
             }
             if (first_arrival != -1) {
                 pq.add(cows[first_arrival]);
                 processed.add(first_arrival);
+                int time_waited = time - cows[first_arrival].arrival - cows[first_arrival].time_taken + 1;
                 time = cows[first_arrival].arrival;
-                System.out.println(first_arrival+1);
-            }
-//            time = cow.arrival + cow.time_taken - 1;
-//            int time_waited = time - cow.arrival - cow.time_taken;
-//            if (time_waited > delayed){
-//                delayed = time_waited;
-//            }
-//            time++;
-            time = time + cow.time_taken - 1;
-            int time_waited = time - cow.arrival - cow.time_taken + 1;
-            if (time_waited > delayed){
-                delayed = time_waited;
+                time = time + cows[first_arrival].time_taken - 1;
+                System.out.println(first_arrival + 1);
+
+
+                if (time_waited > delayed) {
+                    delayed = time_waited;
+                }
             }
 
         }
