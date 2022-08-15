@@ -29,30 +29,34 @@ class Mountain{
 
 }
 public class MountainView {
-//    public static check_mountain9]
-
-    static float sign (MountainPoint p1, MountainPoint p2, MountainPoint p3) {
-        return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
-    }
-
-    static boolean PointInTriangle (MountainPoint pt, MountainPoint v1, MountainPoint v2, MountainPoint v3)
+    static double area(int x1, int y1, int x2, int y2,
+                       int x3, int y3)
     {
-        float d1, d2, d3;
-        boolean has_neg, has_pos;
+        return Math.abs((x1*(y2-y3) + x2*(y3-y1)+
+                x3*(y1-y2))/2.0);
+    }
+    static boolean PointInTriangle(int x1, int y1, int x2,
+                            int y2, int x3, int y3, int x, int y)
+    {
+        /* Calculate area of triangle ABC */
+        double A = area (x1, y1, x2, y2, x3, y3);
 
-        d1 = sign(pt, v1, v2);
-        d2 = sign(pt, v2, v3);
-        d3 = sign(pt, v3, v1);
+        /* Calculate area of triangle PBC */
+        double A1 = area (x, y, x2, y2, x3, y3);
 
-        has_neg = (d1 < 0) || (d2 < 0) || (d3 < 0);
-        has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0);
+        /* Calculate area of triangle PAC */
+        double A2 = area (x1, y1, x, y, x3, y3);
 
-        return !(has_neg && has_pos);
+        /* Calculate area of triangle PAB */
+        double A3 = area (x1, y1, x2, y2, x, y);
+
+        /* Check if sum of A1, A2 and A3 is same as A */
+        return (A == A1 + A2 + A3);
     }
 
     public static void main(String[] args) throws IOException{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+        BufferedReader br = new BufferedReader(new FileReader("mountains.in"));
+        PrintWriter pw = new PrintWriter("mountains.out");
         int N = Integer.parseInt(br.readLine());
         ArrayList<Mountain> mountains = new ArrayList<>();
         for (int i = 0; i<N; i++){
@@ -65,14 +69,15 @@ public class MountainView {
         boolean stable = false;
         while (!stable){
             boolean small_stable = true;
-            for (int  i =0; i<N; i++){
-               for (int j = 0; j<N; j++){
+            for (int  i =0; i<mountains.size(); i++){
+               for (int j = 0; j<mountains.size(); j++){
                    if (i==j) continue;
-                  if (!PointInTriangle(mountains.get(i).peak, mountains.get(j).peak, mountains.get(j).left, mountains.get(j).right) )
-                    small_stable = false;
-                    mountains.remove(i);
-                    System.out.println(i+" got eaten by "+j);
-                    break;
+                  if (PointInTriangle(mountains.get(j).peak.x, mountains.get(j).peak.y, mountains.get(j).left.x, mountains.get(j).left.y, mountains.get(j).right.x, mountains.get(j).right.y , mountains.get(i).peak.x, mountains.get(i).peak.y) ) {
+                      small_stable = false;
+                      //System.out.println(mountains.get(i) + " got eaten by " + mountains.get(j));
+                      mountains.remove(i);
+                      break;
+                  }
 
 
 
@@ -86,7 +91,8 @@ public class MountainView {
 
 
         }
-        System.out.println(mountains.size());
+        pw.println(mountains.size());
+        pw.close();
 
 
 
