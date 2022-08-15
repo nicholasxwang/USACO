@@ -1,8 +1,8 @@
 import java.io.*; import java.util.*;
 public class SecretCowCode {
    public static void main(String[] args) throws IOException{
-       BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-       PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+       BufferedReader br = new BufferedReader(new FileReader("cowcode.in"));
+       PrintWriter pw = new PrintWriter("cowcode.out");
        StringTokenizer st = new StringTokenizer(br.readLine());
        char[] original = st.nextToken().toCharArray();
        int N = Integer.parseInt(st.nextToken());
@@ -14,16 +14,17 @@ public class SecretCowCode {
        }
         boolean break_twice = false;
        while (true){
-           if (index == N-1 || break_twice){
-               System.out.println(array[N-1]);
+           if (index == N || break_twice){
+               pw.println(array[N-1]);
                break;
            }
            int stop = index-1;
            array[index] = array[index-1];
            index++;
            for (int i = 0; i<stop; i++){
-               if (index == N-1){
-                   System.out.println(array[N-1]);
+               if (index == N){
+                   //System.out.println(array[N-1]);
+                   break_twice = true;
                    break;
                }
                array[index] = array[i];
@@ -32,6 +33,7 @@ public class SecretCowCode {
            }
 
        }
+       pw.close();
 
 
 
