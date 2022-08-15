@@ -4,10 +4,10 @@ public class SecretCowCode {
        BufferedReader br = new BufferedReader(new FileReader("cowcode.in"));
        PrintWriter pw = new PrintWriter("cowcode.out");
        StringTokenizer st = new StringTokenizer(br.readLine());
-       char[] original = st.nextToken().toCharArray();
-       int N = Integer.parseInt(st.nextToken());
+       char[] original    = st.nextToken().toCharArray();
+       long N = Integer.parseInt(st.nextToken());
 
-       char[] array = new char[N];
+       char[] array = new char[(int) N];
        int index = original.length;
        for (int i = 0; i<original.length; i++){
            array[i] = original[i];
@@ -15,7 +15,7 @@ public class SecretCowCode {
         boolean break_twice = false;
        while (true){
            if (index == N || break_twice){
-               pw.println(array[N-1]);
+               pw.println(array[(int) (N-1)]);
                break;
            }
            int stop = index-1;
