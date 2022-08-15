@@ -47,24 +47,27 @@ public class MountainView {
             Mountain mtn = new Mountain(x, y);
             mountains.add(mtn);
         }
-        int count = 0;
-        while (count < 100000){
-            count++;
+        Collections.sort(mountains, new Comparator<Mountain>() {
+            public int compare(Mountain m1, Mountain m2) {
+                return m1.height - m2.height;
+            }
+        });
+        while (true){
             boolean small_stable = true;
             for (int  i =0; i<mountains.size(); i++){
                for (int j = 0; j<mountains.size(); j++){
                    if (i==j) continue;
                   if (PointInTriangle(mountains.get(j).peak.x, mountains.get(j).peak.y, mountains.get(j).left.x, mountains.get(j).left.y, mountains.get(j).right.x, mountains.get(j).right.y , mountains.get(i).peak.x, mountains.get(i).peak.y) ) {
                       small_stable = false;
-                      //System.out.println(mountains.get(i) + " got eaten by " + mountains.get(j));
+                      System.out.println(mountains.get(i) + " got eaten by " + mountains.get(j));
                       mountains.remove(i);
                       break;
                   }
                }
             }
-//            if (small_stable){
-//                break;
-//            }
+            if (small_stable){
+                break;
+            }
         }
         pw.println(mountains.size());
         pw.close();
