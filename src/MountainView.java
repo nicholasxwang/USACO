@@ -21,6 +21,10 @@ class Mountain{
         this.left = new MountainPoint(x-y, 0);
         this.right = new MountainPoint(x+y, 0);
     }
+    //custom print
+    public String toString(){
+        return " ("+this.peak.x+", "+this.peak.y+") ";
+    }
 
 
 }
@@ -61,12 +65,13 @@ public class MountainView {
         boolean stable = false;
         while (!stable){
             boolean small_stable = true;
-            for (int  i =0; i<mountains.size(); i++){
-               for (int j = 0; j<mountains.size(); j++){
+            for (int  i =0; i<N; i++){
+               for (int j = 0; j<N; j++){
                    if (i==j) continue;
                   if (!PointInTriangle(mountains.get(i).peak, mountains.get(j).peak, mountains.get(j).left, mountains.get(j).right) )
                     small_stable = false;
                     mountains.remove(i);
+                    System.out.println(i+" got eaten by "+j);
                     break;
 
 
