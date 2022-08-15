@@ -50,9 +50,13 @@ public class Convention2{
             first_arrival = -1;
             for (int i = 0; i<N; i++){
                 if (processed.contains(i)) continue;
-                if (first_arrival == -1) first_arrival = i;
                 if (cows[i].arrival > time) continue;
-                if (time < cows[i].arrival && time < cows[first_arrival].arrival)
+                if (first_arrival == -1) {
+                    first_arrival = i;
+                    continue;
+                }
+//                if (cows[i].arrival > time) continue;
+                if (time > cows[i].arrival && time < cows[first_arrival].arrival)
                     if (cows[i].arrival < cows[first_arrival].arrival) first_arrival = i;
                 else if (cows[i].priority > cows[first_arrival].priority) first_arrival =  i;
             }
