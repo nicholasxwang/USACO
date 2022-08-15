@@ -22,27 +22,31 @@ class TheGraph {
     }
 
 
-    public int bfs(Node startNode, Graph g) {
-        //Queue<Integer> bfsQueue = new PriorityQueue<Integer>() {
-        //};
-
-        Queue<Node> bfsQueue = new LinkedList<Node>();
+    public int bfs(TheGraph g) {
+        Queue<TheNode> bfsQueue = new LinkedList<TheNode>();
         ArrayList<Boolean> visited = new ArrayList<>();
-        int visCount = 0;
         for (int i = 0; i<g.nodes.size(); i++){
             visited.add(false);
         }
-        visited.set(startNode.id, true);
-        //bfsQueue.add(startNode.id);
-        bfsQueue.add(startNode);
+        int visCount = 0;
+        for (int i = 0; i<g.nodes.size(); i++){
+            if (g.nodes.get(i).neighbours.size() == 1){
+                g.nodes.get(i).P = 1;
+                visited.set(i, true);
+                visCount++;
+                bfsQueue.add(g.nodes.get(i));
+            }
+        }
+
 
         while (!bfsQueue.isEmpty()) {
-            Node currentNode = bfsQueue.peek();
+            TheNode currentNode = bfsQueue.peek();
             bfsQueue.remove();
 
-            for (Node neighbour : currentNode.neighbours) {
-                if (!visited.get(neighbour.id)) {
-                    visited.set(neighbour.id, true);
+            for (TheNode neighbour : currentNode.neighbours) {
+                if (!visited.get(neighbour.id-1)) {
+                    visited.set(neighbour.id-1, true);
+                    neighbour.P = currentNode.P + 1;
                     bfsQueue.add(neighbour);
                 }
             }
@@ -62,7 +66,7 @@ public class Cowtangion {
         int N = Integer.parseInt(br.readLine());
         ArrayList<TheNode> nodes = new ArrayList<TheNode>();
         for (int i = 0; i<N; i++){
-            nodes.add(new TheNode(i+1, 0, new ArrayList<TheNode>()));
+            nodes.add(new TheNode(i+1, Integer.MAX_VALUE, new ArrayList<TheNode>()));
         }
         for (int i = 0; i<N-1  ; i++){
             StringTokenizer st = new StringTokenizer(br.readLine());
@@ -74,7 +78,8 @@ public class Cowtangion {
         TheGraph g = new TheGraph(nodes);
 
 
-        System.out.println(g);
+        System.out.println(g.bfs(g));
+
 
 
 
