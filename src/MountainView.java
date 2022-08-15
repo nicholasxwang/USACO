@@ -25,34 +25,15 @@ class Mountain{
     public String toString(){
         return " ("+this.peak.x+", "+this.peak.y+") ";
     }
-
-
 }
 public class MountainView {
-    static double area(int x1, int y1, int x2, int y2,
-                       int x3, int y3)
-    {
-        return Math.abs((x1*(y2-y3) + x2*(y3-y1)+
-                x3*(y1-y2))/2.0);
-    }
-    static boolean PointInTriangle(int x1, int y1, int x2,
-                            int y2, int x3, int y3, int x, int y)
-    {
-        /* Calculate area of triangle ABC */
+    static double area(int x1, int y1, int x2, int y2, int x3, int y3)  { return Math.abs((x1*(y2-y3) + x2*(y3-y1)+x3*(y1-y2))/2.0); }
+    static boolean PointInTriangle(int x1, int y1, int x2, int y2, int x3, int y3, int x, int y) {
         double A = area (x1, y1, x2, y2, x3, y3);
-
-        /* Calculate area of triangle PBC */
         double A1 = area (x, y, x2, y2, x3, y3);
-
-        /* Calculate area of triangle PAC */
         double A2 = area (x1, y1, x, y, x3, y3);
-
-        /* Calculate area of triangle PAB */
         double A3 = area (x1, y1, x2, y2, x, y);
-
-        /* Check if sum of A1, A2 and A3 is same as A */
-        return (A == A1 + A2 + A3);
-    }
+        return (A == A1 + A2 + A3);}
 
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new FileReader("mountains.in"));
@@ -66,8 +47,9 @@ public class MountainView {
             Mountain mtn = new Mountain(x, y);
             mountains.add(mtn);
         }
-        boolean stable = false;
-        while (!stable){
+        int count = 0;
+        while (count < 100000){
+            count++;
             boolean small_stable = true;
             for (int  i =0; i<mountains.size(); i++){
                for (int j = 0; j<mountains.size(); j++){
@@ -78,18 +60,11 @@ public class MountainView {
                       mountains.remove(i);
                       break;
                   }
-
-
-
                }
-
             }
-            if (small_stable) stable = true;
-            if (stable){
-                break;
-            }
-
-
+//            if (small_stable){
+//                break;
+//            }
         }
         pw.println(mountains.size());
         pw.close();
