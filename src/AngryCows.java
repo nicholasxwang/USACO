@@ -17,14 +17,14 @@ public class AngryCows {
         }
         int low = 1;
         int high = N;
-        int mid = 0;
+        int V = 0;
         int smallest = N;
         int[] answers = new int[N];
         for (int i = 0; i<answers.length; i++){
             answers[i] = -1;
         }
         while (low!=high){
-            int V = (low + high)/2;
+            V = (low + high)/2;
             int R = 1;
             int starting = sorted_bales.get(0);
             for (int i = 0; i<N; i++){
@@ -33,14 +33,36 @@ public class AngryCows {
                     starting = sorted_bales.get(i);
                 }
             }
-            System.out.println(V+" -> "+R);
-
-            if (R > smallest) // x is on the right side
-                low = mid + 1;
+            //System.out.println(V+" -> "+R);
+            if (R < smallest){
+                smallest = V;
+            }
+            answers[V] = R;
+            if (R > smallest || R>K ) // x is on the right side
+                low = V + 1;
 
             else                  // x is on the left side
-                high = mid - 1;
+                high = V - 1;
         }
+
+        for (V = smallest; V>=0; V--){
+            int R = 1;
+            int starting = sorted_bales.get(0);
+            for (int j = 0; j<N; j++){
+                if (sorted_bales.get(j) > starting + V*2){
+                    R++;
+                    starting = sorted_bales.get(j);
+                }
+            }
+            if (R > K ){
+                break;
+            }else{
+                smallest = V;
+            }
+        }
+        PrintWriter pw = new PrintWriter("angry.out");
+        pw.println(smallest);
+        pw.close();
 
 
 
