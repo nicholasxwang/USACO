@@ -22,9 +22,10 @@ public class Cowtangion {
                 // compute ceil(log(children + 1))
                 int log_children = 0;
                 int pow = 1;
-                while (pow < children + 1)
+                while (pow < children + 1) {
                     log_children++;
-                pow *= 2;
+                    pow *= 2;
+                }
                 ans += log_children;
             }
 
