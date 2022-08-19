@@ -4,14 +4,15 @@ import java.util.*;
 public class WhyDidTheCowCrossTheRoad_1 {
 
     public static void main(String args[]) throws IOException{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new FileReader("helpcross.in"));
+        PrintWriter pw = new PrintWriter("helpcross.out");
         StringTokenizer st = new StringTokenizer(br.readLine());
         int C = Integer.parseInt(st.nextToken());
         int N = Integer.parseInt(st.nextToken());
-        int[] chickens = new int[C];
+        ArrayList<Integer> chickens = new ArrayList<>();
         int[][] cows = new int[N][2];
         for (int i = 0; i<C; i++){
-            chickens[i] = Integer.parseInt(br.readLine());
+            chickens.add(Integer.parseInt(br.readLine()));
         }
         for (int i = 0; i<N; i++){
             st = new StringTokenizer(br.readLine());
@@ -20,7 +21,7 @@ public class WhyDidTheCowCrossTheRoad_1 {
             cows[i][0] = x;
             cows[i][1] = y;
         }
-        Arrays.sort(chickens);
+        Collections.sort(chickens);
         Arrays.sort(cows, new Comparator<int[]>() {
             public int compare(int[] n1, int[] n2) {
                 if (n1[1]-n1[0] != n2[1] - n2[0]){
@@ -33,15 +34,17 @@ public class WhyDidTheCowCrossTheRoad_1 {
         for (int i = 0; i<cows.length; i++){
             int low = cows[i][0];
             int high = cows[i][1];
-            for (int j = 0; j<chickens.length; j++){
-                if (chickens[j] > low) continue;
-                if (chickens[j] > high) break;
+            for (int j = 0; j<chickens.size(); j++){
+                if (chickens.get(j) < low) continue;
+                if (chickens.get(j) > high) break;
                 answer++;
-                chickens
+                //System.out.println("Cow ["+low+", "+high+"] went with Chicken "+chickens.get(j));
+                chickens.remove(j);
                 break;
              }
         }
-        System.out.println(answer);
+        pw.println(answer);
+        pw.close();
 
 
 
