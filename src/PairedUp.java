@@ -1,29 +1,56 @@
 import java.io.*;
 import java.util.*;
 
+class PairClass{
+    int value;
+    int amount;
+    public PairClass(int value, int amount){
+        this.value = value;
+        this.amount = amount;
+    }
+}
 public class PairedUp {
     public static void main(String[] args) throws IOException{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new FileReader("pairup.in"));
         int N = Integer.parseInt(br.readLine());
-        ArrayList<Integer> cows = new ArrayList<>();
+        ArrayList<PairClass> cows = new ArrayList<>();
         for (int i = 0; i<N; i++){
             StringTokenizer st = new StringTokenizer(br.readLine());
             int count = Integer.parseInt(st.nextToken());
             int value = Integer.parseInt(st.nextToken());
-            for (int j = 0; j<count; j++){
-                cows.add(value);
+            cows.add(new PairClass(value, count));
+        }
+        Collections.sort(cows, new Comparator<PairClass>(){
+            public int compare(PairClass n1, PairClass n2){
+                if (n1.value != n2.value){
+                    return Integer.compare(n1.value, n2.value);
+                }
+                return Integer.compare(n1.amount, n2.amount);
+            }
+        });
+        int max = 0;
+        while (cows.size() > 1){
+            PairClass first = cows.get(0);
+            PairClass last = cows.get(cows.size()-1);
+            if (first.amount == last.amount) {
+                max = Math.max(max, first.value + last.value);
+                cows.remove(0);
+                cows.remove(cows.size() - 1);
+            }
+            if (first.amount > last.amount){
+                max = Math.max(max, first.value + last.value);
+                cows.get(0).amount -= cows.get(cows.size()-1).amount;
+                cows.remove(last);
+            }
+            if (first.amount < last.amount){
+                max = Math.max(max, first.value + last.value);
+                cows.get(cows.size()-1).amount -= cows.get(0).amount;
+                cows.remove(first);
             }
         }
-        Collections.sort(cows);
-        int max = 0;
-        while (cows.size() > 0){
-            int first = cows.get(0);
-            cows.remove(0);
-            int last = cows.get(cows.size()-1);
-            cows.remove(cows.size()-1);
-            max = first+last;
-        }
-        System.out.println(max);
+        PrintWriter pw = new PrintWriter("pairup.out");
+        pw.println(max);
+        pw.close();
 
 
     }
