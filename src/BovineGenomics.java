@@ -1,14 +1,4 @@
 import java.io.*; import java.util.*;
-class Types{
-    int index;
-    boolean same_as_spotty;
-    ArrayList<String> types = new ArrayList<>();
-    public Types(int index, ArrayList<String> types){
-        this.index = index;
-        this.types = types;
-        this.same_as_spotty = false;
-    }
-}
 public class BovineGenomics {
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new FileReader("cownomics.in"));
@@ -30,28 +20,33 @@ public class BovineGenomics {
                 plain[i][j] = (s[j]);
             }
         }
-       ArrayList<Types> list_of_types = new ArrayList<>();
-        for (int i = 0; i<M; i++){
-            Set<String> types = new HashSet<>();
-            for (int j = 0; j<N; j++){
-                //types.add(spotted[j][i]);
-                types.add(plain[j][i]);
-            }
-            Set<String> types2 = new HashSet<>();
-            for (int j = 0; j<N; j++){
-                //types.add(plain[j][i]);
-                types2.add(spotted[j][i]);
-            }
-            if (types.size() <= 3){
-                if (!types.equals(types2)){
-                    Types types_object = new Types(i, new ArrayList<String>(types));
-                    list_of_types.add(types_object);
-                }
-            }
-        }
 
-        //find how many pairs of 3 can exist
-        System.out.println(".");
+        //COMPLEXITY O(M^3*N)
+        int ans = 0;
+          for (int i = 0; i<M; i++){
+              for (int j = i; j<M; j++){
+                  for (int k = j; k<M; k++){
+                      ArrayList<String> seen_in_spotted = new ArrayList<>();
+                      for (int cow = 0; cow<N; cow++) {
+                          seen_in_spotted.add(spotted[cow][i] + spotted[cow][j] + spotted[cow][k]);
+                      }
+                      boolean valid = true;
+                      for (int cow = 0; cow<N; cow++){
+                          if (seen_in_spotted.contains(plain[cow][i] + plain[cow][j] + plain[cow][k])){
+                              valid = false;
+                              break;
+                          }
+                      }
+                      if (valid) ans++;
+                      if (valid){
+                          System.out.println("["+i+", "+j+", "+k+"]");
+                      }
+
+
+                  }
+              }
+          }
+          System.out.println(ans);
 
 
 
