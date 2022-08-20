@@ -1,40 +1,55 @@
 import java.io.*; import java.util.*;
 class Types{
     int index;
-    ArrayList<Integer> types = new ArrayList<>();
-    public Types(int index, ArrayList<Integer> types){
+    ArrayList<String> types = new ArrayList<>();
+    public Types(int index, ArrayList<String> types){
         this.index = index;
         this.types = types;
     }
 }
 public class BovineGenomics {
     public static void main(String[] args) throws IOException{
-        BufferedReader br = new BufferedReader(new FileReader("bovine.in"));
+        BufferedReader br = new BufferedReader(new FileReader("cownomics.in"));
         StringTokenizer st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
-        int[][] spotted = new int[N][M];
-        int[][] plain = new int[N][M];
+        String[][] spotted = new String[N][M];
+        String[][] plain = new String[N][M];
         for (int i = 0; i<N; i++){
-            st = new StringTokenizer(br.readLine());
+            String[] s = br.readLine().split("");
             for (int j = 0; j<M; j++){
-                spotted[i][j] = Integer.parseInt(st.nextToken());
+                spotted[i][j] = (s[j]);
             }
         }
 
         for (int i = 0; i<N; i++){
-            st = new StringTokenizer(br.readLine());
+            String[] s = br.readLine().split("");
             for (int j = 0; j<M; j++){
-                plain[i][j] = Integer.parseInt(st.nextToken());
+                plain[i][j] = (s[j]);
             }
         }
-
+       ArrayList<Types> list_of_types = new ArrayList<>();
         for (int i = 0; i<M; i++){
             Set<String> types = new HashSet<>();
             for (int j = 0; j<N; j++){
+                //types.add(spotted[j][i]);
+                types.add(plain[j][i]);
+            }
+            Set<String> types2 = new HashSet<>();
+            for (int j = 0; j<N; j++){
+                //types.add(plain[j][i]);
+                types.add(spotted[j][i]);
+            }
+            if (types.size() <= 3){
+                if (!types.equals(types2)){
+                    Types types_object = new Types(i, new ArrayList<String>(types));
+                    list_of_types.add(types_object);
 
+                }
             }
         }
+        //find how many pairs of 3 can exist
+        System.out.println(".");
 
 
 
