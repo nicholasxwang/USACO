@@ -1,10 +1,12 @@
 import java.io.*; import java.util.*;
 class Types{
     int index;
+    boolean same_as_spotty;
     ArrayList<String> types = new ArrayList<>();
     public Types(int index, ArrayList<String> types){
         this.index = index;
         this.types = types;
+        this.same_as_spotty = false;
     }
 }
 public class BovineGenomics {
@@ -38,16 +40,16 @@ public class BovineGenomics {
             Set<String> types2 = new HashSet<>();
             for (int j = 0; j<N; j++){
                 //types.add(plain[j][i]);
-                types.add(spotted[j][i]);
+                types2.add(spotted[j][i]);
             }
             if (types.size() <= 3){
                 if (!types.equals(types2)){
                     Types types_object = new Types(i, new ArrayList<String>(types));
                     list_of_types.add(types_object);
-
                 }
             }
         }
+
         //find how many pairs of 3 can exist
         System.out.println(".");
 
