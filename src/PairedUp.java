@@ -37,16 +37,19 @@ public class PairedUp {
                 cows.remove(0);
                 cows.remove(cows.size() - 1);
             }
-            if (first.amount > last.amount){
+            else if (first.amount > last.amount){
                 max = Math.max(max, first.value + last.value);
                 cows.get(0).amount -= cows.get(cows.size()-1).amount;
                 cows.remove(last);
             }
-            if (first.amount < last.amount){
+            else if (first.amount < last.amount){
                 max = Math.max(max, first.value + last.value);
                 cows.get(cows.size()-1).amount -= cows.get(0).amount;
                 cows.remove(first);
             }
+        }
+        if (cows.size() == 1){
+            max = Math.max(max, cows.get(0).value*2);
         }
         PrintWriter pw = new PrintWriter("pairup.out");
         pw.println(max);
