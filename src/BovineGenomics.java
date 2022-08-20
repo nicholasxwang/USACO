@@ -24,8 +24,8 @@ public class BovineGenomics {
         //COMPLEXITY O(M^3*N)
         int ans = 0;
           for (int i = 0; i<M; i++){
-              for (int j = i; j<M; j++){
-                  for (int k = j; k<M; k++){
+              for (int j = i+1; j<M; j++){
+                  for (int k = j+1; k<M; k++){
                       ArrayList<String> seen_in_spotted = new ArrayList<>();
                       for (int cow = 0; cow<N; cow++) {
                           seen_in_spotted.add(spotted[cow][i] + spotted[cow][j] + spotted[cow][k]);
@@ -38,15 +38,18 @@ public class BovineGenomics {
                           }
                       }
                       if (valid) ans++;
-                      if (valid){
-                          System.out.println("["+i+", "+j+", "+k+"]");
-                      }
+//                      if (valid){
+//                          System.out.println("["+i+", "+j+", "+k+"]");
+//                      }
 
 
                   }
               }
           }
-          System.out.println(ans);
+//          System.out.println(ans);
+        PrintWriter pw = new PrintWriter("cownomics.out");
+        pw.println(ans);
+        pw.close();
 
 
 
