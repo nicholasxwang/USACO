@@ -26,11 +26,23 @@ class TheGreatRenovation {
             BufferedReader br = new BufferedReader(new FileReader("revegetate.in"));
             StringTokenizer st = new StringTokenizer(br.readLine());
             int N = Integer.parseInt(st.nextToken());
-            int M = Integer.parseInt(st.nextToken());int[][] G = {{0, 1, 0, 1},
-                    {1, 0, 1, 0},
-                    {0, 1, 0, 1},
-                    {1, 0, 1, 0}
-            };
+            int M = Integer.parseInt(st.nextToken());
+            int[][] G = new int[N][N];
+            for (int i = 0; i<M; i++){
+                st = new StringTokenizer(br.readLine());
+                String type = st.nextToken();
+                int a = Integer.parseInt(st.nextToken())-1;
+                int b = Integer.parseInt(st.nextToken())-1;
+                if (type.equals("S")){
+                    G[a][b] = 1;
+                    G[b][a] = 1;
+                }
+                else if (type.equals("D")){
+                    G[a][b] = 2;
+                    G[b][a] = 2;
+                }
+
+            }
             if (isBipartite(G, 0))
                 System.out.println("Yes");
             else
