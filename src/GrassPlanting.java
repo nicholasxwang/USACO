@@ -1,7 +1,8 @@
 import java.io.*; import java.util.*;
 public class GrassPlanting {
     public static void main(String[] args) throws IOException{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new FileReader("planting.in"));
+        PrintWriter pw = new PrintWriter("planting.out");
         int N = Integer.parseInt(br.readLine());
         ArrayList<Integer>[] neighbours = new ArrayList[N];
         for (int i = 0; i<N-1; i++){
@@ -33,8 +34,12 @@ public class GrassPlanting {
                     int next = neighbours[cur].get(i);
                     if (!visited[next]){
                        ArrayList<Integer> taken_colors = new ArrayList<>();
-                       for (int k = 0; k<neighbours[next].size(); k++){
-                           int n = neighbours[next].get(k);
+                       //check parent first
+                          if (color.get(cur) != -1){
+                            taken_colors.add(color.get(cur));
+                          }
+                       for (int k = 0; k<neighbours[cur].size(); k++){
+                           int n = neighbours[cur].get(k);
                            if (color.get(n) != -1){
                                taken_colors.add(color.get(n));
                            }
@@ -48,10 +53,14 @@ public class GrassPlanting {
                            }
                        }
                           color.set(next, available);
+                            processed.add(next);
                     }
                 }
             }
         }
-        System.out.println(color);
+        // convert colors into set
+        Set<Integer> colors = new HashSet<>(color);
+        pw.println(colors.size());
+        pw.close();
     }
 }
