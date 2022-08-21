@@ -2,7 +2,7 @@ import java.io.*; import java.util.*;
 
 public class LemonadeLine {
     public static void main(String[] args) throws IOException{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new FileReader("lemonade.in"));
         int N = Integer.parseInt(br.readLine());
         StringTokenizer st = new StringTokenizer(br.readLine());
         int[] cows = new int[N];
@@ -23,7 +23,9 @@ public class LemonadeLine {
                 break;
             }
         }
-        System.out.println(cowcount);
+        PrintWriter pw = new PrintWriter("lemonade.out");
+        pw.println(cowcount);
+        pw.close();
 
     }
 }
