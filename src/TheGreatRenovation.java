@@ -1,8 +1,7 @@
 import java.util.*;
 import java.io.*;
 class TheGreatRenovation {
-        final static int V = 4;
-        static boolean isBipartite(int G[][], int src) {
+        static boolean isBipartite(int G[][], int src, int V) {
             int colorArr[] = new int[V];
             for (int i=0; i<V; ++i)  colorArr[i] = -1;
             colorArr[src] = 1;
@@ -12,8 +11,12 @@ class TheGreatRenovation {
                 int u = q.poll();
                 if (G[u][u] == 1)  return false;
                 for (int v=0; v<V; ++v) {
-                    if (G[u][v]==1 && colorArr[v]==-1) {
+                    if (G[u][v]==2 && colorArr[v]==-1) {
                         colorArr[v] = 1-colorArr[u];
+                        q.add(v);
+                    }
+                    else if (G[u][v]==1 && colorArr[v]==-1) {
+                        colorArr[v] = colorArr[u];
                         q.add(v);
                     }
                     else if (G[u][v]==1 && colorArr[v]==colorArr[u])  return false;
@@ -43,7 +46,7 @@ class TheGreatRenovation {
                 }
 
             }
-            if (isBipartite(G, 0))
+            if (isBipartite(G, 0, G.length))
                 System.out.println("Yes");
             else
                 System.out.println("No");
