@@ -1,9 +1,15 @@
+import java.io.*;
+
 public class OutOfSorts {
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader("sort.in"));
+        int N = Integer.parseInt(br.readLine());
+        int[] A = new int[N];
+        for (int i = 0; i<N; i++){
+            A[i] = Integer.parseInt(br.readLine());
+        }
         boolean sorted = false;
         int count = 0;
-        int[] A = {3, 2, 1};
-        int N = A.length;
         while (!sorted){
             sorted = true;
             count++;
@@ -19,7 +25,9 @@ public class OutOfSorts {
             }
 
         }
-        System.out.println(count);
+        PrintWriter pw = new PrintWriter("sort.out");
+        pw.println(count);
+        pw.close();
 
     }
 }

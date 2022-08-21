@@ -11,12 +11,14 @@ public class LemonadeLine {
         }
         Arrays.sort(cows);
         int[] reversed_cows = new int[N];
-        //Collections.reverse(Arrays.asList(cows));
         for (int i = 0; i<N; i++){
             reversed_cows[i] = cows[N-1-i];
         }
         int cowcount = 0;
         while (true){
+            if (cowcount == N){
+                break;
+            }
             if (reversed_cows[cowcount] >= cowcount){
                 cowcount++;
             }else{
