@@ -22,9 +22,14 @@ public class OutOfSorts {
                 }
             }
         }
+        int max = 0;
+        for (int i = 0; i<N; i++){
+            if (i - A[i] > max)
+                max = i - A[i];
+        }
 
         PrintWriter pw = new PrintWriter("sort.out");
-        pw.println(0);
+        pw.println(max+1);
         pw.close();
 
     }
