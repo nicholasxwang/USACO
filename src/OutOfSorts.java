@@ -1,4 +1,4 @@
-import java.io.*;
+import java.io.*; import java.util.*;
 
 public class OutOfSorts {
     public static void main(String[] args) throws IOException {
@@ -8,25 +8,23 @@ public class OutOfSorts {
         for (int i = 0; i<N; i++){
             A[i] = Integer.parseInt(br.readLine());
         }
-        boolean sorted = false;
-        int count = 0;
-        int one;
-        while (!sorted){
-            sorted = true;
-            count++;
-            for (int i = 0; i<N-1; i++){
-                if (A[i+1] < A[i]){
-                    //swap
-                    one = A[i];
-                    A[i] = A[i+1];
-                    A[i+1] = one;
-                    sorted = false;
+        int[] sorted = new int[N];
+        for (int i = 0; i<N; i++){
+            sorted[i] = A[i];
+        }
+        Arrays.sort(sorted);
+        for (int i = 0; i<N; i++){
+            //set each element of the array to location in sorted
+            for (int j = 0; j<N; j++){
+                if (A[i] == sorted[j]){
+                    A[i] = j;
+                    break;
                 }
             }
-
         }
+
         PrintWriter pw = new PrintWriter("sort.out");
-        pw.println(count);
+        pw.println(0);
         pw.close();
 
     }
