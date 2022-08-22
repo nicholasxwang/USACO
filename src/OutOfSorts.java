@@ -10,11 +10,21 @@ public class OutOfSorts {
         }
         boolean sorted = false;
         int count = 0;
-        for (int i = 0; i<N; i++){
-            count += (Math.abs(A[i] - i));
+        int one;
+        while (!sorted){
+            sorted = true;
+            count++;
+            for (int i = 0; i<N-1; i++){
+                if (A[i+1] < A[i]){
+                    //swap
+                    one = A[i];
+                    A[i] = A[i+1];
+                    A[i+1] = one;
+                    sorted = false;
+                }
+            }
+
         }
-//        count = count/2 + 1;
-        count = count -  1;
         PrintWriter pw = new PrintWriter("sort.out");
         pw.println(count);
         pw.close();
