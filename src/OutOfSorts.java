@@ -29,8 +29,8 @@ public class OutOfSorts {
 
         int max = 0;
         for (int i = 0; i<N; i++){
-            if (A[i].value - A[i].index > max){
-                max = A[i].value - A[i].index;
+            if (A[i].index - i > max){
+                max = A[i].index - i;
             }
         }
 
