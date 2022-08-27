@@ -6,9 +6,9 @@ public class moobuzz {
         int count = 0;
         int seqcount = 0;
         int N = Integer.parseInt(br.readLine());
-
-        while (N > 8){
-            N = N - 8;
+        int changingN = N;
+        while (changingN > 8){
+            changingN = changingN - 8;
 //            seqcount += 15;
             count += 15;
             seqcount += 8;
@@ -20,6 +20,7 @@ public class moobuzz {
             }
         }
         PrintWriter pw = new PrintWriter("moobuzz.out");
+
         pw.println(count);
         pw.close();
 
