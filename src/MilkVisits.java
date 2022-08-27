@@ -1,15 +1,16 @@
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
+
+//Status Codes
+// 0 = H
+// 1 = G
+// 2 = Both
 
 class Barn{
     int index;
     ArrayList<Barn> neighbours = new ArrayList<>();
     int type;
-    //Status Codes
-    // 0 = H
-    // 1 = G
-    // 2 = Both
+
     public Barn(int index, int type){
         this.index = index;
         this.type = type;
@@ -18,10 +19,7 @@ class Barn{
 class VisitGraph{
     ArrayList<Barn> nodes = new ArrayList<>();
 
-    public int bfs(Barn startNode, VisitGraph g, Barn endNode, int[][] cache) {
-        //Queue<Integer> bfsQueue = new PriorityQueue<Integer>() {
-        //};
-
+    public int bfs(Barn startNode, VisitGraph g, int[][] cache) {
         Queue<Barn> bfsQueue = new LinkedList<Barn>();
         ArrayList<Boolean> visited = new ArrayList<>();
         int visCount = 0;
@@ -29,7 +27,6 @@ class VisitGraph{
             visited.add(false);
         }
         visited.set(startNode.index, true);
-        //bfsQueue.add(startNode.id);
         bfsQueue.add(startNode);
 
         while (!bfsQueue.isEmpty()) {
@@ -39,6 +36,15 @@ class VisitGraph{
             for (Barn neighbour : currentNode.neighbours) {
                 if (!visited.get(neighbour.index)) {
                     visited.set(neighbour.index, true);
+                    if (cache[neighbour.index][currentNode.index] == -1){
+                        if (neighbour.type == currentNode.type){
+                            cache[neighbour.index][currentNode.index] = neighbour.type;
+                            cache[currentNode.index][neighbour.index] = neighbour.type;
+                        }else{
+                            cache[neighbour.index][currentNode.index] = 2;
+                            cache[currentNode.index][neighbour.index] = 2;
+                        }
+                    }
                     bfsQueue.add(neighbour);
                 }
             }
@@ -57,10 +63,6 @@ public class MilkVisits {
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
         String[] farm_data = br.readLine().split("");
-        //Status Codes
-        // 0 = H
-        // 1 = G
-        // 2 = Both
         VisitGraph g = new VisitGraph();
         for (int i = 0; i<farm_data.length; i++){
             int type = 1;
@@ -68,12 +70,10 @@ public class MilkVisits {
             g.nodes.add(new Barn(i, type));
         }
         int[][] cache = new int[N][N]; //If you want to find type between 1 and 3, you do cache[1][3]
-
         for (int i = 0; i<N; i++){
             for (int j = 0; j<N; j++){
                 cache[i][j] = -1;
             }
-
         }
         for (int i = 0; i < N-1; i++){
             st = new StringTokenizer(br.readLine());
@@ -82,15 +82,13 @@ public class MilkVisits {
             g.nodes.get(one).neighbours.add(g.nodes.get(two));
             g.nodes.get(two).neighbours.add(g.nodes.get(one));
         }
+        g.bfs(g.nodes.get(0), g, cache);
         for (int i = 0; i<M; i++){
             st = new StringTokenizer(br.readLine());
             int start = Integer.parseInt(st.nextToken())-1;
             int end = Integer.parseInt(st.nextToken())-1;
             int type = 1;
             if (st.nextToken().equals("H")) type = 0;
-            bfs()
-
-
 
         }
 
