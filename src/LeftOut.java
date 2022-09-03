@@ -65,15 +65,15 @@ public class LeftOut {
             if (max == 0) break;
             int max_index;
             if (max>max2){
-                max_index = ht.get(max).get(0);
-                for (int j = 0; j<N; j++){
-                    grid[max_index][j] = opposite(grid[max_index][j]);
-                }
-            }
-            else {
                 max_index = ht2.get(max).get(0);
                 for (int j = 0; j<N; j++){
                     grid[j][max_index] = opposite(grid[j][max_index]);
+                }
+            }
+            else {
+                max_index = ht.get(max).get(0);
+                for (int j = 0; j<N; j++){
+                    grid[max_index][j] = opposite(grid[max_index][j]);
                 }
             }
 
