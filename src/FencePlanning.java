@@ -16,7 +16,7 @@ class FenceCow {
 }
 public class FencePlanning {
     public static void main(String[] args) throws IOException{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new FileReader("fenceplan.in"));
         StringTokenizer st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
@@ -76,7 +76,9 @@ public class FencePlanning {
             int perimeter = 2*(biggest_x - smallest_x) +  2*(biggest_y - smallest_y);
             if (min_peri > perimeter) min_peri = perimeter;
         }
-        System.out.println(min_peri);
+       PrintWriter pw = new PrintWriter("fenceplan.out");
+        pw.println(min_peri);
+        pw.close();
 
 
 
