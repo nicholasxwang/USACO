@@ -37,26 +37,46 @@ public class FencePlanning {
         ArrayList<ArrayList<Integer>> regions = new ArrayList<>();
         for (int n = 0; n<N; n++){
             if (cows.get(n).visited) continue;
-            ArrayList<Integer> region = new ArrayList<>();
+            Set<Integer> region = new HashSet<Integer>();
             FenceCow startNode = cows.get(n);
+            region.add(startNode.id);
             Queue<FenceCow> bfsQueue = new LinkedList<FenceCow>();
             bfsQueue.add(startNode);
 
             while (!bfsQueue.isEmpty()) {
                 FenceCow currentNode = bfsQueue.peek();
-                region.add(currentNode.id);
                 bfsQueue.remove();
 
                 for (FenceCow neighbour : currentNode.neighbours) {
                     if (!cows.get(neighbour.id).visited) {
                         cows.get(neighbour.id).visited = true;
+                        region.add(neighbour.id);
                         bfsQueue.add(neighbour);
                     }
                 }
             }
-            regions.add(region);
+            regions.add(new ArrayList<>(region));
         }
-        System.out.println(regions);
+        //System.out.println(regions);
+        int min_peri = 999999999;
+        for (int i = 0; i<regions.size(); i++){
+            int smallest_x = 999999999;
+            int smallest_y = 999999999;
+            int biggest_x = 0;
+            int biggest_y = 0;
+            for (int j = 0; j<regions.get(i).size(); j++){
+                int x = cows.get(regions.get(i).get(j)).x;
+                int y = cows.get(regions.get(i).get(j)).y;
+                if (x > biggest_x) biggest_x = x;
+                if (y > biggest_y) biggest_y = y;
+                if (x < smallest_x) smallest_x = x;
+                if (y < smallest_y) smallest_y = y;
+
+            }
+            int perimeter = 2*(biggest_x - smallest_x) +  2*(biggest_y - smallest_y);
+            if (min_peri > perimeter) min_peri = perimeter;
+        }
+        System.out.println(min_peri);
 
 
 
