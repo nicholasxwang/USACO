@@ -50,7 +50,7 @@ public class LeftOut {
             }
         }
         //not existing
-        return "-1 -1";
+        return "-1";
 
 
     }
