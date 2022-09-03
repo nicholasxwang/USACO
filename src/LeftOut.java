@@ -1,10 +1,80 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Hashtable;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class LeftOut {
+    public static String get_answer(String[][] grid){
+        String answer = "";
+        int N = grid.length;
+        boolean done = true;
+        //Check if rest are all 1
+        for (int i = 1; i<N; i++){
+            for (int j = 1; j<N; j++){
+                if (!grid[i][j].equals("R")){
+                    done = false;
+                }
+            }
+        }
+        if (done){
+            return "1 1";
+        }
+
+        //Check rows and columns are all 1
+        for (int i = 1; i<N; i++){
+            boolean current_valid = true;
+            for (int j = 1; j<N; j++){
+                if (!grid[i][j].equals("R")){
+                    current_valid = false;
+                }
+            }
+            if (current_valid){
+                return i+" 1";
+            }
+        }
+        for (int i = 1; i<N; i++){
+            boolean current_valid = true;
+            for (int j = 1; j<N; j++){
+                if (!grid[j][i].equals("R")){
+                    current_valid = false;
+                }
+            }
+            if (current_valid){
+                return "1 "+i;
+            }
+        }
+
+        //one element is 1
+        for (int i = 1; i<N; i++){
+            for (int j = 1; j<N; j++){
+                if (!grid[j][i].equals("R")){
+                    return i+" "+j;
+                }
+            }
+        }
+        //not existing
+        return "-1 -1";
+
+
+    }
+    public static void swap(String[][] grid){
+        //fix the columns then rows
+        int N = grid.length;
+        for (int i = 0; i<N; i++){
+            if (!grid[i][0].equals("L")){
+                for (int j = 0; j<N; j++){
+                    grid[i][j] = opposite(grid[i][j]);
+                }
+            }
+        }
+
+        for (int i = 0; i<N; i++){
+            if (!grid[0][i].equals("L")){
+                for (int j = 0; j<N; j++){
+                    grid[j][i] = opposite(grid[j][i]);
+                }
+            }
+        }
+
+    }
     public static void print(String[][] grid){
         for (int i  =0; i<grid.length; i++){
             for (int j  =0; j<grid.length; j++){
@@ -20,7 +90,7 @@ public class LeftOut {
         return "L";
     }
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new FileReader("leftout.in"));
         int N = Integer.parseInt(br.readLine());
         String[][] grid = new String[N][N];
         for (int i = 0; i<N; i++){
@@ -30,57 +100,15 @@ public class LeftOut {
             }
         }
 
-        //First try making everything "L"
+        //check if all remainder is 1
+        String answer = get_answer(grid);
 
-        int times = 0;
-        while (true){
-            if (times == 10) break;
-            times++;
-            //Check All the Rows
-            Hashtable<Integer, ArrayList<Integer>> ht = new Hashtable<>();
-            int max = -1;
-            for (int i = 0; i<N; i++){
-                int count = 0;
-                for (int j = 0; j<N; j++){
-                    if (grid[i][j].equals("R")) count++;
-                }
-                if (count > max) max=count;
-                if (!ht.containsKey(count))  ht.put(count, new ArrayList<Integer>());
-                ht.get(count).add(i);
 
-            }
-            //Check All the Coumns
-            Hashtable<Integer, ArrayList<Integer>> ht2 = new Hashtable<>();
-            int max2 = -1;
-            for (int i = 0; i<N; i++){
-                int count = 0;
-                for (int j = 0; j<N; j++){
-                    if (grid[i][j].equals("R")) count++;
-                }
-                if (count > max2) max2=count;
-                if (!ht2.containsKey(count))  ht2.put(count, new ArrayList<Integer>());
-                ht2.get(count).add(i);
+        swap(grid);
+        PrintWriter pw = new PrintWriter("leftout.out");
+        pw.println(answer);
+        pw.close();
 
-            }
-            if (max == 0) break;
-            int max_index;
-            if (max>max2){
-                max_index = ht2.get(max).get(0);
-                for (int j = 0; j<N; j++){
-                    grid[j][max_index] = opposite(grid[j][max_index]);
-                }
-            }
-            else {
-                max_index = ht.get(max).get(0);
-                for (int j = 0; j<N; j++){
-                    grid[max_index][j] = opposite(grid[max_index][j]);
-                }
-            }
-
-            print(grid);
-        }
-
-        //First try making everything "R"
 
 
     }
