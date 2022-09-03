@@ -3,7 +3,6 @@ import java.util.*;
 
 public class LeftOut {
     public static String get_answer(String[][] grid){
-        String answer = "";
         int N = grid.length;
         boolean done = true;
         //Check if rest are all 1
@@ -27,7 +26,7 @@ public class LeftOut {
                 }
             }
             if (current_valid){
-                return i+" 1";
+                return "1 "+(i+1);
             }
         }
         for (int i = 1; i<N; i++){
@@ -38,7 +37,7 @@ public class LeftOut {
                 }
             }
             if (current_valid){
-                return "1 "+i;
+                return (i+1)+" 1";
             }
         }
 
@@ -46,7 +45,7 @@ public class LeftOut {
         for (int i = 1; i<N; i++){
             for (int j = 1; j<N; j++){
                 if (!grid[j][i].equals("R")){
-                    return i+" "+j;
+                    return (i+1)+" "+(j+1);
                 }
             }
         }
@@ -101,10 +100,10 @@ public class LeftOut {
         }
 
         //check if all remainder is 1
+        swap(grid);
+
         String answer = get_answer(grid);
 
-
-        swap(grid);
         PrintWriter pw = new PrintWriter("leftout.out");
         pw.println(answer);
         pw.close();
