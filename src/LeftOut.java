@@ -26,6 +26,7 @@ public class LeftOut {
                 }
             }
             if (current_valid){
+//                return (i+1)+" 1";
                 return "1 "+(i+1);
             }
         }
@@ -37,6 +38,7 @@ public class LeftOut {
                 }
             }
             if (current_valid){
+//                return "1 "+(i+1);
                 return (i+1)+" 1";
             }
         }
@@ -44,7 +46,7 @@ public class LeftOut {
         //one element is 1
         for (int i = 1; i<N; i++){
             for (int j = 1; j<N; j++){
-                if (!grid[j][i].equals("R")){
+                if (grid[j][i].equals("R")){
                     return (i+1)+" "+(j+1);
                 }
             }
