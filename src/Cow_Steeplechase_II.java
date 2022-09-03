@@ -64,7 +64,7 @@ public class Cow_Steeplechase_II {
     }
 
     public static void main(String[] args) throws IOException{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new FileReader("cowjump.in"));
         int N = Integer.parseInt(br.readLine());
         ArrayList<ArrayList<Integer>> a = new ArrayList<>();
         ArrayList<Integer> counts = new ArrayList<>();
@@ -100,8 +100,9 @@ public class Cow_Steeplechase_II {
             if (counts.get(max_count) < counts.get(i)) max_count = i;
 
         }
-        System.out.println(max_count+1);
-
+        PrintWriter pw = new PrintWriter("cowjump.out");
+        pw.println(max_count+1);
+        pw.close();
 
 
     }
