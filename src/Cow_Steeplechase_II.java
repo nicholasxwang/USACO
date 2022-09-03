@@ -81,7 +81,7 @@ public class Cow_Steeplechase_II {
 
         }
 
-        Queue<Integer> activated = new LinkedList<>();
+        ArrayList<Integer> activated = new ArrayList<>();
         activated.add(0);
         boolean break2 = false;
         for (int i = 1; i<N; i++){
@@ -99,8 +99,9 @@ public class Cow_Steeplechase_II {
 //                    counts.set(j, counts.get(j)+1);
 //                }
 //            }
-            for (int a_ = 0; a_<activated.size(); a_++){
-
+            for (int a_index = 0; a_index<activated.size(); a_index++){
+                int a_ = activated.get(a_index);
+                if (a_ == i) continue;
                 int x1_1 = a.get(i).get(0);
                 int y1_1 = a.get(i).get(1);
                 int x1_2 = a.get(i).get(2);
@@ -110,16 +111,18 @@ public class Cow_Steeplechase_II {
                 int x2_2 = a.get(a_).get(2);
                 int y2_2 = a.get(a_).get(3);
                 if (intersect(new CoordinatePoint(x1_1, y1_1), new CoordinatePoint(x1_2, y1_2), new CoordinatePoint(x2_1, y2_1), new CoordinatePoint(x2_2, y2_2) )){
-                    System.out.println(a_+1);
+                    PrintWriter pw = new PrintWriter("cowjump.out");
+                    pw.println(i+1);
+                    pw.close();
                     break2 = true;
                     break;
                 }
+                if (!activated.contains(a_)) activated.add(a_);
+
             }
             if (break2) break;
         }
-//        PrintWriter pw = new PrintWriter("cowjump.out");
-//        pw.println(max_count+1);
-//        pw.close();
+
 
 
     }
