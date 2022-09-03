@@ -1,22 +1,23 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
-class CoordinatePoint{
-    int x;
-    int y;
-    public CoordinatePoint(int x, int y){
+class CoordinatePoint {
+    double x;
+    double y;
+    public CoordinatePoint(double x, double y){
         this.x = x;
         this.y = y;
     }
 }
 public class Cow_Steeplechase_II {
-    public static Integer area(Point p1, Point p2, Point p3) {
-        int one_x = p1.x;
-        int two_x = p2.x;
-        int three_x = p3.x;
-        int one_y = p1.y;
-        int two_y = p2.y;
-        int three_y = p3.y;
+    public static Integer area(CoordinatePoint p1, CoordinatePoint p2, CoordinatePoint p3) {
+        int one_x = (int) p1.x;
+        int two_x = (int) p2.x;
+        int three_x = (int) p3.x;
+        int one_y = (int) p1.y;
+        int two_y = (int) p2.y;
+        int three_y = (int) p3.y;
         int sum1 = 0;
         sum1 += (one_x * two_y);
         sum1 += (two_x * three_y);
@@ -30,7 +31,7 @@ public class Cow_Steeplechase_II {
         return Math.abs(sum1 - sum2)/2;
 
     }
-    public static boolean intersect(Point p1, Point p2, Point p3, Point p4) {
+    public static boolean intersect(CoordinatePoint p1, CoordinatePoint p2, CoordinatePoint p3, CoordinatePoint p4) {
         double Ax0 = Math.min(p1.x, p2.x);
         double Bx0 = Math.min(p3.x, p4.x);
         double Ax1 = Math.max(p1.x, p2.x);
@@ -51,7 +52,12 @@ public class Cow_Steeplechase_II {
         double den = a1*b2 - a2 * b1;
         if (Math.abs(den) < 0.000001) return false;
 
-        Point p0 = new Point((b1*c2-b2*c1 )/ den, (a2 * c1 - a1 * c2)/den);
+        CoordinatePoint p0 = new CoordinatePoint((b1*c2-b2*c1 )/ den, (a2 * c1 - a1 * c2)/den);
+        if (p0.x >= Ax0 && p0.x <= Ax1 && p0.x >= Bx0 && p0.x <= Bx1){
+            if (p0.y >= Ay0 && p0.y <= Ay1 && p0.y >= By0 && p0.y <= By1){
+                return true;
+            }
+        }
 
 
         return false;
@@ -65,6 +71,11 @@ public class Cow_Steeplechase_II {
 
         for (int i = 0; i<N; i++){
             ArrayList<Integer> sub = new ArrayList<>();
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            sub.add(Integer.parseInt(st.nextToken()));
+            sub.add(Integer.parseInt(st.nextToken()));
+            sub.add(Integer.parseInt(st.nextToken()));
+            sub.add(Integer.parseInt(st.nextToken()));
             a.add(sub);
             counts.add(0);
         }
@@ -78,7 +89,7 @@ public class Cow_Steeplechase_II {
                 int y2_1 = a.get(j).get(1);
                 int x2_2 = a.get(j).get(2);
                 int y2_2 = a.get(j).get(3);
-                if (intersect(new Point(x1_1, y1_1), new Point(x1_2, y1_2), new Point(x2_1, y2_1), new Point(x2_2, y2_2) )){
+                if (intersect(new CoordinatePoint(x1_1, y1_1), new CoordinatePoint(x1_2, y1_2), new CoordinatePoint(x2_1, y2_1), new CoordinatePoint(x2_2, y2_2) )){
                     counts.set(i, counts.get(i)+1);
                     counts.set(j, counts.get(j)+1);
                 }
@@ -89,7 +100,7 @@ public class Cow_Steeplechase_II {
             if (counts.get(max_count) < counts.get(i)) max_count = i;
 
         }
-        System.out.println(max_count);
+        System.out.println(max_count+1);
 
 
 
