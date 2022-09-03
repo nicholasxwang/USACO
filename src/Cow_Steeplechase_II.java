@@ -1,5 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
 class CoordinatePoint {
@@ -67,7 +69,6 @@ public class Cow_Steeplechase_II {
         BufferedReader br = new BufferedReader(new FileReader("cowjump.in"));
         int N = Integer.parseInt(br.readLine());
         ArrayList<ArrayList<Integer>> a = new ArrayList<>();
-        ArrayList<Integer> counts = new ArrayList<>();
 
         for (int i = 0; i<N; i++){
             ArrayList<Integer> sub = new ArrayList<>();
@@ -77,32 +78,48 @@ public class Cow_Steeplechase_II {
             sub.add(Integer.parseInt(st.nextToken()));
             sub.add(Integer.parseInt(st.nextToken()));
             a.add(sub);
-            counts.add(0);
+
         }
-        for (int i = 0; i<N; i++){
-            for (int j = i+1; j<N; j++){
+
+        Queue<Integer> activated = new LinkedList<>();
+        activated.add(0);
+        boolean break2 = false;
+        for (int i = 1; i<N; i++){
+//            for (int j = i+1; j<N; j++){
+//                int x1_1 = a.get(i).get(0);
+//                int y1_1 = a.get(i).get(1);
+//                int x1_2 = a.get(i).get(2);
+//                int y1_2 = a.get(i).get(3);
+//                int x2_1 = a.get(j).get(0);
+//                int y2_1 = a.get(j).get(1);
+//                int x2_2 = a.get(j).get(2);
+//                int y2_2 = a.get(j).get(3);
+//                if (intersect(new CoordinatePoint(x1_1, y1_1), new CoordinatePoint(x1_2, y1_2), new CoordinatePoint(x2_1, y2_1), new CoordinatePoint(x2_2, y2_2) )){
+//                    counts.set(i, counts.get(i)+1);
+//                    counts.set(j, counts.get(j)+1);
+//                }
+//            }
+            for (int a_ = 0; a_<activated.size(); a_++){
+
                 int x1_1 = a.get(i).get(0);
                 int y1_1 = a.get(i).get(1);
                 int x1_2 = a.get(i).get(2);
                 int y1_2 = a.get(i).get(3);
-                int x2_1 = a.get(j).get(0);
-                int y2_1 = a.get(j).get(1);
-                int x2_2 = a.get(j).get(2);
-                int y2_2 = a.get(j).get(3);
+                int x2_1 = a.get(a_).get(0);
+                int y2_1 = a.get(a_).get(1);
+                int x2_2 = a.get(a_).get(2);
+                int y2_2 = a.get(a_).get(3);
                 if (intersect(new CoordinatePoint(x1_1, y1_1), new CoordinatePoint(x1_2, y1_2), new CoordinatePoint(x2_1, y2_1), new CoordinatePoint(x2_2, y2_2) )){
-                    counts.set(i, counts.get(i)+1);
-                    counts.set(j, counts.get(j)+1);
+                    System.out.println(a_+1);
+                    break2 = true;
+                    break;
                 }
             }
+            if (break2) break;
         }
-        int max_count = 0;
-        for (int i = 0; i<N; i++){
-            if (counts.get(max_count) < counts.get(i)) max_count = i;
-
-        }
-        PrintWriter pw = new PrintWriter("cowjump.out");
-        pw.println(max_count+1);
-        pw.close();
+//        PrintWriter pw = new PrintWriter("cowjump.out");
+//        pw.println(max_count+1);
+//        pw.close();
 
 
     }
