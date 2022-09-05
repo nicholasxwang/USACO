@@ -85,20 +85,6 @@ public class Cow_Steeplechase_II {
         activated.add(0);
         boolean break2 = false;
         for (int i = 1; i<N; i++){
-//            for (int j = i+1; j<N; j++){
-//                int x1_1 = a.get(i).get(0);
-//                int y1_1 = a.get(i).get(1);
-//                int x1_2 = a.get(i).get(2);
-//                int y1_2 = a.get(i).get(3);
-//                int x2_1 = a.get(j).get(0);
-//                int y2_1 = a.get(j).get(1);
-//                int x2_2 = a.get(j).get(2);
-//                int y2_2 = a.get(j).get(3);
-//                if (intersect(new CoordinatePoint(x1_1, y1_1), new CoordinatePoint(x1_2, y1_2), new CoordinatePoint(x2_1, y2_1), new CoordinatePoint(x2_2, y2_2) )){
-//                    counts.set(i, counts.get(i)+1);
-//                    counts.set(j, counts.get(j)+1);
-//                }
-//            }
             for (int a_index = 0; a_index<activated.size(); a_index++){
                 int a_ = activated.get(a_index);
                 if (a_ == i) continue;
