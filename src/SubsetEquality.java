@@ -1,11 +1,35 @@
 import java.io.*;
 import java.util.*;
 
+class NumberCharacterPair{
+    char c;
+    int i;
+    public NumberCharacterPair(char c, int i){
+        this.c = c;
+        this.i = i;
+    }
+}
 public class SubsetEquality {
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String s1 = br.readLine();
         String s2 = br.readLine();
+        Hashtable<Character, ArrayList<Integer>> ht1 = new Hashtable();
+        Hashtable<Character, ArrayList<Integer>> ht2 = new Hashtable();
+        int count = 0;
+        for (char s: s1.toCharArray()) {
+            if (!ht1.keySet().contains(s)) ht1.put(s, new ArrayList<>());
+            ht1.get(s).add(count);
+            count++;
+        }
+        count = 0;
+        for (char s: s1.toCharArray()) {
+            if (!ht2.keySet().contains(s)) ht2.put(s, new ArrayList<>());
+            ht2.get(s).add(count);
+            count++;
+        }
+        System.out.println(ht1);
+        System.out.println(ht2);
         int N = Integer.parseInt(br.readLine());
         for (int i = 0; i<N; i++){
             ArrayList<Character> allowed = new ArrayList<Character>();
