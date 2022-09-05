@@ -14,18 +14,18 @@ public class SubsetEquality {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String s1 = br.readLine();
         String s2 = br.readLine();
-        Hashtable<Character, ArrayList<Integer>> ht1 = new Hashtable();
-        Hashtable<Character, ArrayList<Integer>> ht2 = new Hashtable();
+        Hashtable<Character, ArrayList<NumberCharacterPair>> ht1 = new Hashtable();
+        Hashtable<Character, ArrayList<NumberCharacterPair>> ht2 = new Hashtable();
         int count = 0;
         for (char s: s1.toCharArray()) {
-            if (!ht1.keySet().contains(s)) ht1.put(s, new ArrayList<>());
-            ht1.get(s).add(count);
+            if (!ht1.containsKey(s)) ht1.put(s, new ArrayList<>());
+            ht1.get(s).add(new NumberCharacterPair(s, count));
             count++;
         }
         count = 0;
         for (char s: s1.toCharArray()) {
-            if (!ht2.keySet().contains(s)) ht2.put(s, new ArrayList<>());
-            ht2.get(s).add(count);
+            if (!ht2.containsKey(s)) ht2.put(s, new ArrayList<>());
+            ht2.get(s).add(new NumberCharacterPair(s, count));
             count++;
         }
         System.out.println(ht1);
@@ -37,16 +37,32 @@ public class SubsetEquality {
             for (int k = 0; k<allowed_.length; k++){
                 allowed.add(allowed_[k]);
             }
+            ArrayList<NumberCharacterPair> valid1 = new ArrayList<>();
+            ArrayList<NumberCharacterPair> valid2 = new ArrayList<>();
+            for (int k = 0; k<allowed.size(); k++){
+                if (ht1.containsKey(allowed.get(k))) valid1.addAll(ht1.get(allowed.get(k)));
+                if (ht2.containsKey(allowed.get(k))) valid2.addAll(ht2.get(allowed.get(k)));
+            }
+            Collections.sort(valid1, new Comparator<NumberCharacterPair>() {
+                        public int compare(NumberCharacterPair o1, NumberCharacterPair o2) {
+                            return o1.i - o2.i;
+                        }
+            });
+            Collections.sort(valid2, new Comparator<NumberCharacterPair>() {
+                public int compare(NumberCharacterPair o1, NumberCharacterPair o2) {
+                    return o1.i - o2.i;
+                }
+            });
 
-            String news1 = "";
+            StringBuilder news1 = new StringBuilder();
             for (char s: s1.toCharArray()){
-                if (allowed.contains(s)) news1+=s;
+                if (allowed.contains(s)) news1.append(s);
             }
-            String news2 = "";
+            StringBuilder news2 = new StringBuilder();
             for (char s: s2.toCharArray()){
-                if (allowed.contains(s)) news2+=s;
+                if (allowed.contains(s)) news2.append(s);
             }
-            if (news1.equals(news2)){
+            if (news1.toString().equals(news2.toString())){
                 System.out.print("Y");
             }else{
                 System.out.print("N");
