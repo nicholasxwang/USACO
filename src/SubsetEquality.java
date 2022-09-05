@@ -54,15 +54,15 @@ public class SubsetEquality {
                 }
             });
 
-            StringBuilder news1 = new StringBuilder();
-            for (char s: s1.toCharArray()){
-                if (allowed.contains(s)) news1.append(s);
+            StringBuilder new1 = new StringBuilder();
+            for (int k = 0; k<valid1.size(); k++){
+                new1.append(valid1.get(k).c);
             }
-            StringBuilder news2 = new StringBuilder();
-            for (char s: s2.toCharArray()){
-                if (allowed.contains(s)) news2.append(s);
+            StringBuilder new2 = new StringBuilder();
+            for (int k = 0; k<valid2.size(); k++){
+                new2.append(valid2.get(k).c);
             }
-            if (news1.toString().equals(news2.toString())){
+            if (new1.toString().equals(new2.toString())){
                 System.out.print("Y");
             }else{
                 System.out.print("N");
