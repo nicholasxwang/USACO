@@ -14,8 +14,8 @@ public class SubsetEquality {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String s1 = br.readLine();
         String s2 = br.readLine();
-        Hashtable<Character, ArrayList<NumberCharacterPair>> ht1 = new Hashtable();
-        Hashtable<Character, ArrayList<NumberCharacterPair>> ht2 = new Hashtable();
+        Hashtable<Character, ArrayList<NumberCharacterPair>> ht1 = new Hashtable<>();
+        Hashtable<Character, ArrayList<NumberCharacterPair>> ht2 = new Hashtable<>();
         int count = 0;
         for (char s: s1.toCharArray()) {
             if (!ht1.containsKey(s)) ht1.put(s, new ArrayList<>());
@@ -23,25 +23,19 @@ public class SubsetEquality {
             count++;
         }
         count = 0;
-        for (char s: s1.toCharArray()) {
+        for (char s: s2.toCharArray()) {
             if (!ht2.containsKey(s)) ht2.put(s, new ArrayList<>());
             ht2.get(s).add(new NumberCharacterPair(s, count));
             count++;
         }
-        System.out.println(ht1);
-        System.out.println(ht2);
         int N = Integer.parseInt(br.readLine());
         for (int i = 0; i<N; i++){
-            ArrayList<Character> allowed = new ArrayList<Character>();
-            char[] allowed_ = br.readLine().toCharArray();
-            for (int k = 0; k<allowed_.length; k++){
-                allowed.add(allowed_[k]);
-            }
+            char[] allowed = br.readLine().toCharArray();
             ArrayList<NumberCharacterPair> valid1 = new ArrayList<>();
             ArrayList<NumberCharacterPair> valid2 = new ArrayList<>();
-            for (int k = 0; k<allowed.size(); k++){
-                if (ht1.containsKey(allowed.get(k))) valid1.addAll(ht1.get(allowed.get(k)));
-                if (ht2.containsKey(allowed.get(k))) valid2.addAll(ht2.get(allowed.get(k)));
+            for (int k = 0; k<allowed.length; k++){
+                if (ht1.containsKey(allowed[k])) valid1.addAll(ht1.get(allowed[k]));
+                if (ht2.containsKey(allowed[k])) valid2.addAll(ht2.get(allowed[k]));
             }
             Collections.sort(valid1, new Comparator<NumberCharacterPair>() {
                         public int compare(NumberCharacterPair o1, NumberCharacterPair o2) {
