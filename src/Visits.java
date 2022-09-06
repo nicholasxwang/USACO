@@ -41,7 +41,7 @@ public class Visits {
 
         Collections.sort(edges, new Comparator<NetworkEdge>() {
             public int compare(NetworkEdge o1, NetworkEdge o2) {
-                if (o1.w != o2.w) return o1.w - o2.w;
+                if (o1.w != o2.w) return o2.w - o1.w;
                 return 0;
             }
         });
@@ -49,8 +49,9 @@ public class Visits {
         int MAX = 0;
         for (int i = 0; i<edges.size(); i++){
             NetworkEdge current = edges.get(i);
-            if (blacklisted.contains(edges.get(current.c2))) continue;
-            blacklisted.add(current.c1);
+            if (blacklisted.contains(nodes.get(current.c1).id)) continue;
+            blacklisted.add(current.c2);
+            //System.out.println(blacklisted);
             MAX+=current.w;
         }
         System.out.println(MAX);
