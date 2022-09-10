@@ -14,15 +14,11 @@ public class NoTimeToPaint {
             int big = Integer.parseInt(st.nextToken());
             int strokes = 0;
             //range 1: 1 -> (small-1)
-
-            //Initial scan for terms
             HashSet<Character> used_ = new HashSet<>();
             for (int p = 0; p<small-1; p++){
                used_.add(s[p]);
             }
             ArrayList<Character> used = new ArrayList<>(used_);
-            Collections.sort(used);
-
             for (int u = 0; u<used.size(); u++){
                 boolean active = false;
                 for (int p = 0; p<small-1; p++){
@@ -42,7 +38,6 @@ public class NoTimeToPaint {
                 used_.add(s[p]);
             }
             used = new ArrayList<>(used_);
-            Collections.sort(used);
 
             for (int u = 0; u<used.size(); u++){
                 boolean active = false;
