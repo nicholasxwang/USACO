@@ -36,8 +36,9 @@ public class DanceMooves {
         int count = 0;
         //System.out.println(cows);
 
+        int value = 50000; //10000; //50000;
 
-        while (count < 100000){
+        while (count < value){
             ArrayList<Integer> current = swaps.get(count % K);
             swap(cows, current.get(0), current.get(1));
             for (int i = 0; i<N; i++){
