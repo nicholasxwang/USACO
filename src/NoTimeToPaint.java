@@ -24,14 +24,14 @@ public class NoTimeToPaint {
             Collections.sort(used);
 
             for (int u = 0; u<used.size(); u++){
-                //boolean active = false;
+                boolean active = false;
                 for (int p = 0; p<small-1; p++){
-                    if (s[p] == used.get(u)){
-                        //active = true;
+                    if (s[p] == used.get(u) && !active){
+                        active = true;
                         strokes++;
                     }
                     else if (s[p] < used.get(u)){
-                        //active = false
+                        active = false;
                     }
                 }
             }
@@ -45,14 +45,14 @@ public class NoTimeToPaint {
             Collections.sort(used);
 
             for (int u = 0; u<used.size(); u++){
-                //boolean active = false;
+                boolean active = false;
                 for (int p = big; p<N; p++){
-                    if (s[p] == used.get(u)){
-                        //active = true;
+                    if (s[p] == used.get(u) && !active){
+                        active = true;
                         strokes++;
                     }
                     else if (s[p] < used.get(u)){
-                        //active = false;
+                        active = false;
                     }
                 }
             }
