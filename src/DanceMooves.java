@@ -21,24 +21,36 @@ public class DanceMooves {
         for (int i = 0; i<K; i++){
             t = b.readLine().split(" ");
             ArrayList<Integer> swap = new ArrayList<>();
-            swap.add(Integer.parseInt(t[0]));
-            swap.add(Integer.parseInt(t[1]));
+            swap.add(Integer.parseInt(t[0])-1);
+            swap.add(Integer.parseInt(t[1])-1);
             swaps.add(swap);
         }
 
         ArrayList<Integer> cows = new ArrayList<>();
+        ArrayList<HashSet<Integer>> position_master = new ArrayList<>();
         for (int i = 0; i<N; i++){
             cows.add(i+1);
+            position_master.add(new HashSet<>());
         }
 
         int count = 0;
-        System.out.println(cows);
+        //System.out.println(cows);
+
+
         while (count < 10){
             ArrayList<Integer> current = swaps.get(count % K);
             swap(cows, current.get(0), current.get(1));
-            System.out.println(cows);
+            for (int i = 0; i<N; i++){
+                position_master.get(cows.get(i)-1).add(i);
+            }
+            //System.out.println(cows);
             count++;
         }
+        //System.out.println(position_master);
+        for (int i = 0; i<position_master.size(); i++){
+            System.out.println(position_master.get(i).size());
+        }
+
 
 
 
