@@ -12,7 +12,16 @@ class GridValue{
     }
 }
 public class SpacedOut {
-
+    public static void print(String[][] cowgrid){
+        for (int i = 0; i<cowgrid.length; i++){
+            for (int j = 0; j<cowgrid.length; j++){
+                System.out.print(cowgrid[i][j]);
+                System.out.print(" ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
     public static boolean finished(String[][] cowgrid){
         for (int i = 0; i<cowgrid.length; i++){
             for (int j = 0; j<cowgrid.length; j++){
@@ -26,28 +35,36 @@ public class SpacedOut {
         int count;
         // (x-1, y-1) (x-1, y), (x, y-1), (x, y)
         count = 0;
-        if (cowgrid[x-1][y-1].equals("c")) count++;
-        if (cowgrid[x-1][y].equals("c")) count++;
-        if (cowgrid[x][y-1].equals("c")) count++;
-        if (count >= 2) return false;
+        try {
+            if (cowgrid[x - 1][y - 1].equals("c")) count++;
+            if (cowgrid[x - 1][y].equals("c")) count++;
+            if (cowgrid[x][y - 1].equals("c")) count++;
+            if (count >= 2) return false;
+        } catch (Exception ignored){}
         // (x-1, y+1) (x-1, y), (x, y+1), (x, y)
         count = 0;
-        if (cowgrid[x-1][y+1].equals("c")) count++;
-        if (cowgrid[x-1][y].equals("c")) count++;
-        if (cowgrid[x][y+1].equals("c")) count++;
-        if (count >= 2) return false;
+        try {
+            if (cowgrid[x - 1][y + 1].equals("c")) count++;
+            if (cowgrid[x - 1][y].equals("c")) count++;
+            if (cowgrid[x][y + 1].equals("c")) count++;
+            if (count >= 2) return false;
+        } catch (Exception ignored){}
         // (x+1, y-1) (x+1, y), (x, y-1), (x, y)
         count = 0;
-        if (cowgrid[x+1][y-1].equals("c")) count++;
-        if (cowgrid[x+1][y].equals("c")) count++;
-        if (cowgrid[x][y-1].equals("c")) count++;
-        if (count >= 2) return false;
+        try {
+            if (cowgrid[x + 1][y - 1].equals("c")) count++;
+            if (cowgrid[x + 1][y].equals("c")) count++;
+            if (cowgrid[x][y - 1].equals("c")) count++;
+            if (count >= 2) return false;
+        } catch (Exception ignored){}
         // (x+1, y+1) (x+1, y), (x, y+1), (x, y)
         count = 0;
-        if (cowgrid[x+1][y+1].equals("c")) count++;
-        if (cowgrid[x+1][y].equals("c")) count++;
-        if (cowgrid[x][y+1].equals("c")) count++;
-        if (count >= 2) return false;
+        try {
+            if (cowgrid[x + 1][y + 1].equals("c")) count++;
+            if (cowgrid[x + 1][y].equals("c")) count++;
+            if (cowgrid[x][y + 1].equals("c")) count++;
+            if (count >= 2) return false;
+        } catch (Exception ignored){}
         // Final
         return true;
     }public static boolean check2(String[][] cowgrid, int x, int y){
@@ -116,7 +133,7 @@ public class SpacedOut {
                 cowgrid[i][j] = ".";
             }
         }
-        System.out.println(Arrays.deepToString(cowgrid));
+        print(cowgrid);
         int ans = 0;
         while (!finished(cowgrid)){
             int x = values.get(0).x;
@@ -126,7 +143,7 @@ public class SpacedOut {
             if (check(cowgrid, x, y)){
                 cowgrid[x][y] = "c";
             }
-            System.out.println(Arrays.deepToString(cowgrid));
+            print(cowgrid);
 
         }
         System.out.println(ans);
