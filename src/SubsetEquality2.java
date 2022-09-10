@@ -35,34 +35,36 @@ public class SubsetEquality2 {
                     counts2+= count2.get(s);
                 }
             }
-            if (counts1 == counts2){
-                System.out.print("Y"); continue;
+            if (counts1 != counts2){
+                System.out.print("N"); continue;
             }
             boolean broken = false;
             for (char char1 : letters ){
                 for (char char2 : letters){
-                    if (char1 >= char2) continue;
-                    int var1  = 0;
-                    int var2 = 0;
-                    if (count1.containsKey(char1)){
-                        var1+= count1.get(char1);
-                    }
-                    if (count2.containsKey(char1)){
-                        var2+= count2.get(char1);
-                    }
-                    if (count1.containsKey(char2)){
-                        var1+= count1.get(char2);
-                    }
-                    if (count2.containsKey(char2)){
-                        var2+= count2.get(char2);
-                    }
-                    if (var1 != var2) broken = true;
+//                    if (char1 >= char2) continue;
+//                    int var1  = 0;
+//                    int var2 = 0;
+//                    if (count1.containsKey(char1)){
+//                        var1+= count1.get(char1);
+//                    }
+//                    if (count2.containsKey(char1)){
+//                        var2+= count2.get(char1);
+//                    }
+//                    if (count1.containsKey(char2)){
+//                        var1+= count1.get(char2);
+//                    }
+//                    if (count2.containsKey(char2)){
+//                        var2+= count2.get(char2);
+//                    }
+//                    if (var1 != var2) broken = true;
+
+
                 }
             }
-            if (!broken) {
-                System.out.print("Y");
-            }else {
+            if (broken) {
                 System.out.print("N");
+            }else {
+                System.out.print("Y");
             }
         }
 
