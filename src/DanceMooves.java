@@ -29,12 +29,13 @@ public class DanceMooves {
         int[] cows = new int[N];
         ArrayList<HashSet<Integer>> position_master = new ArrayList<>();
         for (int i = 0; i<N; i++){
+            cows[i] = i+1;
             position_master.add(new HashSet<>());
         }
 
         int count = 0;
 
-        int value = 50000; //10000; //50000;
+        int value = 50000; 
 
         while (count < value){
             ArrayList<Integer> current = swaps.get(count % K);
