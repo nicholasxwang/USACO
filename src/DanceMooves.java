@@ -7,10 +7,10 @@ import java.util.*;
 //2 3
 //2 4
 public class DanceMooves {
-    public static void swap(ArrayList<Integer> arr, int a, int b){
-        int var = arr.get(b);
-        arr.set(b, arr.get(a));
-        arr.set(a, var);
+    public static void swap(int[] arr, int a, int b){
+        int var = arr[b];
+        arr[b] = arr[a];
+        arr[a] = var;
     }
     public static void main(String[] argd) throws IOException{
         BufferedReader b = new BufferedReader( new InputStreamReader(System.in));
@@ -26,15 +26,13 @@ public class DanceMooves {
             swaps.add(swap);
         }
 
-        ArrayList<Integer> cows = new ArrayList<>();
+        int[] cows = new int[N];
         ArrayList<HashSet<Integer>> position_master = new ArrayList<>();
         for (int i = 0; i<N; i++){
-            cows.add(i+1);
             position_master.add(new HashSet<>());
         }
 
         int count = 0;
-        //System.out.println(cows);
 
         int value = 50000; //10000; //50000;
 
@@ -42,9 +40,8 @@ public class DanceMooves {
             ArrayList<Integer> current = swaps.get(count % K);
             swap(cows, current.get(0), current.get(1));
             for (int i = 0; i<N; i++){
-                position_master.get(cows.get(i)-1).add(i);
+                position_master.get(cows[i]-1).add(i);
             }
-            //System.out.println(cows);
             count++;
         }
         //System.out.println(position_master);
