@@ -133,7 +133,7 @@ public class SpacedOut {
                 cowgrid[i][j] = ".";
             }
         }
-        print(cowgrid);
+        System.out.println(Arrays.deepToString(cowgrid));
         int ans = 0;
         while (!finished(cowgrid)){
             int x = values.get(0).x;
