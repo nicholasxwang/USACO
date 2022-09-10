@@ -14,40 +14,32 @@ public class NoTimeToPaint {
             int big = Integer.parseInt(st.nextToken());
             int strokes = 0;
             //range 1: 1 -> (small-1)
-            HashSet<Character> used_ = new HashSet<>();
+
+            Stack<Character> stack = new Stack<>();
             for (int p = 0; p<small-1; p++){
-               used_.add(s[p]);
-            }
-            ArrayList<Character> used = new ArrayList<>(used_);
-            for (int u = 0; u<used.size(); u++){
-                boolean active = false;
-                for (int p = 0; p<small-1; p++){
-                    if (s[p] == used.get(u) && !active){
-                        active = true;
-                        strokes++;
-                    }
-                    else if (s[p] < used.get(u)){
-                        active = false;
+                if (!stack.contains(s[p])){
+                    stack.add(s[p]);
+                    strokes++;
+                }
+                for (int j = 0; j<stack.size(); j++ ){
+                    if (stack.get(j) > s[p]){
+                        stack.remove(stack.get(j));
                     }
                 }
             }
 
 
             //range 2: (big + 1) -> N-1
-            for (int p = big; p<N; p++){
-                used_.add(s[p]);
-            }
-            used = new ArrayList<>(used_);
 
-            for (int u = 0; u<used.size(); u++){
-                boolean active = false;
-                for (int p = big; p<N; p++){
-                    if (s[p] == used.get(u) && !active){
-                        active = true;
-                        strokes++;
-                    }
-                    else if (s[p] < used.get(u)){
-                        active = false;
+            stack = new Stack<>();
+            for (int p = big; p<N; p++){
+                if (!stack.contains(s[p])){
+                    stack.add(s[p]);
+                    strokes++;
+                }
+                for (int j = 0; j<stack.size(); j++ ){
+                    if (stack.get(j) > s[p]){
+                        stack.remove(stack.get(j));
                     }
                 }
             }
