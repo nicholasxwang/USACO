@@ -25,6 +25,9 @@ public class NoTimeToPaint {
                     if (stack.get(j) > s[p]){
                         stack.remove(stack.get(j));
                     }
+//                    if (stack.get(j) > s[p]){
+//                        strokes++;
+//                    }
                 }
             }
 
@@ -41,6 +44,7 @@ public class NoTimeToPaint {
                     if (stack.get(j) > s[p]){
                         stack.remove(stack.get(j));
                     }
+
                 }
             }
 
