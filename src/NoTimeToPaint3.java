@@ -57,12 +57,8 @@ public class NoTimeToPaint3 {
             int small = Integer.parseInt(st.nextToken())-1;
             int big = Integer.parseInt(st.nextToken())-1;
             int sum = 0;
-            for (int j = 0; j<=small; j++){
-                sum+=prefix[j];
-            }
-            for (int j = big; j<=N-1; j++){
-                sum+=suffix[j];
-            }
+            sum+= (prefix[small] - prefix[0]+1);
+            sum+= (suffix[N-big-1] - suffix[0]+1);
             System.out.println(sum);
         }
 
