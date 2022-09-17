@@ -55,10 +55,14 @@ public class NoTimeToPaint3 {
         for (int i = 0; i < Q; i++) {
             st = new StringTokenizer(br.readLine());
             int small = Integer.parseInt(st.nextToken())-1;
-            int big = Integer.parseInt(st.nextToken())-1;
+            int big = N - Integer.parseInt(st.nextToken())-1;
             int sum = 0;
-            sum+= (prefix[small] - prefix[0]+1);
-            sum+= (suffix[N-big-1] - suffix[0]+1);
+            if (small >= 0){
+                sum += prefix[small];
+            }
+            if (big >= 0){
+                sum += suffix[big];
+            }
             System.out.println(sum);
         }
 
