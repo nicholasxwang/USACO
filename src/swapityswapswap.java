@@ -30,7 +30,7 @@ public class swapityswapswap {
         return new_nums;
     }
     public static void main(String[] args) throws IOException{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new FileReader("swap.in"));
         StringTokenizer st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
@@ -52,6 +52,10 @@ public class swapityswapswap {
                 nums = swap(nums, arr.get(j));
             }
         }
-        System.out.println(nums);
+        PrintWriter pw = new PrintWriter("swap.out");
+        for (int i = 0; i<nums.size(); i++){
+            pw.println(nums.get(i));
+        }
+        pw.close();
     }
 }
