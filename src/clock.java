@@ -28,6 +28,7 @@ class ClockGraph{
             for (ClockRoom neighbour : currentNode.neighbours) {
                 if (this.rooms.get(neighbour.id).process_time < 12) {
                     this.rooms.get(neighbour.id).process_time+=1;
+                    System.out.println("Currently on "+(neighbour.id+1));
                     bfsQueue.add(neighbour);
                     break;
                 }
@@ -69,6 +70,7 @@ public class clock {
         }
         int num = 0;
         for (int i = 0; i<N; i++){
+            System.out.println("---Current Starting Point: ["+(i+1)+"] ---");
             if (g.bfs(g.rooms.get(i))){
                 num++;
             }
