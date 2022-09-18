@@ -2,6 +2,25 @@ import java.io.*;
 import java.util.*;
 
 public class swapityswapswap {
+    public static int lcm(int n1, int n2){
+        int gcd = 1;
+
+        for(int i = 1; i <= n1 && i <= n2; ++i) {
+            // Checks if i is factor of both integers
+            if(n1 % i == 0 && n2 % i == 0)
+                gcd = i;
+        }
+
+        int lcm = (n1 * n2) / gcd;
+        return lcm;
+    }
+    public static int all_lcm(ArrayList<Integer> a){
+        int lcm = a.get(0);
+        for (int i = 1; i<a.size(); i++){
+            lcm = lcm(lcm, a.get(i));
+        }
+        return lcm;
+    }
     public static int flip(int one, int two, int num){
         //2  5
         int distance_from_start = num-one;
@@ -45,20 +64,37 @@ public class swapityswapswap {
         }
         ArrayList<Integer> nums = new ArrayList<>();
         for (int i = 0; i<N; i++){
-            nums.add(i);
+            nums.add(i+1);
         }
 
         for (int j = 0; j<M; j++){
             nums = swap(nums, arr.get(j));
         }
-
-        PrintWriter pw = new PrintWriter("swap.out");
-        for (int i = 0; i<nums.size(); i++){
-            int answer = i;
-            for (int j = 0; j<K; j++){
-                answer = nums.get(answer);
+        ArrayList<ArrayList<Integer>> swappers = new ArrayList<>();
+        HashSet<Integer> lengths = new HashSet<>();
+        for (int i = 0; i<N; i++){
+            ArrayList<Integer> the_sequence = new ArrayList<>();
+            int number = i+1;
+            the_sequence.add(number);
+            number = nums.get(number-1);
+            if (number != (i+1))
+                the_sequence.add(number);
+            while (number != (i+1)){
+                number = nums.get(number-1);
+                if (number != (i+1))
+                    the_sequence.add(number);
             }
-            pw.println(answer+1);
+            swappers.add(the_sequence);
+            lengths.add(the_sequence.size());
+        }
+        //System.out.println(swappers);
+        ArrayList<Integer> newlengths = new ArrayList<>(lengths);
+        int lcm = all_lcm(newlengths);
+        K = K % lcm;
+        PrintWriter pw = new PrintWriter("swap.out");
+        for (int i = 0; i<N; i++){
+            //System.out.println(swappers.get(i).get(K % newlengths.get(i)));
+            pw.println(swappers.get(i).get(K % swappers.get(i).size()));
         }
         pw.close();
     }
