@@ -31,47 +31,43 @@ public class triangles {
         int MOD = 10*10*10*10*10*10*10*10*10+7;
         BufferedReader br = new BufferedReader(new FileReader("triangles.in"));
         int N = Integer.parseInt(br.readLine());
-        ArrayList<Integer>[] x_values = new ArrayList[20000];
-        ArrayList<Integer>[] y_values = new ArrayList[20000];
+        int NEGATIVE_SUPPORT = 0;
+        int[] x_values = new int[10000+NEGATIVE_SUPPORT];
+        int[] y_values = new int[10000+NEGATIVE_SUPPORT];
+        int[] x_counts = new int[10000+NEGATIVE_SUPPORT];
+        int[] y_counts = new int[10000+NEGATIVE_SUPPORT];
 
         ArrayList<TriangularPoint> arr = new ArrayList<>();
         for (int i = 0; i<N; i++){
             StringTokenizer st = new StringTokenizer(br.readLine());
-            int x = Integer.parseInt(st.nextToken())+10000;
-            int y = Integer.parseInt(st.nextToken())+10000;
+            int x = Integer.parseInt(st.nextToken())+NEGATIVE_SUPPORT;
+            int y = Integer.parseInt(st.nextToken())+NEGATIVE_SUPPORT;
             TriangularPoint point = new TriangularPoint(x, y);
-            if (x_values[x] == null){
-                x_values[x] =  new ArrayList<>();
-            }
-            if (y_values[y] == null){
-                y_values[y] =  new ArrayList<>();
-            }
 
-            x_values[x].add(i);
-            y_values[y].add(i);
+            x_values[x] += y;
+            y_values[y] += x;
+            x_counts[x] ++;
+            y_counts[y] ++;
             arr.add(point);
         }
 
         int sum = 0;
         for (int i = 0; i<N; i++){
             TriangularPoint point = arr.get(i);
-            ArrayList<Integer> x = x_values[point.x];
-            ArrayList<Integer> y = y_values[point.y];
-            for (Integer a : x) {
-                if (a == i) continue;
-                for (Integer b : y) {
-                    if (b == i || Objects.equals(b, a)) continue;
-                    int area = area(arr.get(i), arr.get(a), arr.get(b));
-                    area = area % MOD;
-                    sum = sum % MOD;
-                    sum += area;
-
-                }
-            }
+            int x = x_values[point.x];
+            int y = y_values[point.y];
+            int x_count = x_counts[point.x];
+            int y_count = y_counts[point.y];
+            int area = (x - x_count*point.x)*(y - y_count*point.y);
+//            int area = (x - 20000)*(y - 20000);
+            area = area % MOD;
+            sum = sum % MOD;
+            if (area > 0)
+                sum += area;
 
         }
        PrintWriter pw = new PrintWriter("triangles.out");
-        pw.println(sum);
+        pw.println(sum % MOD);
         pw.close();
 
 

@@ -45,16 +45,20 @@ public class swapityswapswap {
         }
         ArrayList<Integer> nums = new ArrayList<>();
         for (int i = 0; i<N; i++){
-            nums.add(i+1);
+            nums.add(i);
         }
-        for (int i = 0; i<K; i++){
-            for (int j = 0; j<M; j++){
-                nums = swap(nums, arr.get(j));
-            }
+
+        for (int j = 0; j<M; j++){
+            nums = swap(nums, arr.get(j));
         }
+
         PrintWriter pw = new PrintWriter("swap.out");
         for (int i = 0; i<nums.size(); i++){
-            pw.println(nums.get(i));
+            int answer = i;
+            for (int j = 0; j<K; j++){
+                answer = nums.get(answer);
+            }
+            pw.println(answer+1);
         }
         pw.close();
     }
