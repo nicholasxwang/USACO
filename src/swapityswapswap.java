@@ -1,18 +1,15 @@
-import java.io.*;
-import java.util.*;
+import java.io.*; import java.util.*;
 
 public class swapityswapswap {
     public static long lcm(long n1, int n2){
         int gcd = 1;
 
         for(int i = 1; i <= n1 && i <= n2; ++i) {
-            // Checks if i is factor of both integers
             if(n1 % i == 0 && n2 % i == 0)
                 gcd = i;
         }
 
-        long lcm = (n1 * n2) / gcd;
-        return lcm;
+        return (n1 * n2) / gcd;
     }
     public static long all_lcm(ArrayList<Integer> a, int M){
         long lcm = (long) a.get(0);
@@ -64,13 +61,12 @@ public class swapityswapswap {
             swappers.add(the_sequence);
             lengths.add(the_sequence.size());
         }
-        //System.out.println(swappers);
-        ArrayList<Integer> newlengths = new ArrayList<>(lengths);
-        //long lcm = all_lcm(newlengths, M);
-        //K = (int) (K % lcm);
+        ArrayList<Integer> newLengths = new ArrayList<>(lengths);
+        long lcm = all_lcm(newLengths, M);
+        K = (int) (K % lcm);
         PrintWriter pw = new PrintWriter("swap.out");
         for (int i = 0; i<N; i++){
-            //System.out.println(swappers.get(i).get(K % newlengths.get(i)));
+            //System.out.println(swappers.get(i).get(K % newLengths.get(i)));
             pw.println(swappers.get(i).get(K % swappers.get(i).size()));
         }
         pw.close();
