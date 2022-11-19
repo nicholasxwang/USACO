@@ -1,4 +1,5 @@
 import java.io.*;
+
 class CowCount{
     int one;
     int two;
@@ -14,6 +15,10 @@ class CowCount{
 
 }
 public class BreedCounting {
+    /*
+    Keep track of all 3 prefix sums at once with CowCount
+    Use standard Prefix Sum algorithm but for 3 things at once
+    */
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new FileReader("bcount.in"));
         PrintWriter pw = new PrintWriter("bcount.out");
@@ -22,9 +27,7 @@ public class BreedCounting {
         int Q = Integer.parseInt(t[1]);
         int[] cows = new int[N];
         CowCount[] cow_count = new CowCount[N];
-        for (int i = 0; i<N; i++){
-            cows[i] = Integer.parseInt(br.readLine());
-        }
+        for (int i = 0; i<N; i++){ cows[i] = Integer.parseInt(br.readLine());  }
         CowCount temp_cow;
         for (int i = 0; i<N; i++){
             if (i == 0){
@@ -57,9 +60,9 @@ public class BreedCounting {
         }
         for (int i = 0; i<Q; i++){
             t = br.readLine().split(" ", 2);
-            int ones = 0;
-            int twos = 0;
-            int threes = 0;
+            int ones;
+            int twos;
+            int threes;
             CowCount cow_one;
             try{
                 cow_one = cow_count[Integer.parseInt(t[0])-2];}
@@ -71,7 +74,6 @@ public class BreedCounting {
             twos = cow_two.two - cow_one.two;
             threes = cow_two.three - cow_one.three;
             pw.println(ones+" "+twos+" "+threes);
-
         }
         pw.close();
 

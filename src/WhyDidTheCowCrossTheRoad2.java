@@ -1,8 +1,16 @@
 import java.io.*; import java.util.*;
-public class WhyDidTheCowCrossTheRoadf2 {
+public class WhyDidTheCowCrossTheRoad2 {
     public static void main(String[] main) throws IOException{
+        /* Example: 10 signals, Need 6 continuous signals, 5 are broken
+        [2, 10, 1, 5, 9]
+        Signals:        0 0 1 1 0 1 1 1 0 0
+        Prefix of it:    0 0 1 2 2 3 4 5 5 5
+        Optimal:        1 2 3 4 5 6 7 8 9 10
+        Difference:     1 2 2 2 3 3 3 3 4 5
+        Longest stretch is 5, so we need 6 - 5 = 1 more
+        */
+
         BufferedReader br = new BufferedReader(new FileReader("maxcross.in"));
-        //BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         PrintWriter pw = new PrintWriter("maxcross.out");
         StringTokenizer st = new StringTokenizer(br.readLine());
         int i, N, K, B;
@@ -28,13 +36,7 @@ public class WhyDidTheCowCrossTheRoadf2 {
             int var = difference[i+K] - difference[i];
             if (var < min) min = var;
         }
-        //System.out.println(min);
         pw.println(min);
         pw.close();
     }
 }
-
-// 1 2 3 4 5 6 7 8 9 10
-// 0 0 1 1 0 1 1 1 0 0
-// 0 0 1 2 2 3 4 5 5 5
-// 1 2 2 2 3 3 3 3 4 5
