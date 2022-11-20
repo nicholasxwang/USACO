@@ -3,51 +3,39 @@ import java.io.*; import java.util.*;
 public class ConvolutedIntervals {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
-        int[][] intervals = new int[N][2];
-        int[][] x_sums = new int[N][N];
-        int[][] y_sums = new int[N][N];
-        int[] prefixx = new int[M*2+1];
-        int[] prefixy = new int[M*2+1];
-        int[] answers = new int[M*2+1];
-        for (int i = 0; i<N; i++){
-            st = new StringTokenizer(br.readLine());
-            intervals[i][0] = Integer.parseInt(st.nextToken());
-            intervals[i][1] = Integer.parseInt(st.nextToken());
+        StringTokenizer tokenizer = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(tokenizer.nextToken());
+        int M = Integer.parseInt(tokenizer.nextToken());
+        long pairs = ((long) N) * ((long) N);
+        long[] aFreq = new long[M + 1];
+        long[] bFreq = new long[M + 1];
+        for (int j = 1; j <= N; j++) {
+            tokenizer = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(tokenizer.nextToken());
+            int b = Integer.parseInt(tokenizer.nextToken());
+            aFreq[a]++;
+            bFreq[b]++;
         }
-        for (int i = 0; i<N; i++){
-            for (int j = 0; j<N; j++){
-                x_sums[i][j] = intervals[i][0] + intervals[j][0];
-                y_sums[i][j] = intervals[i][1] + intervals[j][1];
-                int bottom = x_sums[i][j];
-                int top = y_sums[i][j];
-                prefixx[bottom]++;
-                prefixy[top]++;
+        long[] aSumFreq = new long[(2 * M) + 1];
+        long[] bSumFreq = new long[(2 * M) + 1];
+        for (int x = 0; x <= M; x++) {
+            for (int y = 0; y <= M; y++) {
+                aSumFreq[x + y] += aFreq[x] * aFreq[y];
+                bSumFreq[x + y] += bFreq[x] * bFreq[y];
             }
         }
-        //run prefix sums
-        // run y prefix sums from 0 to end
-        for (int i = 1; i<M*2+1; i++){
-            prefixx[i] += prefixx[i-1];
+        long aValid = aSumFreq[0];
+        long bValid = pairs;
+        StringBuilder out = new StringBuilder();
+        for (int x = 0; x <= 2 * M; x++) {
+            if (x > 0) {
+                aValid += aSumFreq[x];
+                bValid -= bSumFreq[x - 1];
+            }
+            long res = aValid + bValid - pairs;
+            out.append(res).append('\n');
         }
-        // run x prefix sums from end to 0
-        for (int i = M*2-1; i>=0; i--){
-            prefixy[i] += prefixy[i+1];
-        }
-
-        for (int i = 0; i<answers.length; i++){
-            // take the smaller of the two
-            answers[i] = Math.min(prefixx[i], prefixy[i]);
-        }
-
-        String answer = "";
-        for (int k = 0; k<= 2*M; k++){
-            answer+=answers[k];
-            if (k != 2*M) answer+="\n";
-        }
-        System.out.println(answer);
+        System.out.print(out);
 
     }
 }

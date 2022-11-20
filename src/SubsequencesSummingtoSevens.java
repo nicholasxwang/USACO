@@ -15,7 +15,16 @@ public class SubsequencesSummingtoSevens {
             else prefix[i] = (prefix[i-1] + cows[i]) % 7;
         }
         // find largest group of cows that sum to 0 mod 7
-
+        int ans = 0;
+        for (int i = 0 ; i<N; i++){
+           for (int j = i; j<N; j++){
+               if (prefix[j] - prefix[i] == 0){
+                   ans = Math.max(ans, j-i);
+               }
+           }
+        }
+        pw.println(ans);
+        pw.close();
 
     }
 }
