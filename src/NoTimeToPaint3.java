@@ -23,14 +23,11 @@ public class NoTimeToPaint3 {
                 stack.remove(to_be_removed.get(j));
             }
             if (!stack.contains(s[i])){
-                //if (stack.size()>26) System.out.println("no!");
                 stack.add(s[i]);
                 strokes++;
             }
             prefix[i] = strokes;
         }
-//        System.out.println(strokes);
-//        System.out.println(Arrays.toString(prefix));
         strokes = 0;
         stack = new Stack<>();
         for (int i = N-1; i>=0; i--){
@@ -44,26 +41,22 @@ public class NoTimeToPaint3 {
                 stack.remove(to_be_removed.get(j));
             }
             if (!stack.contains(s[i])){
-                //if (stack.size()>26) System.out.println("no!");
                 stack.add(s[i]);
                 strokes++;
             }
             suffix[N-i-1] = strokes;
         }
-//        System.out.println(strokes);
-//        System.out.println(Arrays.toString(suffix));
+        System.out.println(Arrays.toString(prefix));
+        System.out.println(Arrays.toString(suffix));
+
         for (int i = 0; i < Q; i++) {
             st = new StringTokenizer(br.readLine());
             int small = Integer.parseInt(st.nextToken())-1;
-            int big = N - Integer.parseInt(st.nextToken())-1;
-            int sum = 0;
-            if (small >= 0){
-                sum += prefix[small];
-            }
-            if (big >= 0){
-                sum += suffix[big];
-            }
-            System.out.println(sum);
+            int big = Integer.parseInt(st.nextToken())-1;
+
+            int answer = prefix[big] - prefix[small];
+            answer+= (suffix[N-small-1] - suffix[N-big-1]);
+            System.out.println(answer);
         }
 
     }
