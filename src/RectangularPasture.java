@@ -51,5 +51,5 @@ public class RectangularPasture {
         }
         System.out.println(answer);
 
-}
     }
+}
