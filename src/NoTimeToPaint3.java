@@ -48,15 +48,28 @@ public class NoTimeToPaint3 {
         }
         System.out.println(Arrays.toString(prefix));
         System.out.println(Arrays.toString(suffix));
-
+        int total = suffix[N-1] - suffix[0] + prefix[N-1] - prefix[0];
         for (int i = 0; i < Q; i++) {
             st = new StringTokenizer(br.readLine());
-            int small = Integer.parseInt(st.nextToken())-1;
-            int big = Integer.parseInt(st.nextToken())-1;
-
-            int answer = prefix[big] - prefix[small];
-            answer+= (suffix[N-small-1] - suffix[N-big-1]);
-            System.out.println(answer);
+            int small = Integer.parseInt(st.nextToken())-2;
+            int big = Integer.parseInt(st.nextToken())+1;
+//
+//            int answer = prefix[big] - prefix[small];
+//            answer+= (suffix[N-small-1] - suffix[N-big-1]);
+//            System.out.println(total - answer);
+            System.out.println("Left Range: 0 to " + small+" and");
+            System.out.println("Right Range: " + big + " to " + (N-1));
+            int left_sum = 0;
+            int right_sum = 0;
+            if (small > 0)
+                left_sum += prefix[small] - prefix[0];
+            left_sum += suffix[N-1] - suffix[N-big-1];
+            System.out.println("Left Sum: " + left_sum);
+            if (big < N-1)
+                right_sum += prefix[N-1] - prefix[big];
+            right_sum += suffix[N-small-1] - suffix[0];
+            System.out.println("Right Sum: " + right_sum);
+            System.out.println(left_sum+right_sum);
         }
 
     }
