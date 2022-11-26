@@ -14,12 +14,13 @@ public class ConvolutedIntervals {
         }
 
         for (int k = 0; k<2*M+1; k++){
-            int count = 0;
-            //System.out.println("K is now " + k);
+            int count =  0;
+            // System.out.println("K is now " + k);
             for (int i = 0; i<N; i++){
-                for (int j = 0; j<N; j++){
+                for (int j = i; j<N; j++){
                     if (intervals[i][0] + intervals[j][0] <= k && intervals[i][1] + intervals[j][1] >= k){
-                        count++;
+                        if (i == j) count++;
+                        else count+=2; // i,j AND j=i
                         //System.out.println("("+(i+1)+", "+(j+1)+")");
                     }
                 }
