@@ -64,12 +64,20 @@ public class Cereal2_2 {
                 seen[i] = false;
 
             // Find if the applicant 'u' can get a job
-            if (bpm(bpGraph, u, seen, matchR, N, M))
-                logs.add(new ArrayList<>(Arrays.asList(u, matchR[u])));
-                result++;
+//            if (bpm(bpGraph, u, seen, matchR, N, M))
+//                logs.add(new ArrayList<>(Arrays.asList(u, matchR[u])));
+//                result++;
+            if (bpm(bpGraph, u, seen, matchR, N, M)) {
+                try {
+                    logs.add(new ArrayList<>(Arrays.asList(u, matchR[u])));
+                    result++;
+                } catch (Exception ignored) {
+
+                }
+            }
         }
-        return result;
-    }
+            return result;
+        }
 
 
     public static void main(String[] args) throws IOException {
@@ -79,11 +87,12 @@ public class Cereal2_2 {
         int M = Integer.parseInt(st.nextToken());
         boolean[][] matrix = new boolean[N][M];
 
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < M; j++) {
-                matrix[i][j] = false;
-            }
-        }
+//        for (int i = 0; i < N; i++) {
+//            for (int j = 0; j < M; j++) {
+//                matrix[i][j] = false;
+//            }
+//        }
+
         int[][] priorities = new int[N][2];
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
@@ -97,8 +106,8 @@ public class Cereal2_2 {
 
 //        System.out.println(Arrays.deepToString(matrix));
         Cereal2_2 m = new Cereal2_2();
-        m.maxBPM(matrix, M, N);
-//        System.out.println("Maximum cows fed is " + m.maxBPM(matrix, M, N));
+        int fed = m.maxBPM(matrix, M, N);
+//        System.out.println("Maximum cows fed is " + fed);
 //        System.out.println(m.logs);
         // sorting
         ArrayList<Integer> firsts = new ArrayList<>();
@@ -116,14 +125,23 @@ public class Cereal2_2 {
                 hungry.add(cow + 1);
             }
         }
+        boolean[] fed_cows = new boolean[N];
+        System.out.println(N - fed);
         for (int i = 0; i<firsts.size(); i++){
             System.out.println(firsts.get(i));
+            fed_cows[firsts.get(i) - 1] = true;
         }
         for (int i = 0; i<seconds.size(); i++){
             System.out.println(seconds.get(i));
+            fed_cows[seconds.get(i) - 1] = true;
         }
-        for (int i = 0; i<hungry.size(); i++){
-            System.out.println(hungry.get(i));
+//        for (int i = 0; i<hungry.size(); i++){
+//            System.out.println(hungry.get(i));
+//        }
+        for (int i = 0; i<fed_cows.length; i++){
+            if (!fed_cows[i]){
+                System.out.println(i + 1);
+            }
         }
     }
 }
