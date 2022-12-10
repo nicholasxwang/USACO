@@ -4,13 +4,14 @@ import java.io.*; import java.util.*;
 public class ClosestCowWins2 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader("INPUT.txt"));
+        //BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         long K = Long.parseLong(st.nextToken()); // Total number of patches
         long M = Long.parseLong(st.nextToken()); // Farmer Nhoj's cows
         long N = Long.parseLong(st.nextToken()); // Farmer John's cows
         long[][] patches = new long[(int) K][2];
         long[] ncows= new long[(int) M];
-        long[][] jcows = new long[(int) M][2]; // [0] left value, [1] right value
+        float[][] jcows = new float[(int) M][2]; // [0] left value, [1] right value
         long largest_index = 0;
         for (int i = 0; i<K; i++){
             st = new StringTokenizer(br.readLine());
@@ -55,32 +56,36 @@ public class ClosestCowWins2 {
 
         }
         for (int i = 0; i< patches.length; i++){
-            if (closest_to_patch[i][0] != -1){ //left
+            if (closest_to_patch[i][0] != -1 && closest_to_patch[i][1] != -1){
+                jcows[closest_to_patch[i][0]][1] += patches[i][1]/2.0;
+                jcows[closest_to_patch[i][1]][0] += patches[i][1]/2.0;
+            }
+            else if (closest_to_patch[i][0] != -1){ //left
                 jcows[closest_to_patch[i][0]][1] += patches[i][1];
             }
-            if (closest_to_patch[i][1] != -1){ //right
+            else if (closest_to_patch[i][1] != -1){ //right
                 jcows[closest_to_patch[i][1]][0] += patches[i][1];
             }
         }
 
-        ArrayList<Long> lengths = new ArrayList<>();
+        ArrayList<Float> lengths = new ArrayList<>();
         for (int i = 0; i<M; i++){
             lengths.add(jcows[i][0]);
             lengths.add(jcows[i][1]);
         }
-        System.out.println(lengths);
+        //System.out.println(lengths);
        Collections.sort(lengths);
         // reverse array
         for (int i = 0; i<lengths.size()/2; i++){
-            long temp = lengths.get(i);
+            float temp = lengths.get(i);
             lengths.set(i, lengths.get(lengths.size()-i-1));
             lengths.set(lengths.size()-i-1, temp);
         }
         // choose first N
-        int ans = 0;
+        float ans = 0;
         for (int i = 0; i<N; i++){
             ans += lengths.get(i);
         }
-        System.out.println(ans);
+        System.out.println((long) ans);
     }
 }

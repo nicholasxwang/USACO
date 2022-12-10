@@ -78,9 +78,9 @@ public class ConnectingTwoBarns2 {
             return max;
         }
        // System.out.println("not skipped :P");
-        System.out.println(Arrays.toString(boundary1));
-        System.out.println(Arrays.toString(boundary2));
-        System.out.println(max);
+//        System.out.println(Arrays.toString(boundary1));
+//        System.out.println(Arrays.toString(boundary2));
+//        System.out.println(max);
         nonSkip++;
         //int smallest = max
         int smallest = Integer.MAX_VALUE;
@@ -102,8 +102,8 @@ public class ConnectingTwoBarns2 {
         
     }
     public static void main(String[] args) throws IOException {
-         //BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedReader br = new BufferedReader(new FileReader("INPUT.TXT"));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        //BufferedReader br = new BufferedReader(new FileReader("INPUT.TXT"));
         int T = Integer.parseInt(br.readLine());
         for (int t = 0; t<T; t++){
             StringTokenizer st = new StringTokenizer(br.readLine());
@@ -177,9 +177,9 @@ public class ConnectingTwoBarns2 {
                     int smallest_toward_indirect = Integer.MAX_VALUE; // first to intermediate + intermediate to final
                     int smallest_from_indirect = Integer.MAX_VALUE; // final to intermediate + intermediate to first
                     ArrayList<Integer> other_component = connected_components.get(intermediate_one);
-                    smallest_toward_indirect = newdifffind(initial_component, other_component,Math.min(smallest_toward_indirect, smallest_from_indirect), boundaries.get(initial_one), boundaries.get(intermediate_one));
+                    smallest_toward_indirect = newdifffind(initial_component, other_component,Math.min(smallest_indirect_connection, smallest_direct_connection), boundaries.get(initial_one), boundaries.get(intermediate_one));
                     if (smallest_toward_indirect > smallest_indirect_connection) continue;
-                    smallest_from_indirect = newdifffind(other_component, final_component, Math.min(smallest_toward_indirect, smallest_from_indirect), boundaries.get(intermediate_one), boundaries.get(final_one));
+                    smallest_from_indirect = newdifffind(other_component, final_component, Math.min(smallest_indirect_connection, smallest_direct_connection), boundaries.get(intermediate_one), boundaries.get(final_one));
                     if (smallest_from_indirect > smallest_indirect_connection) continue;
 //                     System.out.println("smallest_toward_indirect: " + smallest_toward_indirect);
 //                    System.out.println("smallest_from_indirect: " + smallest_from_indirect);
@@ -191,10 +191,10 @@ public class ConnectingTwoBarns2 {
                 }
                 int smallest = Math.min(smallest_direct_connection, smallest_indirect_connection);
                 System.out.println(smallest);
-                System.out.println("<---");
-                System.out.println(skip);
-                System.out.println(nonSkip);
-                System.out.println("--->");
+//                System.out.println("<---");
+//                System.out.println(skip);
+//                System.out.println(nonSkip);
+//                System.out.println("--->");
                 skip = 0;
                 nonSkip = 0;
             }
