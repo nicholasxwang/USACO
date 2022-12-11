@@ -11,9 +11,15 @@ public class RedistributingGifts {
         int[][] choices = new int[N][N];
         for (int i = 0; i<N; i++) {
             String[] s = br.readLine().split(" ");
+            boolean keep_adding = true; // make sure nothng gets added thats worse
             for (int j = 0; j < N; j++) {
                 choices[i][j] = Integer.parseInt(s[j])-1;
-                matrix[i][choices[i][j]] = true;
+                if (choices[i][j] == i) {
+                    keep_adding = false;
+                }
+                if (keep_adding) {
+                    matrix[i][choices[i][j]] = true;
+                }
                 if (choices[i][j] == i) {
                     gifts[i] = j;
                 }
@@ -27,12 +33,29 @@ public class RedistributingGifts {
             for (int j = 0; j<current; j++){
                 // check if both of them get the upgrade
                if (matrix[i][choices[i][j]] && matrix[choices[i][j]][i]){
-                   if (gifts[i] > gifts[choices[i][j]] || gifts[j] > gifts[choices[j][i]]) {
-                       continue;
-                   }
+                   int old_position1 = gifts[i];
+                   int new_position1 = Integer.MAX_VALUE;
+                   int old_position2 = gifts[choices[i][j]];
+                   int new_position2 = Integer.MAX_VALUE;
+                 for (int k = 0; k<N; k++){
+                     if (choices[i][k] == choices[i][j]){
+                         new_position1 = k;
+                         gifts[i] = new_position1;
+                         break;
+                     }
+                     if (choices[choices[i][j]][k] == i){
+                         new_position2 = k;
+                         gifts[choices[i][j]] = new_position2;
+                         break;
+                     }
+                 }
+
+                 if ((new_position2 < old_position2) && (new_position1 < old_position1)) {
+
                      gifts[i] = j;
                      gifts[j] = i;
                      break;
+                 }
                }
             }
 
