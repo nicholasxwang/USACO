@@ -1,11 +1,11 @@
 import java.util.*;
 import java.io.*;
 
-public class Cereal2_2 {
+public class Cereal2_3 {
     ArrayList < ArrayList < Integer >> logs = new ArrayList < > ();
-    boolean bpm(boolean[][] bpGraph, int u, boolean[] seen, int[] matchR, int N, int M) {
+    boolean bpm(int[][] bpGraph, int u, boolean[] seen, int[] matchR, int N, int M) {
         for (int v = 0; v < N; v++) {
-            if (bpGraph[u][v] && !seen[v]) {
+            if (bpGraph[u][v] == 1 && !seen[v]) {
                 seen[v] = true;
                 if (matchR[v] < 0 || bpm(bpGraph, matchR[v],
                         seen, matchR, N, M)) {
@@ -17,7 +17,21 @@ public class Cereal2_2 {
         return false;
     }
 
-    int maxBPM(boolean[][] bpGraph, int N, int M) {
+    boolean bpm2(int[][] bpGraph, int u, boolean[] seen, int[] matchR, int N, int M) {
+        for (int v = 0; v < N; v++) {
+            if (bpGraph[u][v] == 2 && !seen[v]) {
+                seen[v] = true;
+                if (matchR[v] < 0 || bpm(bpGraph, matchR[v],
+                        seen, matchR, N, M)) {
+                    matchR[v] = u;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    int maxBPM(int[][] bpGraph, int N, int M) {
         int[] matchR = new int[N];
         for (int i = 0; i < N; ++i)
             matchR[i] = -1;
@@ -34,6 +48,13 @@ public class Cereal2_2 {
                 } catch (Exception ignored) {
 
                 }
+            }else if(bpm2(bpGraph, u, seen, matchR, N, M)){
+                try {
+                    logs.add(new ArrayList < > (Arrays.asList(u, matchR[u])));
+                    result++;
+                } catch (Exception ignored) {
+
+                }
             }
         }
         return result;
@@ -44,18 +65,18 @@ public class Cereal2_2 {
         StringTokenizer st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
-        boolean[][] matrix = new boolean[N][M];
+        int[][] matrix = new int[N][M];
         int[][] priorities = new int[N][2];
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
             int favorite = Integer.parseInt(st.nextToken());
             int second = Integer.parseInt(st.nextToken());
-            matrix[i][favorite - 1] = true;
-            matrix[i][second - 1] = true;
+            matrix[i][favorite - 1] = 1;
+            matrix[i][second - 1] = 2;
             priorities[i][0] = favorite;
             priorities[i][1] = second;
         }
-        Cereal2_2 m = new Cereal2_2();
+        Cereal2_3 m = new Cereal2_3();
         int fed = m.maxBPM(matrix, M, N);
         ArrayList < Integer > firsts = new ArrayList < > ();
         ArrayList < Integer > seconds = new ArrayList < > ();
