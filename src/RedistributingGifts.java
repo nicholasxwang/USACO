@@ -25,11 +25,11 @@ public class RedistributingGifts {
                 }
             }
         }
-        System.out.println(Arrays.toString(gifts));
+        //System.out.println(Arrays.toString(gifts));
         for (int i = 0; i<N; i++){
             // locate which index they have currently
             int current = gifts[i];
-            System.out.println(Arrays.toString(gifts));
+            //System.out.println(Arrays.toString(gifts));
             for (int j = 0; j<current; j++){
                 // check if both of them get the upgrade
                if (matrix[i][choices[i][j]] && matrix[choices[i][j]][i]){
@@ -38,24 +38,29 @@ public class RedistributingGifts {
                    int old_position2 = gifts[choices[i][j]];
                    int new_position2 = Integer.MAX_VALUE;
                  for (int k = 0; k<N; k++){
-                     if (choices[i][k] == choices[i][j]){
+//                     if (choices[i][k] == choices[i][j]){
+//                         new_position1 = k;
+//                         gifts[i] = new_position1;
+//                         System.out.println("Swapping " + i + " with " + choices[i][j]);
+//                         break;
+//                     }
+//                     if (choices[choices[i][j]][k] == i){
+//                         new_position2 = k;
+//                         gifts[choices[i][j]] = new_position2;
+//                            System.out.println("Swapping " + choices[i][j] + " with " + i);
+//                         break;
+//                     }
+                     if (choices[i][k] == choices[i][j] && choices[choices[i][j]][k] == i){
                          new_position1 = k;
                          gifts[i] = new_position1;
-                         break;
-                     }
-                     if (choices[choices[i][j]][k] == i){
+                         //System.out.println("Swapping " + i + " with " + choices[i][j]);
                          new_position2 = k;
                          gifts[choices[i][j]] = new_position2;
+                         //System.out.println("Swapping " + choices[i][j] + " with " + i);
                          break;
                      }
                  }
 
-                 if ((new_position2 < old_position2) && (new_position1 < old_position1)) {
-
-                     gifts[i] = j;
-                     gifts[j] = i;
-                     break;
-                 }
                }
             }
 
