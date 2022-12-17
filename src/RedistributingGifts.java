@@ -25,11 +25,11 @@ public class RedistributingGifts {
                 }
             }
         }
-        //System.out.println(Arrays.toString(gifts));
+        System.out.println(Arrays.toString(gifts));
         for (int i = 0; i<N; i++){
             // locate which index they have currently
             int current = gifts[i];
-            //System.out.println(Arrays.toString(gifts));
+            System.out.println(Arrays.toString(gifts));
             for (int j = 0; j<current; j++){
                 // check if both of them get the upgrade
                if (matrix[i][choices[i][j]] && matrix[choices[i][j]][i]){
