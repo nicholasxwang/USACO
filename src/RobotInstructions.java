@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-class Subset{
+class Subset  implements Comparable<Subset>{
     int amountx;
     int amounty;
     int element_count;
@@ -9,6 +9,14 @@ class Subset{
         this.amountx = amountx;
         this.amounty = amounty;
         this.element_count = element_count;
+    }
+
+    public int compareTo(Subset other) {
+        if (amounty != other.amounty) {
+            return Long.compare(amounty, other.amounty);
+        } else {
+            return Long.compare(amountx, other.amountx);
+        }
     }
 }
 public class RobotInstructions {
@@ -57,12 +65,24 @@ public class RobotInstructions {
                 }
         }
 
+        Arrays.sort(subsets1);
+        Arrays.sort(subsets2);
+
         // find number of subsets1[x] + subsets2[y] = X
-        for (int i = 0; i<subsets1.length; i++){
-            for (int j = 0; j<subsets2.length; j++){
-                if (subsets1[i].amountx + subsets2[j].amountx == x && subsets1[i].amounty + subsets2[j].amounty == y) {
-                    answers[subsets1[i].element_count + subsets2[j].element_count]++;
-                }
+        int j = 0;
+        int k = 0;
+        long[] amounts = new long[(N / 2) + 1];
+        for (Subset choice : subsets1) {
+            while (j < subsets2.length && subsets2[j].compareTo(choice) <= 0) {
+                amounts[subsets2[j].element_count]++;
+                j++;
+            }
+            while (k < subsets2.length && subsets2[k].compareTo(choice) < 0) {
+                amounts[subsets2[k].element_count]--;
+                k++;
+            }
+            for (int element_count = 0; element_count <= N / 2; element_count++) {
+                answers[element_count + choice.element_count] += amounts[element_count];
             }
         }
 
