@@ -35,25 +35,22 @@ public class RobotInstructions {
             }
         }
 
-        Subset[] subsets1 = new Subset[(int) Math.pow(2, N)];
-        Subset[] subsets2 = new Subset[(int) Math.pow(2, N)];
-        for (int i = 0; i < (1<<subsets1.length); i++){
-            for (int j = 0; j < subsets1.length; j++)
+        Subset[] subsets1 = new Subset[(int) Math.pow(2, instructions1.length)];
+        Subset[] subsets2 = new Subset[(int) Math.pow(2, instructions2.length)];
+
+        for (int i = 0; i < (1<<instructions1.length); i++){
+            subsets1[i] = new Subset(0, 0, 0);
+            for (int j = 0; j < instructions1.length; j++)
                 if ((i & (1 << j)) > 0) {
-                    if (subsets1[i] == null){
-                        subsets1[i] = new Subset(0, 0, 0);
-                    }
                     subsets1[i].amountx += instructions1[j][0];
                     subsets1[i].amounty += instructions1[j][1];
                     subsets1[i].element_count++;
                 }
         }
-        for (int i = 0; i < (1<<subsets2.length); i++){
-            for (int j = 0; j < subsets2.length; j++)
+        for (int i = 0; i < (1<<instructions2.length); i++){
+            subsets2[i] = new Subset(0, 0, 0);
+            for (int j = 0; j < instructions2.length; j++)
                 if ((i & (1 << j)) > 0) {
-                    if (subsets2[i] == null){
-                        subsets2[i] = new Subset(0, 0, 0);
-                    }
                     subsets2[i].amountx += instructions2[j][0];
                     subsets2[i].amounty += instructions2[j][1];
                     subsets2[i].element_count++;
@@ -63,16 +60,13 @@ public class RobotInstructions {
         // find number of subsets1[x] + subsets2[y] = X
         for (int i = 0; i<subsets1.length; i++){
             for (int j = 0; j<subsets2.length; j++){
-                try {
-                    if (subsets1[i].amountx + subsets2[j].amountx == x && subsets1[i].amounty + subsets2[j].amounty == y) {
-                        answers[subsets1[i].element_count + subsets2[j].element_count]++;
-                    }
-                }
-                catch (Exception e){
+                if (subsets1[i].amountx + subsets2[j].amountx == x && subsets1[i].amounty + subsets2[j].amounty == y) {
+                    answers[subsets1[i].element_count + subsets2[j].element_count]++;
                 }
             }
         }
-        for (int i = 0; i<answers.length; i++){
+
+        for (int i = 1; i<answers.length; i++){
             System.out.println(answers[i]);
         }
     }
