@@ -46,7 +46,12 @@ public class COWOperations {
             C = C % 2;
             O = O % 2;
             W = W % 2;
-            if (O == 1 && W == 1 && C == 1) System.out.print("Y");
+            if (O == 1 && W == 1){
+                O = 0;
+                W = 0;
+                C = (C + 1) % 2;
+            }
+            if (C == 1 && O == 0 && W == 0) System.out.print("Y");
             else System.out.print("N");
         }
     }
