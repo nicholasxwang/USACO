@@ -56,8 +56,20 @@ public class NoTimeToPaint4 {
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
             // prefix[0:a-2] suffix[b:N-1]
-            if (a > 1) System.out.println(prefix[a-2] - prefix[0] + suffix[b] - suffix[N-1]+2);
-            else  System.out.println(suffix[b] - suffix[N-1]+1);
+            try {
+                System.out.println(prefix[a-2] - prefix[0] + suffix[b] - suffix[N-1]+2);
+            }catch (Exception e){
+                try{
+                    System.out.println(suffix[b] - suffix[N-1]+1);
+                } catch (Exception e2){
+                    try{
+                        System.out.println(prefix[a-2] - prefix[0]+1);
+                    }catch (Exception e3){
+                        System.out.println(0);
+                    }
+                }
+            }
+
         }
     }
 }
