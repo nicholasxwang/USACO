@@ -60,7 +60,7 @@ public class SubsetEquality3 {
             ArrayList<String> sub2 = new ArrayList<>();
             for (int j = 0; j<Math.max(s.length, t.length); j++){
                 if (sub1.size() > 0 && sub2.size() > 0){
-                    if (!contains(sub1, sub2)){
+                    if (!contains(sub1, sub2) && !contains(sub2, sub1)){
                         terminate = true;
                         break;
                     }
