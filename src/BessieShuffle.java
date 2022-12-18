@@ -10,16 +10,15 @@ public class BessieShuffle {
         int Q = Integer.parseInt(st.nextToken());
         int[] answers = new int[N];
         int answer_index = N-1;
+        int[] P = new int[M];
         ArrayList<Integer> cards = new ArrayList<>();
         for (int i = 0; i<N; i++){
             cards.add(i+1);
         }
-        int[] P = new int[M];
         for (int i = 0; i<M; i++){
             P[i] = Integer.parseInt(br.readLine());
         }
         while (cards.size() > 1){
-            System.out.println(cards);
             if (cards.size() >= M) {
                 int[] cache = new int[M];
                 for (int i = 0; i<M; i++){
@@ -30,17 +29,14 @@ public class BessieShuffle {
                 }
             }
             int removed = cards.get(0);
-            System.out.println(removed);
             cards.remove(0);
             answers[answer_index] = removed;
             answer_index--;
         }
         answers[answer_index] = cards.get(0);
-        System.out.println(Arrays.toString(answers));
         PrintWriter pw = new PrintWriter(new FileWriter("shuffle.out"));
         for (int i = 0; i<Q; i++){
-            int query = Integer.parseInt(br.readLine());
-            pw.println(answers[query]);
+            pw.println(answers[Integer.parseInt(br.readLine())-1]);
         }
         pw.close();
     }
