@@ -11,6 +11,7 @@ class SubsetNode{
 public class HelpYourself {
     public static int bfs(ArrayList<Integer> nodes_to_skip, ArrayList<SubsetNode> nodes){
         if (nodes_to_skip.size() == nodes.size()) return 0;
+        if (nodes_to_skip.size()+1 == nodes.size()) return 1;
         int connected_components = 0;
         boolean[] visited = new boolean[nodes.size()];
         for (int i = 0; i<nodes.size(); i++){
@@ -63,17 +64,14 @@ public class HelpYourself {
                 }
             }
         }
-        // System.out.println(Arrays.deepToString(matrix));
         int ans = 0;
-        for (int i = 0; i < (1<<N); i++)
-        {
+        for (int i = 0; i < (1<<N); i++) {
             ArrayList<Integer> nodes_to_skip = new ArrayList<>();
             for (int j = 0; j < N; j++) {
                 if ((i & (1 << j)) > 0)
                     nodes_to_skip.add(j);
             }
             int answer = bfs(nodes_to_skip, nodes);
-            //System.out.println(nodes_to_skip+" is being skipped and yielded "+answer);
             ans += answer;
         }
         PrintWriter pw = new PrintWriter("help.out");
