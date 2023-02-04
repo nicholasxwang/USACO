@@ -1,43 +1,63 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.Comparator;
+import java.io.*;
+import java.util.*;
 
+class ClimbingCow{
+    int up;
+    int down;
+    int id;
+    public ClimbingCow(int up, int down, int id){
+        this.up = up;
+        this.down = down;
+        this.id = id;
+    }
+}
 public class MountainClimbing {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
-        int[][] arr = new int[N][2];
+        ArrayList<ClimbingCow> cows = new ArrayList<>();
         for (int i = 0; i<N; i++){
             String[] temp = br.readLine().split(" ", 2);
-            arr[i][0] = Integer.parseInt(temp[0]);
-            arr[i][1] = Integer.parseInt(temp[1]);
+            cows.add(new ClimbingCow(Integer.parseInt(temp[0]), Integer.parseInt(temp[1]), i));
         }
-        Arrays.sort(arr, new Comparator<int[]>() {
-            public int compare(int[] o1, int[] o2) {
-                if (o1[0] == o2[0]) {
-                    return Integer.compare(o1[1], o2[1]);
-                } else {
-                    return Integer.compare(o1[0], o2[0]);
+        Collections.sort(cows, new Comparator<ClimbingCow>() {
+            @Override
+            public int compare(ClimbingCow o1, ClimbingCow o2) {
+                if (o1.up == o2.up){
+                    return o1.down - o2.down;
                 }
+                return o1.up - o2.up;
             }
         });
-        int ans = 0;
-        for (int i = -1; i<(N); i++){
-            int j = i+1;
-            int value1 = 0;
-            int value2 = 0;
-            if (j<N){
-                value1 = arr[j][0];
+        int time = 0;
+        int cows_gone = 0;
+        int discount_from_up = 0;
+        while (cows_gone <= N){
+            if (cows_gone == 0){
+                time += cows.get(0).up;
+                cows_gone++;
             }
-            if (i>=0){
-                value2 = arr[i][1];
+            else if (cows_gone == N){
+                time += cows.get(N-1).down;
+                cows_gone++;
             }
-            ans += Math.max(value1, value2);
-
-
+            else{
+                if (cows.get(cows_gone).up < cows.get(cows_gone-1).down){
+                    time += cows.get(cows_gone-1).down;
+                    // give the next person going up a headstart if the previous person is too slow going down
+                    if (cows.get(cows_gone-1).down > cows.get(cows_gone).up){
+                        discount_from_up = cows.get(cows_gone-1).down - cows.get(cows_gone).up;
+                    }
+                    cows_gone++;
+                }
+                else{
+                    //time += cows.get(cows_gone).up;
+                    time += (cows.get(cows_gone).up - discount_from_up);
+                    discount_from_up = 0;
+                    cows_gone++;
+                }
+            }
         }
-        System.out.println(ans);
+        System.out.println(time);
     }
 }
